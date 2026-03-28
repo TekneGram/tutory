@@ -85,18 +85,18 @@ Activity 10: Complete a survey to reflect on what you heard and what you thought
 - component: ReflectionSurveyContainer
 
 ### Image-Research-Report
-Activity 5: Observe an image, e.g., a stranded whale and match categorical words
+Activity 12: Observe some media and try to guess the theme of the research project
 - name: Observe
 - description: reveal an image and match words
-- component: ObserveContainer
+- component: TopicPredictionContainer
 Activity 10: Research a topic
 - name: Research
 - description: shows some images and provides factual descriptions or explanations, followed by some questions to provoke thinking; contains boxes to allow drafting thoughts
 - component: ResearchContainer
-Activity 2: Multi choice question (answer questions about the activities earlier in the cycle)
+Activity 12: Question and answer (answer questions about the activities earlier in the cycle)
 - name: MultiChoice
-- description: multiple choice questions on prior content
-- component: MultiChoiceContainer
+- description: Questions about the content of the text
+- component: TextQuestionAnswerContainer
 Activity 11: Report writing scaffold
 - name: ReportWritingScaffold
 - description: contains sentence frames to help the learner write the report; using input fields, the learner can complete the report; displays the report on the bottom of the screen once complete.

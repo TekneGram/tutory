@@ -162,8 +162,7 @@ unit_types
 cycle_types:
 - story-vocab-write
 - observe-compare-write
-- listen-read-reflect
-- image-research-report
+- predict-research-report
 
 activity_types
 - story
@@ -178,12 +177,14 @@ activity_types
 - reflection-survey
 - research
 - writing-scaffold
+- topic-prediction
+- text-question-answer
+
 
 cycle_type_activities
 - story-vocab-write has story, multi-choice-quiz, vocab-review, write-extra
 - observe-compare-write has observe, observe-describe, read-model, free-writing
-- listen-read-reflect has listen-sound-effect, read-model, reflection-survey
-- image-research-report has observe, research, multi-choice-quiz, writing-scaffold, reflection-survey
+- predict-research-report has topic-prediction, research, text-question-answer, writing-scaffold, reflection-survey
 The above are all for unit_types.name = english
 
 units
