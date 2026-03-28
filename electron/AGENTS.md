@@ -2,6 +2,10 @@
   - frontend adapter -> preload.ts -> ipc/registerHandlers/* -> ipc/validate.ts + ipc/validationSchemas/* ->
     services/*
 
+ Renderer asset retrieval flow
+  - frontend receives asset URL in a typed DTO -> custom Electron protocol in infrastructure/protocols/* ->
+    packaged or runtime-managed read-only asset bytes
+
   System UI capability flow
   - services/* -> infrastructure/ports/* -> infrastructure/adapters/* -> Electron APIs
 
@@ -55,8 +59,12 @@
   - Own Electron/platform capability boundaries used by services.
   - ports/* defines interfaces for platform capabilities.
   - adapters/* implements those interfaces with Electron APIs or other platform libraries.
+  - protocols/* registers custom Electron protocols used by the renderer to access packaged or runtime-managed assets through URLs such as `app-asset://...`.
   - Use this folder when direct Electron API access would otherwise spread through services.
   - Keep adapters thin and capability-focused.
+  - Keep protocol handlers thin and boundary-focused: validate paths, resolve safe asset locations, and return
+    `Response` objects.
+  - Use IPC to fetch structured DTOs and custom protocols to serve binary/static asset bytes.
   - Do not put business logic, IPC registration, or DB logic here.
 
 `llm/`
@@ -113,7 +121,7 @@ A compact summary for the whole backend is:
   - `llm/` = reusable LLM subsystem
   - `db/` = persistence
   - `runtime/` = path/storage policy
-  - `infrastructure/` = Electron/platform capability boundary
+  - `infrastructure/` = Electron/platform capability boundary, including custom asset protocols
   - `core/` = shared backend primitives
   - `assets/` and `bin/` = bundled resources and executables
 

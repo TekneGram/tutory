@@ -23,12 +23,14 @@ CREATE TABLE activity_types (
 
 CREATE TABLE cycle_type_activities (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    unit_type_id INTEGER NOT NULL,
     cycle_type_id INTEGER NOT NULL,
     activity_type_id INTEGER NOT NULL,
     activity_order INTEGER NOT NULL,
     is_required INTEGER NOT NULL DEFAULT 1 CHECK (is_required IN (0, 1)),
     UNIQUE (cycle_type_id, activity_order),
     UNIQUE (cycle_type_id, activity_type_id),
+    FOREIGN KEY (unit_type_id) REFERENCES unit_types(id) ON DELETE CASCADE,
     FOREIGN KEY (cycle_type_id) REFERENCES cycle_types(id) ON DELETE CASCADE,
     FOREIGN KEY (activity_type_id) REFERENCES activity_types(id) ON DELETE CASCADE
 );
@@ -151,3 +153,39 @@ CREATE INDEX idx_activity_attempts_unit_cycle_activity_id
 CREATE INDEX idx_activity_attempt_items_attempt_id
     ON activity_attempt_items (activity_attempt_id);
 ```
+
+The following data needs inserting into the database to get started
+unit_types
+- english
+- mathematics
+
+cycle_types:
+- story-vocab-write
+- observe-compare-write
+- listen-read-reflect
+- image-research-report
+
+activity_types
+- story
+- multi-choice-quiz
+- vocab-review
+- write-extra
+- observe
+- observe-describe
+- read-model
+- free-writing
+- listen-sound-effect
+- reflection-survey
+- research
+- writing-scaffold
+
+cycle_type_activities
+- story-vocab-write has story, multi-choice-quiz, vocab-review, write-extra
+- observe-compare-write has observe, observe-describe, read-model, free-writing
+- listen-read-reflect has listen-sound-effect, read-model, reflection-survey
+- image-research-report has observe, research, multi-choice-quiz, writing-scaffold, reflection-survey
+The above are all for unit_types.name = english
+
+units
+
+unit
