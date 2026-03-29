@@ -27,6 +27,14 @@ Use `electron/ipc/*` for the transport boundary between the renderer and the Ele
   - Keep `registerHandlers.ts` thin.
   - Register handlers by domain/concern in `registerHandlers/*`.
   - For a new backend domain, add a new registration module such as `registerHandlers/register.<domain>.ts` and compose it from `registerHandlers.ts`.
+  - Prefer consistent domain naming across IPC files when they map to a backend service domain.
+    - Example:
+      - `services/settings/*`
+      - `registerHandlers/register.settings.ts`
+      - `validationSchemas/settings.schemas.ts`
+      - `contracts/settings.contracts.ts`
+  - Use that naming convention for readability and navigation when the IPC file is domain-specific.
+  - Shared transport-level files that are not tied to one service domain may use a more descriptive non-domain filename, such as `progress.event.contracts.ts`.
   - Keep handlers thin: validate input, call a service, return the result.
   - Validate raw payloads at the IPC boundary.
   - Use contracts as the shared source of truth for IPC shapes.
