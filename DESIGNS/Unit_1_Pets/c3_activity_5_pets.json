@@ -1,0 +1,60 @@
+{
+  "instructions": "Watch the summary and share your thoughts on this unit.",
+  "advice": "Don't worry about writing perfectly. You can also look at the original information to help you find words and how to spell them.",
+  "title": "Summary",
+  "assetBase": "english/unit_1/cycle_3",
+  "assets": {
+    "imageRefs": [],
+    "audioRefs": [],
+    "videoRefs": [
+      {
+        "order": 1,
+        "videoRef": "pets_summary.webm"
+      }
+    ]
+  },
+  "reflections": [
+    {
+      "reflection": "Did you enjoy this unit?",
+      "survey": {
+        "type": "lickert",
+        "settings": {
+          "high": 5,
+          "low": 1,
+          "step": 1
+        }
+      }
+    },
+    {
+      "reflection": "Would you like to learn more about pets?",
+      "survey": {
+        "type": "lickert",
+        "settings": {
+          "high": 5,
+          "low": 1,
+          "step": 1
+        }
+      }
+    },
+    {
+      "reflection": "Do you think pets are important in the world?",
+      "survey": {
+        "type": "lickert",
+        "settings": {
+          "high": 5,
+          "low": 1,
+          "step": 1
+        }
+      }
+    },
+    {
+      "reflection": "Share any other thoughts you have.",
+      "survey": {
+        "type": "open",
+        "settings": {
+          "length": "short"
+        }
+      }
+    }
+  ]
+}

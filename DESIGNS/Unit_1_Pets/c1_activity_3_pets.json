@@ -1,0 +1,53 @@
+{
+  "instructions": "Check the word meanings. Check your own spelling, Then take the quiz.",
+  "advice": "You can check your spelling as many times as you like.",
+  "title": "Fau-chan's bad day - spelling check!",
+  "assetBase": "english/unit_1/cycle_1",
+  "assets": {
+    "imageRefs": [],
+    "audioRefs": [],
+    "videoRefs": []
+  },
+  "words": [
+    {
+      "word": "would",
+      "japanese": "〜だろう / 〜しようとした"
+    },
+    {
+      "word": "eat",
+      "japanese": "食べる"
+    },
+    {
+      "word": "quiet",
+      "japanese": "静かな"
+    },
+    {
+      "word": "knelt",
+      "japanese": "ひざまずいた"
+    },
+    {
+      "word": "parents",
+      "japanese": "親"
+    },
+    {
+      "word": "vet",
+      "japanese": "獣医"
+    },
+    {
+      "word": "infection",
+      "japanese": "感染症"
+    },
+    {
+      "word": "anxious",
+      "japanese": "不安な"
+    },
+    {
+      "word": "stayed",
+      "japanese": "留まった"
+    },
+    {
+      "word": "learned",
+      "japanese": "学んだ"
+    }
+  ]
+}

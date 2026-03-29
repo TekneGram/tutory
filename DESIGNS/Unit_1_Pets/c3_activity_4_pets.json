@@ -1,0 +1,136 @@
+{
+  "instructions": "You are writing a report. Complete the sentences of the report.",
+  "advice": "Don't worry about writing perfectly. You can also look at the original information to help you find words and how to spell them.",
+  "title": "My report",
+  "report-type": "timeline",
+  "report-goal": "To show how things changed over time",
+  "assetBase": "english/unit_1/cycle_3",
+  "assets": {
+    "imageRefs": [],
+    "audioRefs": [
+      {
+        "order": 1,
+        "audioRef": "dog_research.ogg"
+      }
+    ],
+    "videoRefs": []
+  },
+  "report": [
+    {
+      "section": "Opening: Introduce the topic.",
+      "sentence-frames": [
+        {
+          "type": "frame",
+          "text": "Long before"
+        },
+        {
+          "type": "input",
+          "text": ""
+        },
+        {
+          "type": "frame",
+          "text": ", wolves used to"
+        },
+        {
+          "type": "input",
+          "text": ""
+        },
+        {
+          "type": "frame",
+          "text": "."
+        }
+      ]
+    },
+    {
+      "section": "The turning point - when things started to change.",
+      "sentence-frames": [
+        {
+          "type": "frame",
+          "text": "Over time, the wolves that stayed close to humans became"
+        },
+        {
+          "type": "input",
+          "text": ""
+        },
+        {
+          "type": "frame",
+          "text": "because"
+        },
+        {
+          "type": "input",
+          "text": ""
+        },
+        {
+          "type": "frame",
+          "text": ". Little by little, generation after generation, they"
+        },
+        {
+          "type": "input",
+          "text": ""
+        },
+        {
+          "type": "frame",
+          "text": "."
+        }
+      ]
+    },
+    {
+      "section": "The result - dogs take shape.",
+      "sentence-frames": [
+        {
+          "type": "frame",
+          "text": "People began to breed dogs for different jobs. For example, some dogs"
+        },
+        {
+          "type": "input",
+          "text": ""
+        },
+        {
+          "type": "frame",
+          "text": ", while others"
+        },
+        {
+          "type": "input",
+          "text": ""
+        },
+        {
+          "type": "frame",
+          "text": "."
+        }
+      ]
+    },
+    {
+      "section": "Closing - connect to today.",
+      "sentence-frames": [
+        {
+          "type": "frame",
+          "text": "Fau-chan is a Kai-Ken, which means that his ancestors"
+        },
+        {
+          "type": "input",
+          "text": ""
+        },
+        {
+          "type": "frame",
+          "text": ". Today, when Fau-chan"
+        },
+        {
+          "type": "input",
+          "text": ""
+        },
+        {
+          "type": "frame",
+          "text": ", he is doing exactly what"
+        },
+        {
+          "type": "input",
+          "text": ""
+        },
+        {
+          "type": "frame",
+          "text": "."
+        }
+      ]
+    }
+  ]
+}

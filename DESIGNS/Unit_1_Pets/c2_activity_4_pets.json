@@ -1,0 +1,23 @@
+{
+  "instructions": "Write about how to train your dog to sit in your own words. Use the hints to help you if you can't remember. Using your own words is best here. Good luck!",
+  "advice": "Don't worry about being write or wrong. Just write what you know. Click the hints to see words and steps you can use.",
+  "title": "How to train your dog - Your turn",
+  "assetBase": "english/unit_1/cycle_2",
+  "assets": {
+    "imageRefs": [],
+    "audioRefs": [],
+    "videoRefs": []
+  },
+  "hints": [
+    {
+      "hint_number": 1,
+      "hint_type": "vocabulary",
+      "hint": ["attention", "treat", "smell", "guide", "reward", "calm", "bottom", "floor", "several", "praise"]
+    },
+    {
+      "hint_number": 2,
+      "hint_type": "guidance",
+      "hint": "Do you remember the steps? Step 1: Get his attention. Step 2: Guide him to sit down. Step 3: Say sit. Step 4: Repeat, remove the treat and praise."
+    }
+  ]
+}

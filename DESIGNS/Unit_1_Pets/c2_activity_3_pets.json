@@ -1,0 +1,83 @@
+{
+  "instructions": "Read about training your dog to sit and practice the words.",
+  "advice": "Check the words as you go.",
+  "title": "How to train your dog: Four steps",
+  "assetBase": "english/unit_1/cycle_2",
+  "assets": {
+    "imageRefs": [
+      {
+        "order": 1,
+        "imageRef": "train_fau.webp"
+      }
+    ],
+    "audioRefs": [],
+    "videoRefs": []
+  },
+  "passage": {
+    "pages": [
+      {
+        "order": 1,
+        "text": "Step 1: Get his attention with a treat. Hold a small treat close to Fau-chan's nose so he can smell it. Make sure he is calm and focused on you. If he is too excited, wait until he is calm."
+      },
+      {
+        "order": 2,
+        "text": "Step 2: Guide him into the sit position. Slowly move the treat upward and backward, from his nose toward the top of his head. As his nose follows the treat up, his bottom will naturally go down. When his bottom touches the floor, stop moving the treat."
+      },
+      {
+        "order": 3,
+        "text": "Step 3: Say 'sit' and reward him immediately. Timing matters — the reward needs to come within a second or two of him sitting, so he connects the word and the action with the reward."
+      },
+      {
+        "order": 4,
+        "text": "Step 4: Repeat this several times in short sessions of about five minutes. Over time, you can remove the treat and reward him with praise."
+      }
+    ]
+  },
+  "words": [
+    {
+      "word": "attention",
+      "japanese": "注意（ちゅうい）",
+      "position": 9
+    },
+    {
+      "word": "treat",
+      "japanese": "おやつ",
+      "position": 15
+    },
+    {
+      "word": "smell",
+      "japanese": "匂い（においを）嗅ぐ（かぐ）",
+      "position": 44
+    },
+    {
+      "word": "guide",
+      "japanese": "誘導（ゆうどう）する",
+      "position": 94
+    },
+    {
+      "word": "upward",
+      "japanese": "上に向かって",
+      "position": 115
+    },
+    {
+      "word": "bottom",
+      "japanese": "お尻（おしり）",
+      "position": 158
+    },
+    {
+      "word": "reward",
+      "japanese": "ご褒美（ごほうび）",
+      "position": 203
+    },
+    {
+      "word": "several",
+      "japanese": "数回（すうかい）",
+      "position": 274
+    },
+    {
+      "word": "praise",
+      "japanese": "褒（ほ）める",
+      "position": 316
+    }
+  ]
+}

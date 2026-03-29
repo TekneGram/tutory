@@ -1,0 +1,34 @@
+{
+  "instructions": "Look at the picture and try to guess what the theme is.",
+  "advice": "Some of the people look like they come from thousands of years ago. Some dogs are wolves. Some dogs are modern dogs.",
+  "title": "What's the theme?",
+  "assetBase": "english/unit_1/cycle_3",
+  "assets": {
+    "imageRefs": [
+      {
+        "order": 1,
+        "imageRef": "dog_research.webp"
+      }
+    ],
+    "audioRefs": [],
+    "videoRefs": []
+  },
+  "questions": [
+    {
+      "question": "How dogs became our best friend.",
+      "is_correct": "true"
+    },
+    {
+      "question": "How people helped dogs each meat.",
+      "is_correct": "false"
+    },
+    {
+      "question": "How dogs learned to ski and sunbathe.",
+      "is_correct": "false"
+    },
+    {
+      "question": "How dogs became human.",
+      "is_correct": "false"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "instructions": "Look at the pictures. Then drag the words into the categories they belong.",
+  "advice": "In the picture, Leola is training Fau-chan! 'training' is an action, so put it in the actions box.",
+  "title": "Animals - Feelings - Actions",
+  "assetBase": "english/unit_1/cycle_2",
+  "assets": {
+    "imageRefs": [
+      {
+        "order": 1,
+        "imageRef": "train_dog.webp"
+      },
+      {
+        "order": 2,
+        "imageRef": "train_animals.webp"
+      }
+    ],
+    "audioRefs": [],
+    "videoRefs": []
+  },
+  "words": [
+    {
+      "word": "training"
+    },
+    {
+      "word": "beg"
+    },
+    {
+      "word": "sit"
+    },
+    {
+      "word": "jump"
+    },
+    {
+      "word": "run away"
+    },
+    {
+      "word": "run"
+    },
+    {
+      "word": "scared"
+    },
+    {
+      "word": "happy"
+    },
+    {
+      "word": "lion"
+    },
+    {
+      "word": "giraffe"
+    },
+    {
+      "word": "monkey"
+    },
+    {
+      "word": "elephant"
+    },
+    {
+      "word": "excited"
+    },
+    {
+      "word": "ridiculous"
+    }
+  ],
+  "categories": [
+    {
+      "category": "animals"
+    },
+    {
+      "category": "feelings"
+    },
+    {
+      "category": "actions"
+    }
+  ],
+  "instruction": "Match the words with the right categories."
+}

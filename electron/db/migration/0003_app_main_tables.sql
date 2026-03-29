@@ -1,10 +1,3 @@
-# SQLite Database Schema
-
-The following tables are templates and a conjunction table.
-
-```sql
-PRAGMA foreign_keys = ON;
-
 CREATE TABLE learning_types (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL UNIQUE,
@@ -34,10 +27,7 @@ CREATE TABLE cycle_type_activities (
     FOREIGN KEY (cycle_type_id) REFERENCES cycle_types(id) ON DELETE RESTRICT,
     FOREIGN KEY (activity_type_id) REFERENCES activity_types(id) ON DELETE RESTRICT
 );
-```
 
-The following table are instances of units, cycles and activities,
-```sql
 CREATE TABLE units (
     id TEXT PRIMARY KEY,
     title TEXT NOT NULL,
@@ -82,14 +72,7 @@ CREATE TABLE activity_content (
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (unit_cycle_activity_id) REFERENCES unit_cycle_activities(id) ON DELETE CASCADE
 );
-```
 
-The following tables track learner data and progress with activities
-The learner_status ensures one status per learner and the learner_status_history is updated
-automatically once the status is updated.
-activity_attempts keeps track of each activity. This is a denormalized table for ease of reading.
-However, we use triggers to ensure that the activity_type_id is consistent and reject if not.
-```sql
 CREATE TABLE learners (
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
@@ -152,41 +135,40 @@ CREATE TABLE activity_attempts (
 );
 
 CREATE TRIGGER trg_activity_attempts_validate_activity_type_insert
-  BEFORE INSERT ON activity_attempts
-  FOR EACH ROW
-  BEGIN
-      SELECT
-          CASE
-              WHEN NOT EXISTS (
-                  SELECT 1
-                  FROM unit_cycle_activities uca
-                  JOIN cycle_type_activities cta
-                    ON cta.id = uca.cycle_type_activity_id
-                  WHERE uca.id = NEW.unit_cycle_activity_id
-                    AND cta.activity_type_id = NEW.activity_type_id
-              )
-              THEN RAISE(ABORT, 'activity_attempts.activity_type_id does not match unit_cycle_activity_id')
-          END;
-  END;
+BEFORE INSERT ON activity_attempts
+FOR EACH ROW
+BEGIN
+    SELECT
+        CASE
+            WHEN NOT EXISTS (
+                SELECT 1
+                FROM unit_cycle_activities uca
+                JOIN cycle_type_activities cta
+                  ON cta.id = uca.cycle_type_activity_id
+                WHERE uca.id = NEW.unit_cycle_activity_id
+                  AND cta.activity_type_id = NEW.activity_type_id
+            )
+            THEN RAISE(ABORT, 'activity_attempts.activity_type_id does not match unit_cycle_activity_id')
+        END;
+END;
 
-
-  CREATE TRIGGER trg_activity_attempts_validate_activity_type_update
-  BEFORE UPDATE OF unit_cycle_activity_id, activity_type_id ON activity_attempts
-  FOR EACH ROW
-  BEGIN
-      SELECT
-          CASE
-              WHEN NOT EXISTS (
-                  SELECT 1
-                  FROM unit_cycle_activities uca
-                  JOIN cycle_type_activities cta
-                    ON cta.id = uca.cycle_type_activity_id
-                  WHERE uca.id = NEW.unit_cycle_activity_id
-                    AND cta.activity_type_id = NEW.activity_type_id
-              )
-              THEN RAISE(ABORT, 'activity_attempts.activity_type_id does not match unit_cycle_activity_id')
-          END;
-  END;
+CREATE TRIGGER trg_activity_attempts_validate_activity_type_update
+BEFORE UPDATE OF unit_cycle_activity_id, activity_type_id ON activity_attempts
+FOR EACH ROW
+BEGIN
+    SELECT
+        CASE
+            WHEN NOT EXISTS (
+                SELECT 1
+                FROM unit_cycle_activities uca
+                JOIN cycle_type_activities cta
+                  ON cta.id = uca.cycle_type_activity_id
+                WHERE uca.id = NEW.unit_cycle_activity_id
+                  AND cta.activity_type_id = NEW.activity_type_id
+            )
+            THEN RAISE(ABORT, 'activity_attempts.activity_type_id does not match unit_cycle_activity_id')
+        END;
+END;
 
 CREATE TABLE activity_story_answers (
     attempt_id TEXT PRIMARY KEY,
@@ -200,26 +182,7 @@ CREATE TABLE activity_story_answers (
     FOREIGN KEY (learner_id) REFERENCES learners(id) ON DELETE CASCADE,
     FOREIGN KEY (attempt_id) REFERENCES activity_attempts(id) ON DELETE CASCADE
 );
-```
 
--- CREATE TABLE activity_attempt_items (
---     id TEXT PRIMARY KEY,
---     activity_attempt_id TEXT NOT NULL,
---     content_item_key TEXT,
---     activity_item_type TEXT,
---     prompt_text TEXT,
---     user_answer_text TEXT,
---     user_answer_json TEXT,
---     is_correct INTEGER CHECK (is_correct IN (0, 1) OR is_correct IS NULL),
---     score REAL,
---     feedback TEXT,
---     sort_order INTEGER NOT NULL DEFAULT 0,
---     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
---     FOREIGN KEY (activity_attempt_id) REFERENCES activity_attempts(id) ON DELETE CASCADE
--- );
-
-These are indexes
-```sql
 CREATE INDEX idx_cycle_type_activities_cycle_type_id
     ON cycle_type_activities (cycle_type_id);
 
@@ -237,41 +200,3 @@ CREATE INDEX idx_activity_attempts_learner_id
 
 CREATE INDEX idx_activity_attempts_unit_cycle_activity_id
     ON activity_attempts (unit_cycle_activity_id);
-
-CREATE INDEX idx_activity_attempts_activity_type_id
-    ON activity_attempts (activity_type_id)
-```
-
-The following data needs inserting into the database to get started
-learning_types
-- english
-- mathematics
-
-cycle_types:
-- story-vocab-write
-- observe-compare-write
-- predict-research-report
-
-activity_types
-- story
-- multi-choice-quiz
-- vocab-review
-- write-extra
-- observe
-- observe-describe
-- read-model
-- free-writing
-- listen-sound-effect
-- reflection-survey
-- research
-- writing-scaffold
-- topic-prediction
-- text-question-answer
-
-
-cycle_type_activities
-- story-vocab-write has story, multi-choice-quiz, vocab-review, write-extra
-- observe-compare-write has observe, observe-describe, read-model, free-writing
-- predict-research-report has topic-prediction, research, text-question-answer, writing-scaffold, reflection-survey
-
-unit

@@ -1,0 +1,28 @@
+{
+  "instructions": "How can you train your dog? Use what you have learned to write some sentences to explain it to me. Step 1: ..., Step 2: ..., and so on.",
+  "advice": "Look at each picture. Piture 1 is step 1. Picture 2 is step 2, and so on. The words can also help you.",
+  "title": "How to train your dog",
+  "assetBase": "english/unit_1/cycle_2",
+  "assets": {
+    "imageRefs": [
+      {
+        "order": 1,
+        "imageRef": "train_fau.webp"
+      }
+    ],
+    "audioRefs": [],
+    "videoRefs": []
+  },
+  "words": [
+    { "word": "get his attention", "japanese": "注目させる" },
+    { "word": "show", "japanese": "見せる" },
+    { "word": "treat", "japanese": "おやつ" },
+    { "word": "guide him", "japanese": "誘導する" },
+    { "word": "reward", "japanese": "ご褒美をあげる" },
+    { "word": "sit", "japanese": "座る" },
+    { "word": "connect", "japanese": "結びつける" },
+    { "word": "five minutes", "japanese": "5分間" },
+    { "word": "calm", "japanese": "落ち着いた" },
+    { "word": "focused on you", "japanese": "あなたに集中している" }
+  ]
+}

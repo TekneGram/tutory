@@ -13,7 +13,7 @@
   ],
   "extraResources": [
     { "from": "electron/assets/models", "to": "models" },
-    { "from": "electron/assets/activities", "to": "activities" },
+    { "from": "electron/assets/content", "to": "content" },
     { "from": "electron/db/migration", "to": "db-migration" }
   ],
   "mac": {

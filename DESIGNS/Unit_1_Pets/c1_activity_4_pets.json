@@ -1,0 +1,22 @@
+{
+  "instructions": "Read the story again and listen to the summary. Write some sentences about what you think happens next.",
+  "advice": "There is no rule about what you write. You can write freely here!",
+  "title": "Fau-chan's bad day - what happens next?",
+  "assetBase": "english/unit_1/cycle_1",
+  "assets": {
+    "imageRefs": [
+      {
+        "order": 1,
+        "imageRef": "caring_fau_chan.webp"
+      }
+    ],
+    "audioRefs": [
+      {
+        "order": 1,
+        "imageRef": "cycle_1_summary.ogg"
+      }
+    ],
+    "videoRefs": []
+  },
+  "text": "One afternoon, Fau-chan would not eat. He lay in the corner, quiet and still. I knelt beside him and stroked his fur. Something was wrong. I told my parents, and we took him to the vet. The doctor said he had a small infection and needed medicine. I felt anxious — worried in a way that sat heavy in my chest. Every day after that, I gave him his medicine and stayed close to him. Slowly, he got better. I learned that caring for a pet means paying attention, even on ordinary days. Because ordinary days are when things can change."
+}

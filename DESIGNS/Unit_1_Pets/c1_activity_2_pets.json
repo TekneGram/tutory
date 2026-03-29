@@ -1,0 +1,49 @@
+{
+  "instructions": "Read the questions and select the answer.",
+  "advice": "Check the story again if you need to",
+  "title": "Fau-chan's bad day - quiz time!",
+  "assetBase": "english/unit_1/cycle_1",
+  "assets": {
+    "imageRefs": [],
+    "audioRefs": [],
+    "videoRefs": []
+  },
+  "questions": [
+    {
+      "question": "What was wrong with Fau-chan?",
+      "answers": [
+        { "option": "a", "answer": "He had broken his leg", "is_correct": "false" },
+        { "option": "b", "answer": "He was lost outside", "is_correct": "false" },
+        { "option": "c", "answer": "He had a small infection", "is_correct": "true" },
+        { "option": "d", "answer": "He was too cold", "is_correct": "false" }
+      ]
+    },
+    {
+      "question": "What did the narrator do when they first noticed something was wrong?",
+      "answers": [
+        { "option": "a", "answer": "They called the vet immediately", "is_correct": "false" },
+        { "option": "b", "answer": "They knelt beside Fau-chan and stroked his fur", "is_correct": "true" },
+        { "option": "c", "answer": "They gave him his medicine", "is_correct": "false" },
+        { "option": "d", "answer": "They took him for a walk", "is_correct": "false" }
+      ]
+    },
+    {
+      "question": "Who did the narrator tell when they saw Fau-chan was unwell?",
+      "answers": [
+        { "option": "a", "answer": "Their teacher", "is_correct": "false" },
+        { "option": "b", "answer": "Their friend", "is_correct": "false" },
+        { "option": "c", "answer": "The vet directly", "is_correct": "false" },
+        { "option": "d", "answer": "Their parents", "is_correct": "true" }
+      ]
+    },
+    {
+      "question": "How did the narrator feel while Fau-chan was sick?",
+      "answers": [
+        { "option": "a", "answer": "Angry and frustrated", "is_correct": "false" },
+        { "option": "b", "answer": "Bored and tired", "is_correct": "false" },
+        { "option": "c", "answer": "Anxious — worried in a way that sat heavy in their chest", "is_correct": "true" },
+        { "option": "d", "answer": "Calm and relaxed", "is_correct": "false" }
+      ]
+    }
+  ]
+}

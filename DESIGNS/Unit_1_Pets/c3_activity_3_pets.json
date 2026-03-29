@@ -1,0 +1,62 @@
+{
+  "instructions": "Write your answer to the questions in the boxes.",
+  "advice": "There are no right answers to the question. Just share your ideas.",
+  "title": "How dogs became our best friend - super quiz!",
+  "assetBase": "english/unit_1/cycle_3",
+  "assets": {
+    "imageRefs": [],
+    "audioRefs": [
+      {
+        "order": 1,
+        "audioRef": "dog_research.ogg"
+      }
+    ],
+    "videoRefs": []
+  },
+  "questions": [
+    {
+      "question": "What two things drew the bolder wolves closer to human camps?",
+      "hint": "Look at the sentence that starts 'Most wolves stayed away, but...'",
+      "answer": "They were drawn by the smell of food and fire."
+    },
+    {
+      "question": "Why did the wolves that stayed near humans become friendlier over time?",
+      "hint": "Look at the sentence that starts 'Because only the friendliest ones'",
+      "answer": "Their cubs grew up friendly because only the friendliest wolves stayed close to humans."
+    },
+    {
+      "question": "According to the text, what were THREE jobs that dogs did for people?",
+      "hint": "Look near the sentence 'Some dogs...' and 'Others...'",
+      "answer": "The dogs herded sheep, guarded homes and pulled sleds through snow."
+    },
+    {
+      "question": "What animals did Fau-chan's ancestors help hunters track in the forests of Japan?",
+      "hint": "Look at the sentence that starts 'For centuries, ...'",
+      "answer": "Deer and wild boar"
+    }
+  ],
+  "passage": {
+    "pages": [
+      {
+        "order": 1,
+        "text":"Have you ever wondered why your dog looks at you like you're the most important person in the world? The answer goes back over 15,000 years."
+      },
+      {
+        "order": 2,
+        "text": "Long ago, wild wolves lived near human camps. Most wolves stayed away, but some bolder ones crept closer, drawn by the smell of food and fire. The humans who fed these calmer wolves discovered something useful: the wolves would bark at danger and help on hunts. A friendship had begun."
+      },
+      {
+        "order": 3,
+        "text": "Over thousands of years, these wolves changed. Because only the friendliest ones stayed close to humans, their cubs grew up gentler than wild wolves. Slowly, generation after generation, they became something new — dogs."
+      },
+      {
+        "order": 4,
+        "text": "Different groups of people started breeding dogs for different jobs. Some dogs herded sheep. Others guarded homes or pulled sleds through snow. Each breed carried the memory of those ancient jobs in its body and its instincts."
+      },
+      {
+        "order": 5,
+        "text": "Fau-chan is a Kai-Ken, a breed from the mountains of Japan. For centuries, his ancestors helped hunters track deer and wild boar through thick forests. When Fau-chan follows his nose on a walk, he is doing exactly what his great-great-grandparents did thousands of years ago."
+      }
+    ]
+  }
+}
