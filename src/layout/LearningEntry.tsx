@@ -1,14 +1,14 @@
+import type { LearningType } from "@/app/types/learning";
+
 type LearningEntryProps = {
   learnerId: string;
-  onEnterEnglish: (learnerId: string) => void;
-  onEnterMathematics: (learnerId: string) => void;
+  onEnterUnitFront: (learnerId: string, learningType: LearningType) => void;
   onGoHome: () => void;
 };
 
 const LearningEntry = ({
   learnerId,
-  onEnterEnglish,
-  onEnterMathematics,
+  onEnterUnitFront,
   onGoHome,
 }: LearningEntryProps) => {
   return (
@@ -22,12 +22,20 @@ const LearningEntry = ({
       </header>
 
       <div className="learning-entry-view-cards">
-        <button className="learning-entry-view-card" type="button" onClick={() => onEnterEnglish(learnerId)}>
+        <button
+          className="learning-entry-view-card"
+          type="button"
+          onClick={() => onEnterUnitFront(learnerId, "english")}
+        >
           <span className="learning-entry-view-card-title">English</span>
           <span className="learning-entry-view-card-copy">Continue into the English path.</span>
         </button>
 
-        <button className="learning-entry-view-card" type="button" onClick={() => onEnterMathematics(learnerId)}>
+        <button
+          className="learning-entry-view-card"
+          type="button"
+          onClick={() => onEnterUnitFront(learnerId, "mathematics")}
+        >
           <span className="learning-entry-view-card-title">Mathematics</span>
           <span className="learning-entry-view-card-copy">Continue into the Mathematics path.</span>
         </button>

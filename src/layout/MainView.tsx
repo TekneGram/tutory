@@ -5,8 +5,9 @@ import HomeView from "./HomeView";
 import SettingsView from "./SettingsView";
 import Profile from "./Profile";
 import LearningEntry from "./LearningEntry";
-import EnglishMain from "./EnglishMain";
-import MathematicsMain from "./MathematicsMain";
+import UnitFront from "./UnitFront";
+import LearningMain from "./LearningMain";
+import type { LearningType } from "@/app/types/learning";
 
 const MainView = () => {
   const { navigationState, dispatch } = useNavigation();
@@ -31,12 +32,12 @@ const MainView = () => {
     dispatch({ type: "go-learning-entry", learnerId });
   }
 
-  function goEnglishMain(learnerId: string) {
-    dispatch({ type: "go-english-main", learnerId });
+  function goUnitFront(learnerId: string, learningType: LearningType) {
+    dispatch({ type: "go-unit-front", learnerId, learningType });
   }
 
-  function goMathematicsMain(learnerId: string) {
-    dispatch({ type: "go-mathematics-main", learnerId });
+  function goLearningMain(learnerId: string, learningType: LearningType, unitId: string) {
+    dispatch({ type: "go-learning-main", learnerId, learningType, unitId });
   }
 
   function renderContent() {
@@ -65,23 +66,26 @@ const MainView = () => {
         return (
           <LearningEntry
             learnerId={navigationState.learnerId}
-            onEnterEnglish={goEnglishMain}
-            onEnterMathematics={goMathematicsMain}
+            onEnterUnitFront={goUnitFront}
             onGoHome={goHome}
           />
         );
-      case "english-main":
+      case "unit-front":
         return (
-          <EnglishMain
+          <UnitFront
             learnerId={navigationState.learnerId}
+            learningType={navigationState.learningType}
+            onEnterLearningMain={goLearningMain}
             onBackToLearningEntry={goLearningEntry}
           />
         );
-      case "mathematics-main":
+      case "learning-main":
         return (
-          <MathematicsMain
+          <LearningMain
             learnerId={navigationState.learnerId}
-            onBackToLearningEntry={goLearningEntry}
+            learningType={navigationState.learningType}
+            unitId={navigationState.unitId}
+            onBackToUnitFront={goUnitFront}
           />
         );
       default:
