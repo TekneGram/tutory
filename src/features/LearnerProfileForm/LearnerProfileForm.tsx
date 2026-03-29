@@ -1,4 +1,4 @@
-
+import "./LearnerProfileForm.css";
 import { useEffect, useState, type FormEvent } from "react";
 import type { UpsertLearnerProfileInput } from "@/app/ports/learners.ports";
 import { learnerAvatarOptions } from "@/app/constants/learner-avatars";
@@ -127,27 +127,43 @@ const LearnerProfileForm = ({ mode, learnerId, onSubmitted, onCancel }: LearnerP
             />
           </label>
 
-          <label className="learner-profile-form-field">
-            <span className="learner-profile-form-field-label">Avatar</span>
-            <select
-              className="learner-profile-form-field-select"
-              value={avatarId ?? ""}
-              onChange={(event) => setAvatarId(event.target.value === "" ? null : event.target.value)}
-            >
-              <option className="learner-profile-form-field-option" value="">
-                No avatar selected
-              </option>
-              {learnerAvatarOptions.map((option) => (
-                <option
-                  key={option.avatarId}
-                  className="learner-profile-form-field-option"
-                  value={option.avatarId}
-                >
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
+          <fieldset className="learner-profile-form-avatar-fieldset">
+            <legend className="learner-profile-form-field-label">Avatar</legend>
+            <div className="learner-profile-form-avatar-grid" role="radiogroup" aria-label="Choose an avatar">
+              {learnerAvatarOptions.map((option) => {
+                const isSelected = avatarId === option.avatarId;
+                return (
+                  <button
+                    key={option.avatarId}
+                    className={`learner-profile-form-avatar-option${isSelected ? " is-selected" : ""}`}
+                    type="button"
+                    role="radio"
+                    aria-checked={isSelected}
+                    aria-label={option.label}
+                    onClick={() => setAvatarId(option.avatarId)}
+                  >
+                    <img
+                      className="learner-profile-form-avatar-image"
+                      src={option.src}
+                      alt={option.label}
+                    />
+                    {isSelected ? (
+                      <span className="learner-profile-form-avatar-check" aria-hidden="true">&#10003;</span>
+                    ) : null}
+                  </button>
+                );
+              })}
+            </div>
+            {avatarId ? (
+              <button
+                className="learner-profile-form-avatar-clear"
+                type="button"
+                onClick={() => setAvatarId(null)}
+              >
+                Clear avatar
+              </button>
+            ) : null}
+          </fieldset>
 
           <label className="learner-profile-form-field">
             <span className="learner-profile-form-field-label">Status</span>

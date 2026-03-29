@@ -1,0 +1,22 @@
+/* LearnerCardDisplay — feature-local styles */
+
+.learner-card-display {
+    width: 100%;
+}
+
+.learner-card-display-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-5);
+}
+
+.learner-card-display-state {
+    padding: var(--space-6) var(--space-4);
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-body-sm);
+}
+
+.learner-card-display-state-error {
+    color: var(--color-error-text);
+}

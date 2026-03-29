@@ -1,4 +1,4 @@
-
+import "./LearnerCard.css";
 import type { LearnerCardDto } from "@/app/ports/learners.ports";
 import { getLearnerAvatarSrc } from "@/app/constants/learner-avatars";
 

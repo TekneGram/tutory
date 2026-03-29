@@ -1,0 +1,178 @@
+/* LlmSettingsTable — feature-local styles */
+
+.llm-settings-card {
+    display: grid;
+    gap: var(--space-5);
+    padding: var(--space-6);
+}
+
+.llm-settings-card-header h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    letter-spacing: var(--letter-spacing-display-mid);
+}
+
+.llm-settings-state {
+    margin: 0;
+    padding: var(--space-4);
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-body-sm);
+}
+
+.llm-settings-state.is-error {
+    color: var(--color-error-text);
+}
+
+/* Table */
+.llm-settings-table-shell {
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-surface-raised);
+}
+
+.llm-settings-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-body-sm);
+}
+
+.llm-settings-table th {
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
+    font-size: var(--font-size-label-md);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface);
+}
+
+.llm-settings-table td {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-divider);
+    vertical-align: middle;
+}
+
+.llm-settings-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.llm-settings-table tbody tr:hover {
+    background: var(--color-bg-subtle);
+}
+
+/* Provider cell */
+.llm-settings-provider-cell {
+    display: grid;
+    gap: var(--space-1);
+}
+
+.llm-settings-provider-name {
+    font-weight: var(--font-weight-semibold);
+}
+
+.llm-settings-provider-slug {
+    font-size: var(--font-size-label-sm);
+    color: var(--color-text-muted);
+    font-family: var(--font-code);
+}
+
+.llm-settings-provider-status {
+    font-size: var(--font-size-label-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-success);
+}
+
+.llm-settings-provider-status.is-missing {
+    color: var(--color-warning);
+}
+
+/* Key column */
+.llm-settings-key-stack {
+    display: grid;
+    gap: var(--space-2);
+}
+
+.llm-settings-key-input {
+    min-height: var(--control-height-sm);
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--font-size-caption-md);
+}
+
+.llm-settings-masked-key-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    font: inherit;
+    font-size: var(--font-size-caption-sm);
+    font-family: var(--font-code);
+    cursor: pointer;
+    transition: border-color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.llm-settings-masked-key-button:hover {
+    border-color: var(--color-accent);
+}
+
+.llm-settings-masked-key-label {
+    font-family: var(--font-ui);
+    font-weight: var(--font-weight-medium);
+}
+
+.llm-settings-key-actions {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+}
+
+/* Model column */
+.llm-settings-model-stack {
+    display: grid;
+    gap: var(--space-2);
+}
+
+.llm-settings-model-select {
+    min-height: var(--control-height-sm);
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--font-size-caption-md);
+}
+
+/* Default provider column */
+.llm-settings-default-stack {
+    display: grid;
+    gap: var(--space-2);
+}
+
+.llm-settings-radio {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-caption-md);
+    cursor: pointer;
+}
+
+.llm-settings-radio input[type="radio"] {
+    accent-color: var(--color-accent);
+}
+
+/* Visually hidden (accessible label) */
+.llm-settings-visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
