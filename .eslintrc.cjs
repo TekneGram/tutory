@@ -16,6 +16,7 @@ module.exports = {
     ],
     'no-window-api-outside-adapters': 'error',
     'no-electron-imports-in-src': 'error',
+    'no-electron-imports-in-services': 'error',
     'no-ipc-imports-in-services': 'error',
     'no-react-toastify-outside-notifications': 'error',
     'no-safehandle-outside-ipc': 'error',
