@@ -19,7 +19,7 @@ export type UpsertLearnerProfileInput = {
     statusText: string;
 };
 
-export type ListLearnersRequest = {};
+export type ListLearnersRequest = Record<string, never>;
 
 export type ListLearnersResponse = {
     learners: LearnerCardDto[];

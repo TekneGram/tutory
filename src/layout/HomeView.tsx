@@ -1,44 +1,58 @@
-import LearnerCardDisplay from "@/features/LearnerCardDisplay/LearnerCard";
+import welcomeBanner from "@/assets/app/welcome_banner.webp";
+import LearnerCardDisplay from "@/features/LearnerCardDisplay/LearnerCardDisplay";
 
-const HomeView = () => {
+type HomeViewProps = {
+  onCreateProfile: () => void;
+  onOpenSettings: () => void;
+  onEnterLearner: (learnerId: string) => void;
+  onEditLearner: (learnerId: string) => void;
+};
 
-    const bannerContent = () => {
-        // This is the design of the welcome page banner
-    }
+const HomeView = ({
+  onCreateProfile,
+  onOpenSettings,
+  onEnterLearner,
+  onEditLearner,
+}: HomeViewProps) => {
+  return (
+    <section className="home-view" aria-labelledby="home-view-title">
+      <header className="home-view-banner-shell">
+        <img className="home-view-banner-image" src={welcomeBanner} alt="Tutory welcome banner" />
+        <div className="home-view-banner-copy">
+          <p className="home-view-banner-kicker">Welcome</p>
+          <h1 className="home-view-title" id="home-view-title">
+            Choose how to continue
+          </h1>
+        </div>
+      </header>
 
-    const createNewProfileContent = () => {
-        return (
-            <section className="create-profile-card">
-                {/* This is a card that the learner clicks to create a new profile. */}
-            </section>
-        )
-    }
+      <section className="home-view-create-profile-shell" aria-labelledby="home-view-create-profile-title">
+        <button className="home-view-create-profile-card" type="button" onClick={onCreateProfile}>
+          <span className="home-view-create-profile-card-label" id="home-view-create-profile-title">
+            Create a new profile
+          </span>
+          <span className="home-view-create-profile-card-copy">
+            Set up a fresh learner profile and start from there.
+          </span>
+        </button>
+      </section>
 
-    const thinFooterContent = () => {
-        return (
-            <section className="thin-footer">
-                {/* Contains a link to navigate to the SettingsView */}
-            </section>
-        )
-    }
+      <section className="home-view-learner-list-shell" aria-labelledby="home-view-learner-list-title">
+        <div className="home-view-learner-list-header">
+          <h2 className="home-view-learner-list-title" id="home-view-learner-list-title">
+            Existing learners
+          </h2>
+        </div>
+        <LearnerCardDisplay onEnterLearner={onEnterLearner} onEditLearner={onEditLearner} />
+      </section>
 
-    return(
-        <>
-            {bannerContent}
-            {createNewProfileContent}
-            {/* LearnerCardDisplay displays multiple LearnerCards for different profiles.
-                Clicking on a LearnerCard navigates the learner to the LearningEntry screen 
-                with the correct learner data (avatar and learnerId)
-            */}
-            {thinFooterContent}
-        </>
-    );
+      <footer className="home-view-footer">
+        <button className="home-view-settings-link" type="button" onClick={onOpenSettings}>
+          Settings
+        </button>
+      </footer>
+    </section>
+  );
 };
 
 export default HomeView;
-// This is a welcome screen.
-// It displays the following
-// A card to "create a new learner profile"
-// LearnerCardDisplay
-// When the learner clicks on "create a new learner profile", they navigate to the Profile screen.
-// When the learner clicks on a LearnerCard's Enter button inside LearnerCardDisplay, they are navigated to the LearningEntry screen

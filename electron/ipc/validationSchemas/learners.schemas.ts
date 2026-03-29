@@ -10,9 +10,9 @@ const learnerIdSchema = z.string().min(1);
 const avatarIdSchema = z.string().min(1).nullable();
 const statusTextSchema = z.string();
 
-export const listLearnersSchema = z
+export const listLearnersSchema: z.ZodType<ListLearnersRequest> = z
     .union([z.undefined(), z.object({}).strict()])
-    .transform(() => ({} as ListLearnersRequest)) as z.ZodType<ListLearnersRequest>;
+    .transform(() => ({} as ListLearnersRequest));
 
 export const getLearnerProfileSchema: z.ZodType<GetLearnerProfileRequest> = z.object({
     learnerId: learnerIdSchema,

@@ -1,20 +1,30 @@
 import LearnerProfileForm from "@/features/LearnerProfileForm/LearnerProfileForm";
 
-const Profile = () => {
+type ProfileProps = {
+  mode: "create" | "edit";
+  learnerId?: string;
+  onSubmitted: (learnerId: string) => void;
+  onCancel: () => void;
+};
 
-    return(
-        <>
+const Profile = ({ mode, learnerId, onSubmitted, onCancel }: ProfileProps) => {
+  return (
+    <section className="profile-view" aria-labelledby="profile-view-title">
+      <header className="profile-view-header">
+        <p className="profile-view-kicker">{mode === "create" ? "Create profile" : "Edit profile"}</p>
+        <h1 className="profile-view-title" id="profile-view-title">
+          {mode === "create" ? "Create a learner profile" : "Edit an existing learner profile"}
+        </h1>
+      </header>
 
-        </>
-    );
+      <LearnerProfileForm
+        mode={mode}
+        learnerId={learnerId}
+        onSubmitted={onSubmitted}
+        onCancel={onCancel}
+      />
+    </section>
+  );
 };
 
 export default Profile;
-// Learners can create a new profile or edit their old profile here.
-// It will have two states: create vs edit
-// Learners write their name, select their avatar, and update their "status"
-// The status is a dropdown menu of options, including "super happy", "a bit tired", "bored stiff",
-// or they can just fill in the status themselves in a status update.
-// In edit mode, their most recent status is also displayed.
-// Once they click create (create mode) or finished (edit mode) and the backend updates,
-// they navigate to LearningEntry

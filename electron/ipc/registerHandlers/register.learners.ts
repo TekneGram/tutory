@@ -22,7 +22,9 @@ import { getLearnerProfile } from "@electron/services/learners/getLearnerProfile
 import { createLearnerProfile } from "@electron/services/learners/createLearnerProfile";
 import { updateLearnerProfile } from "@electron/services/learners/updateLearnerProfile";
 
-export function RegisterLearnersHandlers(_dependencies: IpcDependencies): void {
+export function RegisterLearnersHandlers(dependencies: IpcDependencies): void {
+    void dependencies;
+
     safeHandle<ListLearnersRequest, ListLearnersResponse>(
         "learners:list",
         async (_event, rawArgs, ctx) => {
