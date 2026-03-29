@@ -36,5 +36,8 @@ module.exports = {
     'no-cross-layer-imports-in-db-repositories': 'error',
     'no-cross-layer-imports-in-db-sqlite': 'error',
     'no-cross-layer-imports-in-core': 'error',
+    'no-cross-layer-imports-in-infrastructure': 'error',
+    'no-invalid-imports-in-infrastructure-ports': 'error',
+    'no-invalid-imports-in-infrastructure-adapters': 'error',
   },
 }
