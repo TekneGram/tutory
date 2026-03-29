@@ -22,13 +22,19 @@ The learnerId and unitId are sent to the backend and data is returned whic tells
 
 The progress report is rendered in BriefProgressHoverDisplay component, which disappears when the user stops hovering over UnitIcon.
 
-The progress report should be retrieved from the database in the following way (unless there is a better way):
-For the given learner_id:
-- get all id from unit_cycles
-- use that to get all id from unit_cycle_activities
-- use that get all status data.
-Ideally we want to report the number of activities completed as a total of all activities in the unit.
-Report this as a percentage and show a progress bar.
+## Canonical SQL shape
+  The backend agent does not need to copy this literally, but should implement this logic:
+
+  1. Find all activities in the unit:
+
+  - units -> unit_cycles -> unit_cycle_activities
+
+  2. For that learner, aggregate attempts by unit_cycle_activity_id
+  3. Count:
+
+  - total activities in the unit
+  - started activities: any attempt exists
+  - completed activities: any attempt with status = 'completed'
 
 Shared Scope
   This work covers the EnglishFront screen only:
@@ -152,3 +158,41 @@ Shared Scope
   - completionPercent
       - Math.floor((completedActivities / totalActivities) * 100)
       - if totalActivities === 0, return 0
+
+# Progress Status Semantics
+  For the hover UI, the frontend should rely on the numeric fields above. If a label is useful, this derived rule is safe:
+
+  export type UnitProgressLabel = "not-started" | "in-progress" | "completed";
+
+  Derived as:
+
+  - completed if completedActivities === totalActivities && totalActivities > 0
+  - in-progress if completedActivities < totalActivities && startedActivities > 0
+  - not-started if startedActivities === 0
+
+  This label can be frontend-derived; it does not need to be returned unless the backend agent prefers to include it.
+
+  Frontend Behavior Contract
+  Frontend agent should implement:
+
+  - EnglishFront
+      - fetch ListEnglishUnitsResponse
+      - render UnitCardDisplay
+      - render UnitCard for each unit in order
+  - UnitIcon
+      - on hover or focus, trigger GetUnitProgressRequest
+      - on hover end / blur, hide the hover display
+  - BriefProgressHoverDisplay
+      - show:
+          - unit title
+          - completedActivities / totalActivities
+          - progress bar
+          - completionPercent
+ Suggested minimal UI copy:
+
+  - "3 of 12 activities completed"
+  - "25% complete" (shown as a progress bar)
+
+## One important implementation note
+  The design text says hover over UnitIcon should call the backend. That is feasible, but the frontend agent should debounce or cache per
+  learnerId + unitId so repeated hover does not spam IPC unnecessarily. React Query is a good fit.
