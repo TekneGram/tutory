@@ -1,4 +1,8 @@
 import type { LearningType } from "@/app/types/learning";
+import ActivityDisplay from "@/features/ActivityDisplay/ActivityDisplay";
+import Sidebar from "./Sidebar/Sidebar";
+import HeaderBar from "./HeaderBar/HeaderBar";
+import AssistantDisplay from "@/features/AssistantDisplay/AssistantDisplay";
 
 type LearningMainProps = {
   learnerId: string;
@@ -51,6 +55,10 @@ const LearningMain = ({
 
       <div className="learning-main-view-body">
         <p className="learning-main-view-placeholder">{copy.placeholder}</p>
+        {/* HeaderBar */}
+        {/* Sidebar */}
+        {/* ActivityDisplay */}
+        {/* AssistantDisplay */}
       </div>
 
       <footer className="learning-main-view-footer">

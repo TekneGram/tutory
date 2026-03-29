@@ -1,0 +1,15 @@
+
+export type ActivityType = 
+    | "story"
+    | "multiChoiceQuiz"
+    | "vocabReview"
+    | "writeExtra"
+    | "observe"
+    | "observeDescribe"
+    | "readModel"
+    | "freeWriting"
+    | "topicPrediction"
+    | "research"
+    | "textQuestionAnswer"
+    | "writingScaffold"
+    | "reflectionSurvey"
