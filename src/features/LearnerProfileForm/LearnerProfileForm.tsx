@@ -1,9 +1,6 @@
 import "./LearnerProfileForm.css";
-import { useEffect, useState, type FormEvent } from "react";
-import type { UpsertLearnerProfileInput } from "@/app/ports/learners.ports";
 import { learnerAvatarOptions } from "@/app/constants/learner-avatars";
-import { useLearnerProfileQuery } from "./hooks/useLearnerProfileQuery";
-import { useUpsertLearnerProfileMutation } from "./hooks/useUpsertLearnerProfileMutation";
+import { useLearnerProfileForm } from "./hooks/useLearnerProfileForm";
 
 const statusPresets = ["super happy", "a bit tired", "bored stiff"] as const;
 
@@ -15,48 +12,9 @@ type LearnerProfileFormProps = {
 };
 
 const LearnerProfileForm = ({ mode, learnerId, onSubmitted, onCancel }: LearnerProfileFormProps) => {
-  const profileQuery = useLearnerProfileQuery(mode === "edit" ? learnerId : undefined);
-  const upsertMutation = useUpsertLearnerProfileMutation();
+  const form = useLearnerProfileForm({ mode, learnerId, onSubmitted });
 
-  const [name, setName] = useState("");
-  const [avatarId, setAvatarId] = useState<string | null>(null);
-  const [statusText, setStatusText] = useState("");
-
-  useEffect(() => {
-    setName("");
-    setAvatarId(null);
-    setStatusText("");
-  }, [mode, learnerId]);
-
-  useEffect(() => {
-    if (mode !== "edit" || !profileQuery.data) {
-      return;
-    }
-
-    setName(profileQuery.data.name);
-    setAvatarId(profileQuery.data.avatarId);
-    setStatusText(profileQuery.data.currentStatus);
-  }, [mode, profileQuery.data]);
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    const payload: UpsertLearnerProfileInput = {
-      learnerId: mode === "edit" ? learnerId : undefined,
-      name,
-      avatarId,
-      statusText,
-    };
-
-    try {
-      const learner = await upsertMutation.mutateAsync(payload);
-      onSubmitted(learner.learnerId);
-    } catch {
-      return;
-    }
-  }
-
-  if (mode === "edit" && profileQuery.isLoading) {
+  if (form.isLoading) {
     return (
       <section className="learner-profile-form learner-profile-form-loading" aria-live="polite">
         <div className="learner-profile-form-state learner-profile-form-state-loading">
@@ -66,13 +24,11 @@ const LearnerProfileForm = ({ mode, learnerId, onSubmitted, onCancel }: LearnerP
     );
   }
 
-  if (mode === "edit" && profileQuery.isError) {
-    const message = profileQuery.error instanceof Error ? profileQuery.error.message : "Unable to load learner profile.";
-
+  if (form.isError) {
     return (
       <section className="learner-profile-form learner-profile-form-error" aria-live="polite">
         <div className="learner-profile-form-state learner-profile-form-state-error">
-          {message}
+          {form.errorMessage}
         </div>
         <div className="learner-profile-form-actions">
           <button className="learner-profile-form-action learner-profile-form-action-back" type="button" onClick={onCancel}>
@@ -83,14 +39,6 @@ const LearnerProfileForm = ({ mode, learnerId, onSubmitted, onCancel }: LearnerP
     );
   }
 
-  const isSubmitting = upsertMutation.isPending;
-  const submitLabel = mode === "create" ? "Create profile" : "Save profile";
-  const submitError = upsertMutation.isError
-    ? upsertMutation.error instanceof Error
-      ? upsertMutation.error.message
-      : "Unable to save learner profile."
-    : null;
-
   return (
     <section className="learner-profile-form" aria-labelledby="learner-profile-form-title">
       <header className="learner-profile-form-header">
@@ -100,28 +48,28 @@ const LearnerProfileForm = ({ mode, learnerId, onSubmitted, onCancel }: LearnerP
         </h2>
       </header>
 
-      {mode === "edit" && profileQuery.data ? (
+      {mode === "edit" && form.currentStatusText ? (
         <div className="learner-profile-form-current">
           <p className="learner-profile-form-current-label">Current status</p>
-          <p className="learner-profile-form-current-value">{profileQuery.data.currentStatus}</p>
+          <p className="learner-profile-form-current-value">{form.currentStatusText}</p>
         </div>
       ) : null}
 
-      {submitError ? (
+      {form.submitError ? (
         <div className="learner-profile-form-submit-error" role="alert">
-          {submitError}
+          {form.submitError}
         </div>
       ) : null}
 
-      <form className="learner-profile-form-form" onSubmit={(event) => void handleSubmit(event)}>
+      <form className="learner-profile-form-form" onSubmit={(event) => void form.handleSubmit(event)}>
         <div className="learner-profile-form-fields">
           <label className="learner-profile-form-field">
             <span className="learner-profile-form-field-label">Name</span>
             <input
               className="learner-profile-form-field-input"
               type="text"
-              value={name}
-              onChange={(event) => setName(event.target.value)}
+              value={form.name}
+              onChange={(event) => form.setName(event.target.value)}
               placeholder="Enter learner name"
               autoComplete="name"
             />
@@ -131,7 +79,7 @@ const LearnerProfileForm = ({ mode, learnerId, onSubmitted, onCancel }: LearnerP
             <legend className="learner-profile-form-field-label">Avatar</legend>
             <div className="learner-profile-form-avatar-grid" role="radiogroup" aria-label="Choose an avatar">
               {learnerAvatarOptions.map((option) => {
-                const isSelected = avatarId === option.avatarId;
+                const isSelected = form.avatarId === option.avatarId;
                 return (
                   <button
                     key={option.avatarId}
@@ -140,25 +88,25 @@ const LearnerProfileForm = ({ mode, learnerId, onSubmitted, onCancel }: LearnerP
                     role="radio"
                     aria-checked={isSelected}
                     aria-label={option.label}
-                    onClick={() => setAvatarId(option.avatarId)}
+                    onClick={() => form.setAvatarId(option.avatarId)}
                   >
                     <img
                       className="learner-profile-form-avatar-image"
                       src={option.src}
                       alt={option.label}
                     />
-                    {isSelected ? (
-                      <span className="learner-profile-form-avatar-check" aria-hidden="true">&#10003;</span>
-                    ) : null}
-                  </button>
-                );
-              })}
+              {isSelected ? (
+                <span className="learner-profile-form-avatar-check" aria-hidden="true">&#10003;</span>
+              ) : null}
+                </button>
+              );
+            })}
             </div>
-            {avatarId ? (
+            {form.avatarId ? (
               <button
                 className="learner-profile-form-avatar-clear"
                 type="button"
-                onClick={() => setAvatarId(null)}
+                onClick={() => form.setAvatarId(null)}
               >
                 Clear avatar
               </button>
@@ -171,8 +119,8 @@ const LearnerProfileForm = ({ mode, learnerId, onSubmitted, onCancel }: LearnerP
               className="learner-profile-form-field-input"
               type="text"
               list="learner-status-presets"
-              value={statusText}
-              onChange={(event) => setStatusText(event.target.value)}
+              value={form.statusText}
+              onChange={(event) => form.setStatusText(event.target.value)}
               placeholder="Add a status update"
             />
             <datalist className="learner-profile-form-status-presets" id="learner-status-presets">
@@ -187,15 +135,15 @@ const LearnerProfileForm = ({ mode, learnerId, onSubmitted, onCancel }: LearnerP
           <button
             className="learner-profile-form-action learner-profile-form-action-submit"
             type="submit"
-            disabled={isSubmitting || name.trim().length === 0}
+            disabled={!form.canSubmit}
           >
-            {isSubmitting ? "Saving..." : submitLabel}
+            {form.isSubmitting ? "Saving..." : form.submitLabel}
           </button>
           <button
             className="learner-profile-form-action learner-profile-form-action-cancel"
             type="button"
             onClick={onCancel}
-            disabled={isSubmitting}
+            disabled={form.isSubmitting}
           >
             Cancel
           </button>

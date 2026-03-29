@@ -1,11 +1,8 @@
 New features should follow these rules:
 
   - Put each feature in its own folder under src/features with colocated UI, hooks, services, and CSS.
-  - Keep the top-level component as the composition layer: render subcomponents, wire handlers, own feature-local
-    UI effects, and receive open/close callbacks from the parent.
-  - Split hooks by concern, not by file-count convenience.
-    Use separate hooks for form state, async mutation/query state, workflow orchestration, and OS/file-picker
-    interactions.
+  - Keep the top-level component as the composition layer: render subcomponents, wire handlers, own feature-local UI effects, and receive open/close callbacks from the parent.
+  - Split hooks by concern, not by file-count convenience. Use separate hooks for form state, async mutation/query state, workflow orchestration, and OS/file-picker interactions.
   - Put backend or adapter calls in feature services, not directly in components.
     Services accept a port/adapter, unwrap AppResult, notify on failure, and throw on error.
   - Use React Query through a dedicated hook when the feature performs backend mutations or queries.
@@ -19,11 +16,9 @@ New features should follow these rules:
   - Small subcomponents should be presentational and receive values/callbacks via props.
   - Form hooks should return structured objects like values, setters, errors, canSubmit, and resetForm.
   - Feature hooks should expose UI-ready state and actions, not raw infrastructure details.
-  - Notifications are triggered below the component level, typically in services or workflow hooks, through the
-    notifier adapter.
+  - Notifications are triggered below the component level, typically in services or workflow hooks, through the notifier adapter.
   - Errors should be thrown from services rather than encoded as undefined/null failure results.
-  - For long-running flows, track progress and cancellation explicitly in the feature hook, and filter events to
-    the active request.
+  - For long-running flows, track progress and cancellation explicitly in the feature hook, and filter events to the active request.
 
 Testing:
   - Write feature unit/local tests in the feature folder, typically under `__tests__`.
