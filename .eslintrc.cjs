@@ -24,5 +24,7 @@ module.exports = {
     'no-invokerequest-import-in-features': 'error',
     'no-backend-dto-imports-outside-app': 'error',
     'no-toast-outside-notifications': 'error',
+    'no-app-adapters-in-layout': 'error',
+    'no-feature-services-in-layout': 'error',
   },
 }
