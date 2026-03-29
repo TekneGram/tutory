@@ -32,5 +32,8 @@ module.exports = {
     'no-app-adapters-in-feature-hooks': 'error',
     'feature-hook-filename': 'error',
     'feature-service-filename': 'error',
+    'one-component-per-tsx-file': 'error',
+    'no-cross-layer-imports-in-db-repositories': 'error',
+    'no-cross-layer-imports-in-db-sqlite': 'error',
   },
 }
