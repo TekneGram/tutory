@@ -1,5 +1,6 @@
 import type { CredentialProvider } from "@electron/llm/shared/llmProvider.dto";
 import type { SecretStoragePort } from "@electron/infrastructure/ports/secretStorage.port";
+import { RegisterLearnersHandlers } from "./registerHandlers/register.learners";
 import { RegisterSettingsHandlers } from "./registerHandlers/register.settings";
 
 export type IpcDependencies = {
@@ -9,4 +10,5 @@ export type IpcDependencies = {
 
 export function registerHandlers(dependencies: IpcDependencies): void {
     RegisterSettingsHandlers(dependencies);
+    RegisterLearnersHandlers(dependencies);
 }
