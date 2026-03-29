@@ -1,0 +1,339 @@
+/* ============================================================
+   Tutory — Design Token System
+   ============================================================
+   Shared (theme-independent) tokens live in :root.
+   Each named theme overrides the color/shadow layer via
+   :root[data-theme="<name>"].
+
+   Adding a new theme = copying one theme block and changing
+   the color values. Component CSS should never need editing.
+   ============================================================ */
+
+/* ---- Theme-independent tokens ---- */
+:root {
+    /* Spacing */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+
+    /* Typography */
+    --font-ui: "Inter", system-ui, -apple-system, sans-serif;
+    --font-display: "Nunito", "Inter", sans-serif;
+    --font-code: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    --font-size-label-sm: 0.74rem;
+    --font-size-label-md: 0.78rem;
+    --font-size-caption-sm: 0.86rem;
+    --font-size-caption-md: 0.88rem;
+    --font-size-caption-lg: 0.92rem;
+    --font-size-body-sm: 0.95rem;
+
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --letter-spacing-label: 0.08em;
+    --letter-spacing-display-tight: -0.03em;
+    --letter-spacing-display-mid: -0.02em;
+
+    /* Radii */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 12px;
+    --radius-xl: 14px;
+    --radius-2xl: 16px;
+    --radius-3xl: 18px;
+    --radius-4xl: 20px;
+    --radius-5xl: 24px;
+    --radius-pill: 999px;
+    --radius-focus: 4px;
+
+    /* Control heights */
+    --control-height-xs: 20px;
+    --control-height-sm: 32px;
+    --control-height-md: 36px;
+    --control-height-lg: 40px;
+    --control-height-xl: 44px;
+    --control-height-field: 46px;
+
+    /* Motion */
+    --motion-duration-fast: 160ms;
+    --motion-duration-spinner: 900ms;
+    --motion-ease-standard: ease;
+}
+
+
+/* ============================================================
+   SUNNY PLAYROOM (default)
+   Warm, bright, friendly — like a cozy playroom on a sunny day
+   ============================================================ */
+:root[data-theme="sunny-playroom"] {
+    color-scheme: light;
+
+    /* Backgrounds */
+    --color-bg: #fef9f0;
+    --color-bg-subtle: #fdf5e8;
+
+    /* Surfaces */
+    --color-surface: #fffdf8;
+    --color-surface-muted: #f5edd9;
+    --color-surface-raised: #ffffff;
+
+    /* Text */
+    --color-text: #2c2417;
+    --color-text-muted: #7a6e5d;
+    --color-text-on-accent: #ffffff;
+
+    /* Accent — warm amber-orange */
+    --color-accent: #e08a2e;
+    --color-accent-strong: #c97518;
+    --color-accent-soft: #fce4c4;
+
+    /* Borders / dividers */
+    --color-border: #e2d5ba;
+    --color-divider: #ece2cc;
+
+    /* Buttons — primary (warm, inviting) */
+    --color-button-primary-bg: #e08a2e;
+    --color-button-primary-hover-bg: #c97518;
+    --color-button-primary-active-bg: #b0670f;
+    --color-button-primary-text: #ffffff;
+    --color-button-primary-border: #c97518;
+
+    /* Buttons — secondary */
+    --color-button-secondary-bg: #f5edd9;
+    --color-button-secondary-hover-bg: #efe4cb;
+    --color-button-secondary-active-bg: #e8dbbf;
+    --color-button-secondary-text: #4a3f2e;
+    --color-button-secondary-border: #e2d5ba;
+
+    /* Buttons — ghost */
+    --color-button-ghost-hover-bg: #f5edd9;
+    --color-button-ghost-active-bg: #efe4cb;
+
+    /* Inputs */
+    --color-input-bg: #ffffff;
+    --color-input-border: #ddd0b5;
+    --color-input-focus-border: #e08a2e;
+    --color-focus-ring: rgba(224, 138, 46, 0.35);
+
+    /* Status */
+    --color-success: #5a9e3e;
+    --color-success-soft: #e6f4de;
+    --color-warning: #d4962b;
+    --color-warning-soft: #fef3db;
+    --color-error-text: #b8453e;
+    --color-error-border: #e4a9a3;
+    --color-error-surface: #fce8e5;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(44, 36, 23, 0.06);
+    --shadow-md: 0 4px 12px rgba(44, 36, 23, 0.08);
+    --shadow-lg: 0 8px 24px rgba(44, 36, 23, 0.10);
+    --shadow-xl: 0 16px 48px rgba(44, 36, 23, 0.12);
+    --shadow-interactive: 0 2px 8px rgba(44, 36, 23, 0.08);
+    --shadow-interactive-hover: 0 4px 16px rgba(44, 36, 23, 0.12);
+    --shadow-inset-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+
+    /* Decorative — used by cards/illustrations */
+    --color-decorative-1: #f7c87a;
+    --color-decorative-2: #f9a94b;
+    --color-decorative-3: #fce4c4;
+}
+
+
+/* ============================================================
+   FOREST ADVENTURE
+   Curious, calm, exploratory — a nature walk in soft light
+   ============================================================ */
+:root[data-theme="forest-adventure"] {
+    color-scheme: light;
+
+    /* Backgrounds */
+    --color-bg: #f3f7f0;
+    --color-bg-subtle: #edf3e8;
+
+    /* Surfaces */
+    --color-surface: #fafcf8;
+    --color-surface-muted: #e4eddb;
+    --color-surface-raised: #ffffff;
+
+    /* Text */
+    --color-text: #1e2b1a;
+    --color-text-muted: #5a6e50;
+    --color-text-on-accent: #ffffff;
+
+    /* Accent — earthy green */
+    --color-accent: #4a8c3f;
+    --color-accent-strong: #3a7531;
+    --color-accent-soft: #d4eacd;
+
+    /* Borders / dividers */
+    --color-border: #c5d6b8;
+    --color-divider: #d7e5cd;
+
+    /* Buttons — primary (nature green) */
+    --color-button-primary-bg: #4a8c3f;
+    --color-button-primary-hover-bg: #3a7531;
+    --color-button-primary-active-bg: #2d6125;
+    --color-button-primary-text: #ffffff;
+    --color-button-primary-border: #3a7531;
+
+    /* Buttons — secondary */
+    --color-button-secondary-bg: #e4eddb;
+    --color-button-secondary-hover-bg: #d7e5cd;
+    --color-button-secondary-active-bg: #c9dbbf;
+    --color-button-secondary-text: #2e3f28;
+    --color-button-secondary-border: #c5d6b8;
+
+    /* Buttons — ghost */
+    --color-button-ghost-hover-bg: #e4eddb;
+    --color-button-ghost-active-bg: #d7e5cd;
+
+    /* Inputs */
+    --color-input-bg: #ffffff;
+    --color-input-border: #c5d6b8;
+    --color-input-focus-border: #4a8c3f;
+    --color-focus-ring: rgba(74, 140, 63, 0.30);
+
+    /* Status */
+    --color-success: #4a8c3f;
+    --color-success-soft: #d4eacd;
+    --color-warning: #b8892a;
+    --color-warning-soft: #f6edda;
+    --color-error-text: #a8433c;
+    --color-error-border: #dba9a4;
+    --color-error-surface: #f8e6e3;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(30, 43, 26, 0.06);
+    --shadow-md: 0 4px 12px rgba(30, 43, 26, 0.07);
+    --shadow-lg: 0 8px 24px rgba(30, 43, 26, 0.09);
+    --shadow-xl: 0 16px 48px rgba(30, 43, 26, 0.11);
+    --shadow-interactive: 0 2px 8px rgba(30, 43, 26, 0.07);
+    --shadow-interactive-hover: 0 4px 16px rgba(30, 43, 26, 0.10);
+    --shadow-inset-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.40);
+
+    /* Decorative */
+    --color-decorative-1: #8abe7a;
+    --color-decorative-2: #6aad58;
+    --color-decorative-3: #d4eacd;
+}
+
+
+/* ============================================================
+   OCEAN LAB
+   Energetic, clean, smart — a bright underwater science lab
+   ============================================================ */
+:root[data-theme="ocean-lab"] {
+    color-scheme: light;
+
+    /* Backgrounds */
+    --color-bg: #eef5fa;
+    --color-bg-subtle: #e6f0f8;
+
+    /* Surfaces */
+    --color-surface: #f7fbfe;
+    --color-surface-muted: #d9eaf5;
+    --color-surface-raised: #ffffff;
+
+    /* Text */
+    --color-text: #132637;
+    --color-text-muted: #4a6a85;
+    --color-text-on-accent: #ffffff;
+
+    /* Accent — ocean blue */
+    --color-accent: #2e85c5;
+    --color-accent-strong: #1f6fa8;
+    --color-accent-soft: #c3e0f5;
+
+    /* Borders / dividers */
+    --color-border: #b3d1e8;
+    --color-divider: #cde0f0;
+
+    /* Buttons — primary (ocean blue) */
+    --color-button-primary-bg: #2e85c5;
+    --color-button-primary-hover-bg: #1f6fa8;
+    --color-button-primary-active-bg: #175d90;
+    --color-button-primary-text: #ffffff;
+    --color-button-primary-border: #1f6fa8;
+
+    /* Buttons — secondary */
+    --color-button-secondary-bg: #d9eaf5;
+    --color-button-secondary-hover-bg: #cde0f0;
+    --color-button-secondary-active-bg: #bdd4e8;
+    --color-button-secondary-text: #1e3a52;
+    --color-button-secondary-border: #b3d1e8;
+
+    /* Buttons — ghost */
+    --color-button-ghost-hover-bg: #d9eaf5;
+    --color-button-ghost-active-bg: #cde0f0;
+
+    /* Inputs */
+    --color-input-bg: #ffffff;
+    --color-input-border: #b3d1e8;
+    --color-input-focus-border: #2e85c5;
+    --color-focus-ring: rgba(46, 133, 197, 0.30);
+
+    /* Status */
+    --color-success: #3d9445;
+    --color-success-soft: #d8f0da;
+    --color-warning: #c08b2a;
+    --color-warning-soft: #f8f0db;
+    --color-error-text: #b04540;
+    --color-error-border: #e0aaa6;
+    --color-error-surface: #fae6e4;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(19, 38, 55, 0.06);
+    --shadow-md: 0 4px 12px rgba(19, 38, 55, 0.07);
+    --shadow-lg: 0 8px 24px rgba(19, 38, 55, 0.09);
+    --shadow-xl: 0 16px 48px rgba(19, 38, 55, 0.11);
+    --shadow-interactive: 0 2px 8px rgba(19, 38, 55, 0.07);
+    --shadow-interactive-hover: 0 4px 16px rgba(19, 38, 55, 0.10);
+    --shadow-inset-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.40);
+
+    /* Decorative */
+    --color-decorative-1: #6db4e0;
+    --color-decorative-2: #4a9fd4;
+    --color-decorative-3: #c3e0f5;
+}
+
+
+/* ============================================================
+   Global base styles (theme-aware)
+   ============================================================ */
+html,
+body,
+#root {
+    background: var(--color-bg);
+    color: var(--color-text);
+}
+
+body,
+button,
+input,
+textarea,
+select {
+    font-family: var(--font-ui);
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    line-height: 1.5;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}

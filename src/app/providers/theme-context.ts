@@ -1,10 +1,9 @@
 import { createContext } from "react";
-import type { ThemePreference, ResolvedTheme } from "@/app/types/theme";
+import type { ThemeName } from "@/app/types/theme";
 
 export type ThemeContextValue = {
-    themePreference: ThemePreference;
-    resolvedTheme: ResolvedTheme;
-    setTheme: (theme: ThemePreference) => void;
+    theme: ThemeName;
+    setTheme: (theme: ThemeName) => void;
 };
 
 export const ThemeContext = createContext<ThemeContextValue | null>(null);

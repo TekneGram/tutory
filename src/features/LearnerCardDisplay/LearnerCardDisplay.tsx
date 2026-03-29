@@ -1,3 +1,4 @@
+import "./LearnerCardDisplay.css";
 import LearnerCard from "./LearnerCard";
 import { useLearnersQuery } from "./hooks/useLearnersQuery";
 import type { LearnerCardDto } from "@/app/ports/learners.ports";

@@ -1,3 +1,4 @@
+import "./LlmSettingsTable.css";
 import { useEffect, useState } from "react";
 import type { LlmProviderName } from "@/app/ports/settings.ports";
 import { useDeleteApiProviderKeyMutation } from "./hooks/useDeleteApiProviderKeyMutation";

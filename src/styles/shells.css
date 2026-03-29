@@ -1,0 +1,62 @@
+.shell-panel {
+    position: relative;
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+}
+
+.shell-radius-3xl {
+    border-radius: var(--radius-3xl);
+}
+
+.shell-radius-4xl {
+    border-radius: var(--radius-4xl);
+}
+
+.shell-radius-5xl {
+    border-radius: var(--radius-5xl);
+}
+
+.shell-shadow-sm {
+    box-shadow: var(--shadow-sm);
+}
+
+.shell-shadow-md {
+    box-shadow: var(--shadow-md);
+}
+
+.shell-shadow-lg {
+    box-shadow: var(--shadow-lg);
+}
+
+.shell-surface-solid {
+    background: var(--color-surface);
+}
+
+.shell-surface-soft {
+    background: linear-gradient(
+        180deg,
+        var(--color-surface),
+        var(--color-surface-muted)
+    );
+}
+
+.shell-surface-raised {
+    background: var(--color-surface-raised);
+}
+
+.shell-surface-card {
+    background: linear-gradient(
+        180deg,
+        var(--color-surface-raised),
+        var(--color-surface)
+    );
+}
+
+.shell-highlight::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: inherit;
+    pointer-events: none;
+}

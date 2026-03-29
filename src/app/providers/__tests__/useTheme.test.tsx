@@ -20,8 +20,7 @@ describe("useThemeContext", () => {
       wrapper: Wrapper,
     });
 
-    expect(result.current.themePreference).toBe("system");
-    expect(result.current.resolvedTheme).toBe("light");
+    expect(result.current.theme).toBe("sunny-playroom");
     expect(result.current.setTheme).toBeTypeOf("function");
   });
 });

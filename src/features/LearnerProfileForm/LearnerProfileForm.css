@@ -1,0 +1,296 @@
+/* LearnerProfileForm — feature-local styles */
+
+.learner-profile-form {
+    display: grid;
+    gap: var(--space-6);
+    width: 100%;
+}
+
+.learner-profile-form-header {
+    display: grid;
+    gap: var(--space-2);
+}
+
+.learner-profile-form-kicker {
+    margin: 0;
+    font-size: var(--font-size-label-md);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+    color: var(--color-accent);
+}
+
+.learner-profile-form-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    line-height: 1.2;
+    letter-spacing: var(--letter-spacing-display-mid);
+}
+
+/* Current status display (edit mode) */
+.learner-profile-form-current {
+    padding: var(--space-4) var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-surface);
+}
+
+.learner-profile-form-current-label {
+    margin: 0;
+    font-size: var(--font-size-label-sm);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+.learner-profile-form-current-value {
+    margin: 0;
+    font-size: var(--font-size-body-sm);
+}
+
+/* Error display */
+.learner-profile-form-submit-error {
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-error-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-error-surface);
+    color: var(--color-error-text);
+    font-size: var(--font-size-body-sm);
+}
+
+/* Form layout */
+.learner-profile-form-form {
+    display: grid;
+    gap: var(--space-6);
+}
+
+.learner-profile-form-fields {
+    display: grid;
+    gap: var(--space-5);
+}
+
+.learner-profile-form-field {
+    display: grid;
+    gap: var(--space-2);
+}
+
+.learner-profile-form-field-label {
+    font-size: var(--font-size-label-md);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+.learner-profile-form-field-input,
+.learner-profile-form-field-select {
+    width: 100%;
+    min-height: var(--control-height-field);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-input-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-input-bg);
+    color: var(--color-text);
+    font: inherit;
+    transition:
+        border-color var(--motion-duration-fast) var(--motion-ease-standard),
+        box-shadow var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.learner-profile-form-field-input::placeholder {
+    color: var(--color-text-muted);
+    opacity: 0.6;
+}
+
+.learner-profile-form-field-input:focus-visible,
+.learner-profile-form-field-select:focus-visible {
+    outline: none;
+    border-color: var(--color-input-focus-border);
+    box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+/* Avatar circle picker */
+.learner-profile-form-avatar-fieldset {
+    display: grid;
+    gap: var(--space-3);
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.learner-profile-form-avatar-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+}
+
+.learner-profile-form-avatar-option {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    padding: 0;
+    border: 3px solid var(--color-border);
+    border-radius: 50%;
+    background: var(--color-surface-muted);
+    cursor: pointer;
+    overflow: hidden;
+    transition:
+        border-color var(--motion-duration-fast) var(--motion-ease-standard),
+        box-shadow var(--motion-duration-fast) var(--motion-ease-standard),
+        transform var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.learner-profile-form-avatar-option:hover {
+    border-color: var(--color-accent-soft);
+    transform: scale(1.08);
+    box-shadow: var(--shadow-md);
+}
+
+.learner-profile-form-avatar-option:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 3px;
+}
+
+.learner-profile-form-avatar-option.is-selected {
+    border-color: var(--color-accent);
+    box-shadow:
+        0 0 0 3px var(--color-focus-ring),
+        var(--shadow-md);
+    transform: scale(1.08);
+}
+
+.learner-profile-form-avatar-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.learner-profile-form-avatar-check {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: var(--color-text-on-accent);
+    font-size: 0.7rem;
+    font-weight: var(--font-weight-semibold);
+    border: 2px solid var(--color-surface-raised);
+}
+
+.learner-profile-form-avatar-clear {
+    width: fit-content;
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--color-text-muted);
+    font: inherit;
+    font-size: var(--font-size-caption-sm);
+    cursor: pointer;
+    transition:
+        color var(--motion-duration-fast) var(--motion-ease-standard),
+        background-color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.learner-profile-form-avatar-clear:hover {
+    color: var(--color-text);
+    background: var(--color-button-ghost-hover-bg);
+}
+
+.learner-profile-form-avatar-clear:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+}
+
+/* Actions row */
+.learner-profile-form-actions {
+    display: flex;
+    gap: var(--space-3);
+}
+
+.learner-profile-form-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--control-height-lg);
+    padding: 0 var(--space-6);
+    border-radius: var(--radius-pill);
+    font: inherit;
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    transition:
+        background-color var(--motion-duration-fast) var(--motion-ease-standard),
+        transform var(--motion-duration-fast) var(--motion-ease-standard),
+        box-shadow var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.learner-profile-form-action:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 3px;
+}
+
+.learner-profile-form-action:disabled {
+    opacity: 0.55;
+    cursor: default;
+    transform: none;
+}
+
+.learner-profile-form-action-submit {
+    border: 1px solid var(--color-button-primary-border);
+    background: var(--color-button-primary-bg);
+    color: var(--color-button-primary-text);
+    box-shadow:
+        var(--shadow-interactive),
+        var(--shadow-inset-highlight);
+}
+
+.learner-profile-form-action-submit:hover:not(:disabled) {
+    background: var(--color-button-primary-hover-bg);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-interactive-hover);
+}
+
+.learner-profile-form-action-submit:active:not(:disabled) {
+    background: var(--color-button-primary-active-bg);
+    transform: translateY(0);
+}
+
+.learner-profile-form-action-cancel,
+.learner-profile-form-action-back {
+    border: 1px solid var(--color-button-secondary-border);
+    background: var(--color-button-secondary-bg);
+    color: var(--color-button-secondary-text);
+}
+
+.learner-profile-form-action-cancel:hover:not(:disabled),
+.learner-profile-form-action-back:hover:not(:disabled) {
+    background: var(--color-button-secondary-hover-bg);
+    transform: translateY(-1px);
+}
+
+.learner-profile-form-action-cancel:active:not(:disabled),
+.learner-profile-form-action-back:active:not(:disabled) {
+    background: var(--color-button-secondary-active-bg);
+    transform: translateY(0);
+}
+
+/* State displays (loading/error) */
+.learner-profile-form-state {
+    padding: var(--space-6);
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-body-sm);
+}
+
+.learner-profile-form-state-error {
+    color: var(--color-error-text);
+}
