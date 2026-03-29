@@ -1,5 +1,4 @@
 import LlmSettingsTable from "@/features/LlmSettingsTable/LlmSettingsTable";
-import "@/styles/text-style.css";
 
 const SettingsView = () => {
     return (

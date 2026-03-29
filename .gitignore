@@ -17,6 +17,9 @@ dist-ssr
 !.env.example
 release/
 
+# database
+electron/db/dev-app.sqlite
+
 # Electron runtime/package assets
 electron/assets/
 electron/bin/

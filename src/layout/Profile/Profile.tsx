@@ -1,4 +1,4 @@
-import LearnerProfileForm from "@/features/LearnerProfileForm/LearnerProfileForm";
+//import LearnerProfileForm from "@/features/LearnerProfileForm/LearnerProfileForm";
 
 const Profile = () => {
 

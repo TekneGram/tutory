@@ -1,5 +1,3 @@
-BEGIN;
-
 INSERT INTO learning_types (name, description) VALUES
     ('english', 'Learn English through various themes and activities'),
     ('mathematics', 'Learn mathematics through various themes and activities');
@@ -108,5 +106,3 @@ INSERT INTO cycle_type_activities (
         5,
         1
     );
-
-COMMIT;

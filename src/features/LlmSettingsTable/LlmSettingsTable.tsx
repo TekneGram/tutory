@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
 import type { LlmProviderName } from "@/app/ports/settings.ports";
-import "./llmSettingsTable.css";
-import "@/styles/button-styles.css";
-import "@/styles/forms.css";
-import "@/styles/shells.css";
 import { useDeleteApiProviderKeyMutation } from "./hooks/useDeleteApiProviderKeyMutation";
 import { useLlmProviderModelsQuery } from "./hooks/useLlmProviderModelsQuery";
 import { useLlmProviderSettingsQuery } from "./hooks/useLlmProviderSettingsQuery";
