@@ -1,16 +1,13 @@
+import { settingsAdapter } from "@/app/adapters/settings.adapters";
 import { toastifyNotifier } from "@/app/adapters/notifications";
 import { FrontAppError } from "@/app/errors/FrontAppError";
 import type {
     SaveApiProviderKeyRequest,
     SaveApiProviderKeyResponse,
-    SettingsPort,
 } from "@/app/ports/settings.ports";
 
-export async function saveApiProviderKey(
-    port: SettingsPort,
-    request: SaveApiProviderKeyRequest,
-): Promise<SaveApiProviderKeyResponse> {
-    const result = await port.saveApiProviderKey(request);
+export async function saveApiProviderKey(request: SaveApiProviderKeyRequest): Promise<SaveApiProviderKeyResponse> {
+    const result = await settingsAdapter.saveApiProviderKey(request);
 
     if (!result.ok) {
         toastifyNotifier.error(result.error.userMessage, { id: `save-provider-key-${request.provider}` });

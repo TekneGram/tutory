@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { settingsAdapter } from "@/app/adapters/settings.adapters";
 import type {
     DeleteApiProviderKeyRequest,
     DeleteApiProviderKeyResponse,
@@ -11,7 +10,7 @@ export function useDeleteApiProviderKeyMutation() {
     const queryClient = useQueryClient();
 
     return useMutation<DeleteApiProviderKeyResponse, Error, DeleteApiProviderKeyRequest>({
-        mutationFn: (request) => deleteApiProviderKey(settingsAdapter, request),
+        mutationFn: deleteApiProviderKey,
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: llmProviderSettingsQueryKey });
         },

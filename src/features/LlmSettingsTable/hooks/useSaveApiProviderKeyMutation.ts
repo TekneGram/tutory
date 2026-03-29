@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { settingsAdapter } from "@/app/adapters/settings.adapters";
 import type {
     SaveApiProviderKeyRequest,
     SaveApiProviderKeyResponse,
@@ -11,7 +10,7 @@ export function useSaveApiProviderKeyMutation() {
     const queryClient = useQueryClient();
 
     return useMutation<SaveApiProviderKeyResponse, Error, SaveApiProviderKeyRequest>({
-        mutationFn: (request) => saveApiProviderKey(settingsAdapter, request),
+        mutationFn: saveApiProviderKey,
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: llmProviderSettingsQueryKey });
         },
