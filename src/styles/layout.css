@@ -377,7 +377,8 @@
 }
 
 .learning-main-view-learner-id,
-.learning-main-view-unit-id {
+.learning-main-view-unit-id,
+.learning-main-view-unit-cycle-id {
     margin: 0;
     font-size: var(--font-size-caption-md);
     color: var(--color-text-muted);

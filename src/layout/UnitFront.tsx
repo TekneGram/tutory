@@ -7,7 +7,7 @@ import type { LearningType } from "@/app/types/learning";
 type UnitFrontProps = {
   learnerId: string;
   learningType: LearningType;
-  onEnterLearningMain: (learnerId: string, learningType: LearningType, unitId: string) => void;
+  onEnterUnitCycles: (learnerId: string, learningType: LearningType, unitId: string) => void;
   onBackToLearningEntry: (learnerId: string) => void;
 };
 
@@ -43,7 +43,7 @@ const unitFrontCopy = {
 const UnitFront = ({
   learnerId,
   learningType,
-  onEnterLearningMain,
+  onEnterUnitCycles,
   onBackToLearningEntry,
 }: UnitFrontProps) => {
   const learningUnitsQuery = useLearningUnitsQuery(learningType);
@@ -96,7 +96,7 @@ const UnitFront = ({
           <UnitCardDisplay
             learnerId={learnerId}
             units={units}
-            onSelectUnit={(unitId) => onEnterLearningMain(learnerId, learningType, unitId)}
+            onSelectUnit={(unitId) => onEnterUnitCycles(learnerId, learningType, unitId)}
           />
         </div>
       ) : null}

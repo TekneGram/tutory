@@ -4,19 +4,20 @@ type LearningMainProps = {
   learnerId: string;
   learningType: LearningType;
   unitId: string;
-  onBackToUnitFront: (learnerId: string, learningType: LearningType) => void;
+  unitCycleId: string;
+  onBackToUnitCycles: (learnerId: string, learningType: LearningType, unitId: string) => void;
 };
 
 const learningMainCopy = {
   english: {
     kicker: "English",
     title: "English main",
-    placeholder: "English learning content for this unit will render here.",
+    placeholder: "English learning content for this cycle will render here.",
   },
   mathematics: {
     kicker: "Mathematics",
     title: "Mathematics main",
-    placeholder: "Mathematics learning content for this unit will render here.",
+    placeholder: "Mathematics learning content for this cycle will render here.",
   },
 } satisfies Record<
   LearningType,
@@ -27,7 +28,13 @@ const learningMainCopy = {
   }
 >;
 
-const LearningMain = ({ learnerId, learningType, unitId, onBackToUnitFront }: LearningMainProps) => {
+const LearningMain = ({
+  learnerId,
+  learningType,
+  unitId,
+  unitCycleId,
+  onBackToUnitCycles,
+}: LearningMainProps) => {
   const copy = learningMainCopy[learningType];
 
   return (
@@ -39,6 +46,7 @@ const LearningMain = ({ learnerId, learningType, unitId, onBackToUnitFront }: Le
         </h1>
         <p className="learning-main-view-learner-id">Learner ID: {learnerId}</p>
         <p className="learning-main-view-unit-id">Unit ID: {unitId}</p>
+        <p className="learning-main-view-unit-cycle-id">Unit Cycle ID: {unitCycleId}</p>
       </header>
 
       <div className="learning-main-view-body">
@@ -49,9 +57,9 @@ const LearningMain = ({ learnerId, learningType, unitId, onBackToUnitFront }: Le
         <button
           className="button-secondary button-size-sm learning-main-view-back-button"
           type="button"
-          onClick={() => onBackToUnitFront(learnerId, learningType)}
+          onClick={() => onBackToUnitCycles(learnerId, learningType, unitId)}
         >
-          Back to unit selection
+          Back to cycle selection
         </button>
       </footer>
     </section>

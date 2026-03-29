@@ -37,7 +37,7 @@ describe("UnitFront", () => {
       <UnitFront
         learnerId="learner-1"
         learningType="english"
-        onEnterLearningMain={vi.fn()}
+        onEnterUnitCycles={vi.fn()}
         onBackToLearningEntry={vi.fn()}
       />,
     );
@@ -55,7 +55,7 @@ describe("UnitFront", () => {
       <UnitFront
         learnerId="learner-1"
         learningType="mathematics"
-        onEnterLearningMain={vi.fn()}
+        onEnterUnitCycles={vi.fn()}
         onBackToLearningEntry={vi.fn()}
       />,
     );
@@ -73,7 +73,7 @@ describe("UnitFront", () => {
       <UnitFront
         learnerId="learner-1"
         learningType="mathematics"
-        onEnterLearningMain={vi.fn()}
+        onEnterUnitCycles={vi.fn()}
         onBackToLearningEntry={vi.fn()}
       />,
     );
@@ -82,7 +82,7 @@ describe("UnitFront", () => {
   });
 
   it("renders unit cards and forwards the selected unit id with the learning type", () => {
-    const onEnterLearningMain = vi.fn();
+    const onEnterUnitCycles = vi.fn();
 
     useLearningUnitsQueryMock.mockReturnValue({
       data: [
@@ -112,14 +112,14 @@ describe("UnitFront", () => {
       <UnitFront
         learnerId="learner-1"
         learningType="english"
-        onEnterLearningMain={onEnterLearningMain}
+        onEnterUnitCycles={onEnterUnitCycles}
         onBackToLearningEntry={vi.fn()}
       />,
     );
 
     fireEvent.click(screen.getByRole("button", { name: "Open Basics" }));
 
-    expect(onEnterLearningMain).toHaveBeenCalledWith("learner-1", "english", "unit-1");
+    expect(onEnterUnitCycles).toHaveBeenCalledWith("learner-1", "english", "unit-1");
     expect(screen.getByText("Start here")).toBeTruthy();
   });
 });

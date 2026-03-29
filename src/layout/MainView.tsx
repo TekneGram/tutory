@@ -6,6 +6,7 @@ import SettingsView from "./SettingsView";
 import Profile from "./Profile";
 import LearningEntry from "./LearningEntry";
 import UnitFront from "./UnitFront";
+import UnitCycles from "./UnitCycles";
 import LearningMain from "./LearningMain";
 import type { LearningType } from "@/app/types/learning";
 
@@ -36,8 +37,17 @@ const MainView = () => {
     dispatch({ type: "go-unit-front", learnerId, learningType });
   }
 
-  function goLearningMain(learnerId: string, learningType: LearningType, unitId: string) {
-    dispatch({ type: "go-learning-main", learnerId, learningType, unitId });
+  function goUnitCycles(learnerId: string, learningType: LearningType, unitId: string) {
+    dispatch({ type: "go-unit-cycles", learnerId, learningType, unitId });
+  }
+
+  function goLearningMain(
+    learnerId: string,
+    learningType: LearningType,
+    unitId: string,
+    unitCycleId: string,
+  ) {
+    dispatch({ type: "go-learning-main", learnerId, learningType, unitId, unitCycleId });
   }
 
   function renderContent() {
@@ -75,8 +85,18 @@ const MainView = () => {
           <UnitFront
             learnerId={navigationState.learnerId}
             learningType={navigationState.learningType}
-            onEnterLearningMain={goLearningMain}
+            onEnterUnitCycles={goUnitCycles}
             onBackToLearningEntry={goLearningEntry}
+          />
+        );
+      case "unit-cycles":
+        return (
+          <UnitCycles
+            learnerId={navigationState.learnerId}
+            learningType={navigationState.learningType}
+            unitId={navigationState.unitId}
+            onEnterLearningMain={goLearningMain}
+            onBackToUnitFront={goUnitFront}
           />
         );
       case "learning-main":
@@ -85,7 +105,8 @@ const MainView = () => {
             learnerId={navigationState.learnerId}
             learningType={navigationState.learningType}
             unitId={navigationState.unitId}
-            onBackToUnitFront={goUnitFront}
+            unitCycleId={navigationState.unitCycleId}
+            onBackToUnitCycles={goUnitCycles}
           />
         );
       default:

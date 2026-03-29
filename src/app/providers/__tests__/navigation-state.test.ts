@@ -38,17 +38,31 @@ describe("navigationReducer", () => {
     });
 
     expect(
-      navigationReducer({ kind: "home" }, {
-        type: "go-learning-main",
-        learnerId: "learner-4",
-        learningType: "mathematics",
-        unitId: "unit-1",
-      })
+      navigationReducer(
+        { kind: "home" },
+        { type: "go-unit-cycles", learnerId: "learner-4", learningType: "mathematics", unitId: "unit-1" }
+      )
     ).toEqual({
-      kind: "learning-main",
+      kind: "unit-cycles",
       learnerId: "learner-4",
       learningType: "mathematics",
       unitId: "unit-1",
+    });
+
+    expect(
+      navigationReducer({ kind: "home" }, {
+        type: "go-learning-main",
+        learnerId: "learner-5",
+        learningType: "mathematics",
+        unitId: "unit-1",
+        unitCycleId: "cycle-1",
+      })
+    ).toEqual({
+      kind: "learning-main",
+      learnerId: "learner-5",
+      learningType: "mathematics",
+      unitId: "unit-1",
+      unitCycleId: "cycle-1",
     });
   });
 });

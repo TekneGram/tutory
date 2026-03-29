@@ -7,7 +7,14 @@ export type NavigationState =
   | { kind: "profile"; mode: "edit"; learnerId: string }
   | { kind: "learning-entry"; learnerId: string }
   | { kind: "unit-front"; learnerId: string; learningType: LearningType }
-  | { kind: "learning-main"; learnerId: string; learningType: LearningType; unitId: string };
+  | { kind: "unit-cycles"; learnerId: string; learningType: LearningType; unitId: string }
+  | {
+      kind: "learning-main";
+      learnerId: string;
+      learningType: LearningType;
+      unitId: string;
+      unitCycleId: string;
+    };
 
 export type NavigationAction =
   | { type: "go-home" }
@@ -16,7 +23,14 @@ export type NavigationAction =
   | { type: "go-profile-edit"; learnerId: string }
   | { type: "go-learning-entry"; learnerId: string }
   | { type: "go-unit-front"; learnerId: string; learningType: LearningType }
-  | { type: "go-learning-main"; learnerId: string; learningType: LearningType; unitId: string };
+  | { type: "go-unit-cycles"; learnerId: string; learningType: LearningType; unitId: string }
+  | {
+      type: "go-learning-main";
+      learnerId: string;
+      learningType: LearningType;
+      unitId: string;
+      unitCycleId: string;
+    };
 
 export const initialNavigationState: NavigationState = { kind: "home" };
 
@@ -41,12 +55,20 @@ export function navigationReducer(
         learnerId: action.learnerId,
         learningType: action.learningType,
       };
+    case "go-unit-cycles":
+      return {
+        kind: "unit-cycles",
+        learnerId: action.learnerId,
+        learningType: action.learningType,
+        unitId: action.unitId,
+      };
     case "go-learning-main":
       return {
         kind: "learning-main",
         learnerId: action.learnerId,
         learningType: action.learningType,
         unitId: action.unitId,
+        unitCycleId: action.unitCycleId,
       };
     default:
       return state;
