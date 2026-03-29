@@ -26,5 +26,9 @@ module.exports = {
     'no-toast-outside-notifications': 'error',
     'no-app-adapters-in-layout': 'error',
     'no-feature-services-in-layout': 'error',
+    'no-app-adapters-in-feature-components': 'error',
+    'no-react-query-in-feature-components': 'error',
+    'no-notifications-in-feature-components': 'error',
+    'no-app-adapters-in-feature-hooks': 'error',
   },
 }
