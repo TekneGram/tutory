@@ -13,7 +13,7 @@
     "audioRefs": [
       {
         "order": 1,
-        "imageRef": "cycle_1_summary.ogg"
+        "audioRef": "cycle_1_summary.ogg"
       }
     ],
     "videoRefs": []
