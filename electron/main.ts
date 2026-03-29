@@ -8,6 +8,8 @@ import { getGeneratedDataRoot, getRuntimeDbPath } from "./runtime/runtimePaths";
 import { initializeDatabase } from './db/initializeDatabase';
 import { registerHandlers } from './ipc/registerHandlers';
 import { registerContentAssetProtocol } from './infrastructure/protocols/registerContentAssetProtocol';
+import { secretStorageAdapter } from './infrastructure/adapters/secretStorage.adapter';
+import { createCredentialProvider } from './llm/createCredentialProvider';
 
 //const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -84,6 +86,10 @@ app.whenReady().then(() => {
   process.env.GENERATED_DATA_ROOT = getGeneratedDataRoot();
   
   registerContentAssetProtocol();
-  registerHandlers();
+  const credentialProvider = createCredentialProvider(secretStorageAdapter);
+  registerHandlers({
+    credentialProvider,
+    secretStorage: secretStorageAdapter,
+  });
   createWindow();
 })

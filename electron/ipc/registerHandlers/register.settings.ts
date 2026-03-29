@@ -1,5 +1,6 @@
 import { safeHandle } from "../safeHandle";
 import { validateOrThrow } from "../validate";
+import type { IpcDependencies } from "../registerHandlers";
 
 import { deleteApiProviderKey } from "@electron/services/settings/deleteApiProviderKey";
 import { listApiProviderModels } from "@electron/services/settings/listApiProviderModels";
@@ -26,12 +27,10 @@ import {
     updateApiProviderModelSchema,
 } from "../validationSchemas/settings.schemas";
 
-import { createCredentialProvider } from "@electron/llm/createCredentialProvider";
-import { secretStorageAdapter } from "@electron/infrastructure/adapters/secretStorage.adapter";
-
-const credentialProvider = createCredentialProvider(secretStorageAdapter);
-
-export function RegisterSettingsHandlers(): void {
+export function RegisterSettingsHandlers({
+    credentialProvider,
+    secretStorage,
+}: IpcDependencies): void {
     safeHandle<null, ApiProvidersResponse>(
         "settings:api-providers:list",
         async (_event, _rawArgs, ctx) => {
@@ -50,7 +49,7 @@ export function RegisterSettingsHandlers(): void {
         "settings:api-providers:save-key",
         async (_event, rawArgs, ctx) => {
             const args = validateOrThrow(saveApiProviderKeySchema, rawArgs);
-            return saveApiProviderKey(args, ctx, secretStorageAdapter);
+            return saveApiProviderKey(args, ctx, secretStorage);
         }
     );
 
@@ -58,7 +57,7 @@ export function RegisterSettingsHandlers(): void {
         "settings:api-providers:delete-key",
         async (_event, rawArgs, ctx) => {
             const args = validateOrThrow(deleteApiProviderKeySchema, rawArgs);
-            return deleteApiProviderKey(args, ctx, secretStorageAdapter);
+            return deleteApiProviderKey(args, ctx, secretStorage);
         }
     );
 

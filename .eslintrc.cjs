@@ -39,5 +39,10 @@ module.exports = {
     'no-cross-layer-imports-in-infrastructure': 'error',
     'no-invalid-imports-in-infrastructure-ports': 'error',
     'no-invalid-imports-in-infrastructure-adapters': 'error',
+    'no-cross-layer-imports-in-runtime': 'error',
+    'runtime-electron-imports': 'error',
+    'no-cross-layer-imports-in-ipc': 'error',
+    'no-cross-layer-imports-in-ipc-contracts': 'error',
+    'no-cross-layer-imports-in-ipc-register-handlers': 'error',
   },
 }
