@@ -30,5 +30,7 @@ module.exports = {
     'no-react-query-in-feature-components': 'error',
     'no-notifications-in-feature-components': 'error',
     'no-app-adapters-in-feature-hooks': 'error',
+    'feature-hook-filename': 'error',
+    'feature-service-filename': 'error',
   },
 }
