@@ -19,9 +19,9 @@ const HomeView = ({
       <header className="home-view-banner-shell">
         <img className="home-view-banner-image" src={welcomeBanner} alt="Tutory welcome banner" />
         <div className="home-view-banner-copy">
-          <p className="home-view-banner-kicker">Welcome</p>
+          <p className="home-view-banner-kicker">Welcome to</p>
           <h1 className="home-view-title" id="home-view-title">
-            Choose how to continue
+            TUTORY
           </h1>
         </div>
       </header>
