@@ -244,29 +244,28 @@ CREATE INDEX idx_activity_attempts_activity_type_id
 
 The following data needs inserting into the database to get started
 learning_types
-- english
-- mathematics
+- (english, Learn English through various themes and activities)
+- (mathematics, Learn mathematics through various themes and activities)
 
 cycle_types:
-- story-vocab-write
-- observe-compare-write
-- predict-research-report
+- (story-vocab-write, Read a story, practice vocabulary and write your own story.)
+- (observe-compare-write, Read, listen or watch, compare the writing and improve your own writing.)
+- (predict-research-report, Watch and predict the theme, study and research the theme and write your own report about it)
 
 activity_types
-- story
-- multi-choice-quiz
-- vocab-review
-- write-extra
-- observe
-- observe-describe
-- read-model
-- free-writing
-- listen-sound-effect
-- reflection-survey
-- research
-- writing-scaffold
-- topic-prediction
-- text-question-answer
+- (story, Read a story and study vocabulary)
+- (multi-choice-quiz, Answers multiple choice questions)
+- (vocab-review, Practice vocabulary and spelling)
+- (write-extra, Add more to a story or report)
+- (observe, Look at a picture and categorize words)
+- (observe-describe, Describe what you see)
+- (read-model, Read example sentences that describe the image, sound or movie)
+- (free-writing, Write what you want, with hints to guide you)
+- (topic-prediction, Predict the topic based on what you see, hear or watch)
+- (research, Study a topic and write your thoughts and some notes about it)
+- (text-question-answer, Answer detailed questions about what you have studied)
+- (writing-scaffold, Write using sentence frames to help you write longer)
+- (reflection-survey, Share your impressions and thoughts on your learning)
 
 
 cycle_type_activities
