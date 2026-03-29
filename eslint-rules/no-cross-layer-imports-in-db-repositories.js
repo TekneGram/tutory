@@ -1,15 +1,6 @@
 const { normalizeFilename, isTestFile } = require('./_utils');
 
 function isForbiddenSource(source) {
-  const isLoggerImport =
-    source === '@electron/services/logger' ||
-    source === '../services/logger' ||
-    source === '../../services/logger';
-
-  if (isLoggerImport) {
-    return false;
-  }
-
   const isIpcImport =
     source.startsWith('@electron/ipc/') ||
     source.startsWith('../ipc/') ||
@@ -42,7 +33,7 @@ module.exports = {
     schema: [],
     messages: {
       forbidden:
-        'electron/db/repositories/* must stay DB-focused and must not import from services other than the shared logger or infrastructure layers. Imports from electron/ipc/* are limited to shared contracts in electron/ipc/contracts/*.',
+        'electron/db/repositories/* must stay DB-focused and must not import from services or infrastructure layers. Imports from electron/ipc/* are limited to shared contracts in electron/ipc/contracts/*.',
     },
   },
   create(context) {

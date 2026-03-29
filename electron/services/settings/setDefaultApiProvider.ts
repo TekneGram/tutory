@@ -9,7 +9,7 @@ import {
 import { runInTransaction } from "@electron/db/sqlite";
 import type { SetDefaultApiProviderRequest, SetDefaultApiProviderResponse } from "@electron/ipc/contracts/settings.contracts";
 import { getRuntimeDbPath } from "@electron/runtime/runtimePaths";
-import { logger } from "../logger";
+import { logger } from "@electron/utilities/logger";
 
 export async function setDefaultApiProvider(
     request: SetDefaultApiProviderRequest,

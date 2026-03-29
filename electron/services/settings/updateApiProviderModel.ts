@@ -11,7 +11,7 @@ import type {
     UpdateApiProviderModelResponse,
 } from "@electron/ipc/contracts/settings.contracts";
 import { getRuntimeDbPath } from "@electron/runtime/runtimePaths";
-import { logger } from "../logger";
+import { logger } from "@electron/utilities/logger";
 
 export async function updateApiProviderModel(
     request: UpdateApiProviderModelRequest,

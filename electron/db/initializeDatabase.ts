@@ -1,4 +1,4 @@
-import { logger } from "@electron/services/logger";
+import { logger } from "@electron/utilities/logger";
 import { getRuntimeDbPath } from "@electron/runtime/runtimePaths";
 import { openDatabase, closeDatabase } from "./sqlite";
 import { runMigrationsFromFiles } from "./runMigrations";

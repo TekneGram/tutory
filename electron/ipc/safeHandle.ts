@@ -1,6 +1,6 @@
 import { ipcMain, type IpcMainInvokeEvent } from "electron";
 import { randomUUID } from "node:crypto";
-import { logger } from "../services/logger";
+import { logger } from "@electron/utilities/logger";
 import { toAppError, type Result, type AppError, type AppErrorCode } from "../core/appError";
 import type { RequestContext } from "../core/requestContext";
 

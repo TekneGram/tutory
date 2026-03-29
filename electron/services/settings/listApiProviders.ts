@@ -1,5 +1,5 @@
 import type { RequestContext } from "@electron/core/requestContext"
-import { logger } from "@electron/services/logger";
+import { logger } from "@electron/utilities/logger";
 import { createAppDatabase } from "@electron/db/appDatabase";
 import { getRuntimeDbPath } from "@electron/runtime/runtimePaths";
 import { listApiProvidersRows } from "@electron/db/repositories/apiRepositories";

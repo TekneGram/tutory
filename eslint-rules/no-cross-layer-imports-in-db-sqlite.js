@@ -1,14 +1,6 @@
 const { normalizeFilename, isTestFile } = require('./_utils');
 
 function isForbiddenSource(source) {
-  const isLoggerImport =
-    source === '@electron/services/logger' ||
-    source === '../services/logger';
-
-  if (isLoggerImport) {
-    return false;
-  }
-
   const isIpcImport =
     source.startsWith('@electron/ipc/') ||
     source.startsWith('../ipc/');
@@ -38,7 +30,7 @@ module.exports = {
     schema: [],
     messages: {
       forbidden:
-        'electron/db/sqlite.ts must remain generic and must not import repositories, infrastructure, or services other than the shared logger. Imports from electron/ipc/* are limited to shared contracts in electron/ipc/contracts/*.',
+        'electron/db/sqlite.ts must remain generic and must not import repositories, infrastructure, or services. Imports from electron/ipc/* are limited to shared contracts in electron/ipc/contracts/*.',
     },
   },
   create(context) {
