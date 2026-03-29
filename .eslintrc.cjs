@@ -35,5 +35,6 @@ module.exports = {
     'one-component-per-tsx-file': 'error',
     'no-cross-layer-imports-in-db-repositories': 'error',
     'no-cross-layer-imports-in-db-sqlite': 'error',
+    'no-cross-layer-imports-in-core': 'error',
   },
 }

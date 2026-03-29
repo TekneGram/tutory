@@ -1,13 +1,23 @@
 const { normalizeFilename, isTestFile } = require('./_utils');
 
 function isForbiddenSource(source) {
-  return (
+  const isIpcImport =
     source.startsWith('@electron/ipc/') ||
+    source.startsWith('../ipc/') ||
+    source.startsWith('../../ipc/');
+
+  if (isIpcImport) {
+    return !(
+      source.startsWith('@electron/ipc/contracts/') ||
+      source.startsWith('../ipc/contracts/') ||
+      source.startsWith('../../ipc/contracts/')
+    );
+  }
+
+  return (
     source.startsWith('@electron/services/') ||
     source.startsWith('@electron/runtime/') ||
     source.startsWith('@electron/infrastructure/') ||
-    source.startsWith('../ipc/') ||
-    source.startsWith('../../ipc/') ||
     source.startsWith('../services/') ||
     source.startsWith('../../services/') ||
     source.startsWith('../runtime/') ||
@@ -26,7 +36,7 @@ module.exports = {
     schema: [],
     messages: {
       forbidden:
-        'electron/db/repositories/* must stay DB-focused and must not import from ipc, services, runtime, or infrastructure layers.',
+        'electron/db/repositories/* must stay DB-focused and must not import from services, runtime, or infrastructure layers. Imports from electron/ipc/* are limited to shared contracts in electron/ipc/contracts/*.',
     },
   },
   create(context) {
