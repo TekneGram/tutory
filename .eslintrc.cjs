@@ -14,5 +14,11 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    'no-window-api-outside-adapters': 'error',
+    'no-electron-imports-in-src': 'error',
+    'no-ipc-imports-in-services': 'error',
+    'no-react-toastify-outside-notifications': 'error',
+    'no-safehandle-outside-ipc': 'error',
+    'require-frontapperror-on-appresult-unwrap': 'error',
   },
 }
