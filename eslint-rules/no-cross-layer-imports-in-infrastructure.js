@@ -9,15 +9,6 @@ function isIpcContractsImport(source) {
 }
 
 function isForbiddenSource(source) {
-  const isLoggerImport =
-    source === '@electron/services/logger' ||
-    source === '../services/logger' ||
-    source === '../../services/logger';
-
-  if (isLoggerImport) {
-    return false;
-  }
-
   const isIpcImport =
     source.startsWith('@electron/ipc/') ||
     source.startsWith('../ipc/') ||
@@ -46,7 +37,7 @@ module.exports = {
     schema: [],
     messages: {
       forbidden:
-        'electron/infrastructure/* must not import from services other than the shared logger or from db. Imports from electron/ipc/* are limited to shared contracts in electron/ipc/contracts/*.',
+        'electron/infrastructure/* must not import from services or from db. Imports from electron/ipc/* are limited to shared contracts in electron/ipc/contracts/*.',
     },
   },
   create(context) {

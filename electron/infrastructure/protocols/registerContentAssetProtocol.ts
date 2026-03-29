@@ -6,7 +6,7 @@ import fs from "node:fs";
 
 import { raiseAppError } from '@electron/core/appException';
 import { toAppError } from '@electron/core/appError';
-import { logger } from '@electron/services/logger';
+import { logger } from "@electron/utilities/logger";
 
 function getBundledContentRoot(): string {
     return app.isPackaged

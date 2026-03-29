@@ -9,7 +9,7 @@ import type { SaveApiProviderKeyRequest, SaveApiProviderKeyResponse } from "@ele
 import { getProviderSecretKey } from "@electron/llm/createCredentialProvider";
 import type { SecretStoragePort } from "@electron/infrastructure/ports/secretStorage.port";
 import { getRuntimeDbPath } from "@electron/runtime/runtimePaths";
-import { logger } from "../logger";
+import { logger } from "@electron/utilities/logger";
 
 export async function saveApiProviderKey(
     request: SaveApiProviderKeyRequest,
