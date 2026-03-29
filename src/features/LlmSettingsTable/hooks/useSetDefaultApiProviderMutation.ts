@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { settingsAdapter } from "@/app/adapters/settings.adapters";
 import type {
     SetDefaultApiProviderRequest,
     SetDefaultApiProviderResponse,
@@ -11,7 +10,7 @@ export function useSetDefaultApiProviderMutation() {
     const queryClient = useQueryClient();
 
     return useMutation<SetDefaultApiProviderResponse, Error, SetDefaultApiProviderRequest>({
-        mutationFn: (request) => setDefaultApiProvider(settingsAdapter, request),
+        mutationFn: setDefaultApiProvider,
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: llmProviderSettingsQueryKey });
         },

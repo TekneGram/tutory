@@ -1,16 +1,13 @@
+import { settingsAdapter } from "@/app/adapters/settings.adapters";
 import { toastifyNotifier } from "@/app/adapters/notifications";
 import { FrontAppError } from "@/app/errors/FrontAppError";
 import type {
     DeleteApiProviderKeyRequest,
     DeleteApiProviderKeyResponse,
-    SettingsPort,
 } from "@/app/ports/settings.ports";
 
-export async function deleteApiProviderKey(
-    port: SettingsPort,
-    request: DeleteApiProviderKeyRequest,
-): Promise<DeleteApiProviderKeyResponse> {
-    const result = await port.deleteApiProviderKey(request);
+export async function deleteApiProviderKey(request: DeleteApiProviderKeyRequest): Promise<DeleteApiProviderKeyResponse> {
+    const result = await settingsAdapter.deleteApiProviderKey(request);
 
     if (!result.ok) {
         toastifyNotifier.error(result.error.userMessage, { id: `delete-provider-key-${request.provider}` });
