@@ -1,7 +1,7 @@
 import '@/styles/layout.css';
 
-import SettingsView from './SettingsView/SettingsView';
-import HomeView from './HomeView/HomeView';
+import SettingsView from './SettingsView';
+import HomeView from './HomeView';
 import { useNavigation } from '@/app/providers/useNavigation';
 
 
