@@ -345,24 +345,21 @@
 
 
 /* ============================================================
-   SUBJECT MAIN VIEWS (English / Mathematics)
+   LEARNING MAIN VIEW
    ============================================================ */
-.english-main-view,
-.mathematics-main-view {
+.learning-main-view {
     display: grid;
     gap: var(--space-6);
     margin: 0 auto;
     padding: var(--space-6) 0;
 }
 
-.english-main-view-header,
-.mathematics-main-view-header {
+.learning-main-view-header {
     display: grid;
     gap: var(--space-2);
 }
 
-.english-main-view-kicker,
-.mathematics-main-view-kicker {
+.learning-main-view-kicker {
     margin: 0;
     font-size: var(--font-size-label-md);
     font-weight: var(--font-weight-semibold);
@@ -371,8 +368,7 @@
     color: var(--color-accent);
 }
 
-.english-main-view-title,
-.mathematics-main-view-title {
+.learning-main-view-title {
     margin: 0;
     font-family: var(--font-display);
     font-size: clamp(1.6rem, 3vw, 2.2rem);
@@ -380,15 +376,15 @@
     letter-spacing: var(--letter-spacing-display-mid);
 }
 
-.english-main-view-learner-id,
-.mathematics-main-view-learner-id {
+.learning-main-view-learner-id,
+.learning-main-view-unit-id,
+.learning-main-view-unit-cycle-id {
     margin: 0;
     font-size: var(--font-size-caption-md);
     color: var(--color-text-muted);
 }
 
-.english-main-view-body,
-.mathematics-main-view-body {
+.learning-main-view-body {
     padding: var(--space-8) var(--space-6);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-3xl);
@@ -396,46 +392,18 @@
     min-height: 200px;
 }
 
-.english-main-view-placeholder,
-.mathematics-main-view-placeholder {
+.learning-main-view-placeholder {
     margin: 0;
     color: var(--color-text-muted);
     text-align: center;
 }
 
-.english-main-view-footer,
-.mathematics-main-view-footer {
+.learning-main-view-footer {
     display: flex;
 }
 
-.english-main-view-back-button,
-.mathematics-main-view-back-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-2) var(--space-5);
-    border: 1px solid var(--color-button-secondary-border);
-    border-radius: var(--radius-pill);
-    background: var(--color-button-secondary-bg);
-    color: var(--color-button-secondary-text);
-    font: inherit;
-    font-weight: var(--font-weight-medium);
-    cursor: pointer;
-    transition:
-        background-color var(--motion-duration-fast) var(--motion-ease-standard),
-        transform var(--motion-duration-fast) var(--motion-ease-standard);
-}
-
-.english-main-view-back-button:hover,
-.mathematics-main-view-back-button:hover {
-    background: var(--color-button-secondary-hover-bg);
-    transform: translateY(-1px);
-}
-
-.english-main-view-back-button:focus-visible,
-.mathematics-main-view-back-button:focus-visible {
-    outline: 2px solid var(--color-focus-ring);
-    outline-offset: 3px;
+.learning-main-view-back-button {
+    min-width: 0;
 }
 
 

@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import MainView from "../MainView";
 import { NavigationContext } from "@/app/providers/navigation-context";
 import type { NavigationState } from "@/app/providers/navigation-state";
@@ -8,8 +8,9 @@ const homeViewSpy = vi.fn();
 const settingsViewSpy = vi.fn();
 const profileViewSpy = vi.fn();
 const learningEntrySpy = vi.fn();
-const englishMainSpy = vi.fn();
-const mathematicsMainSpy = vi.fn();
+const unitFrontSpy = vi.fn();
+const unitCyclesSpy = vi.fn();
+const learningMainSpy = vi.fn();
 
 vi.mock("../HomeView", () => ({
   default: (props: {
@@ -67,36 +68,132 @@ vi.mock("../Profile", () => ({
 }));
 
 vi.mock("../LearningEntry", () => ({
-  default: (props: { learnerId: string }) => {
+  default: (props: {
+    learnerId: string;
+    onEnterUnitFront: (learnerId: string, learningType: "english" | "mathematics") => void;
+    onGoHome: () => void;
+  }) => {
     learningEntrySpy(props);
 
     return (
       <div className="mock-learning-entry-view">
         <span className="mock-learning-entry-view-learner-id">{props.learnerId}</span>
+        <button
+          className="mock-learning-entry-view-open-english"
+          type="button"
+          onClick={() => props.onEnterUnitFront(props.learnerId, "english")}
+        >
+          open-english
+        </button>
+        <button
+          className="mock-learning-entry-view-open-math"
+          type="button"
+          onClick={() => props.onEnterUnitFront(props.learnerId, "mathematics")}
+        >
+          open-math
+        </button>
+        <button className="mock-learning-entry-view-home" type="button" onClick={props.onGoHome}>
+          home
+        </button>
       </div>
     );
   },
 }));
 
-vi.mock("../EnglishMain", () => ({
-  default: (props: { learnerId: string }) => {
-    englishMainSpy(props);
+vi.mock("../UnitFront", () => ({
+  default: (props: {
+    learnerId: string;
+    learningType: "english" | "mathematics";
+    onEnterUnitCycles: (learnerId: string, learningType: "english" | "mathematics", unitId: string) => void;
+    onBackToLearningEntry: (learnerId: string) => void;
+  }) => {
+    unitFrontSpy(props);
 
     return (
-      <div className="mock-english-main-view">
-        <span className="mock-english-main-view-learner-id">{props.learnerId}</span>
+      <div className="mock-unit-front-view">
+        <span className="mock-unit-front-view-learner-id">{props.learnerId}</span>
+        <span className="mock-unit-front-view-type">{props.learningType}</span>
+        <button
+          className="mock-unit-front-view-open-unit"
+          type="button"
+          onClick={() => props.onEnterUnitCycles(props.learnerId, props.learningType, "unit-1")}
+        >
+          open-unit
+        </button>
+        <button
+          className="mock-unit-front-view-back"
+          type="button"
+          onClick={() => props.onBackToLearningEntry(props.learnerId)}
+        >
+          back-learning
+        </button>
       </div>
     );
   },
 }));
 
-vi.mock("../MathematicsMain", () => ({
-  default: (props: { learnerId: string }) => {
-    mathematicsMainSpy(props);
+vi.mock("../UnitCycles", () => ({
+  default: (props: {
+    learnerId: string;
+    learningType: "english" | "mathematics";
+    unitId: string;
+    onEnterLearningMain: (
+      learnerId: string,
+      learningType: "english" | "mathematics",
+      unitId: string,
+      unitCycleId: string,
+    ) => void;
+    onBackToUnitFront: (learnerId: string, learningType: "english" | "mathematics") => void;
+  }) => {
+    unitCyclesSpy(props);
 
     return (
-      <div className="mock-mathematics-main-view">
-        <span className="mock-mathematics-main-view-learner-id">{props.learnerId}</span>
+      <div className="mock-unit-cycles-view">
+        <span className="mock-unit-cycles-view-learner-id">{props.learnerId}</span>
+        <span className="mock-unit-cycles-view-type">{props.learningType}</span>
+        <span className="mock-unit-cycles-view-unit-id">{props.unitId}</span>
+        <button
+          className="mock-unit-cycles-view-open-cycle"
+          type="button"
+          onClick={() => props.onEnterLearningMain(props.learnerId, props.learningType, props.unitId, "cycle-1")}
+        >
+          open-cycle
+        </button>
+        <button
+          className="mock-unit-cycles-view-back"
+          type="button"
+          onClick={() => props.onBackToUnitFront(props.learnerId, props.learningType)}
+        >
+          back-front
+        </button>
+      </div>
+    );
+  },
+}));
+
+vi.mock("../LearningMain", () => ({
+  default: (props: {
+    learnerId: string;
+    learningType: "english" | "mathematics";
+    unitId: string;
+    unitCycleId: string;
+    onBackToUnitCycles: (learnerId: string, learningType: "english" | "mathematics", unitId: string) => void;
+  }) => {
+    learningMainSpy(props);
+
+    return (
+      <div className="mock-learning-main-view">
+        <span className="mock-learning-main-view-learner-id">{props.learnerId}</span>
+        <span className="mock-learning-main-view-type">{props.learningType}</span>
+        <span className="mock-learning-main-view-unit-id">{props.unitId}</span>
+        <span className="mock-learning-main-view-unit-cycle-id">{props.unitCycleId}</span>
+        <button
+          className="mock-learning-main-view-back"
+          type="button"
+          onClick={() => props.onBackToUnitCycles(props.learnerId, props.learningType, props.unitId)}
+        >
+          back-front
+        </button>
       </div>
     );
   },
@@ -108,13 +205,23 @@ function renderMainView(state: NavigationState) {
   render(
     <NavigationContext.Provider value={{ navigationState: state, dispatch }}>
       <MainView />
-    </NavigationContext.Provider>
+    </NavigationContext.Provider>,
   );
 
   return { dispatch };
 }
 
 describe("MainView", () => {
+  beforeEach(() => {
+    homeViewSpy.mockReset();
+    settingsViewSpy.mockReset();
+    profileViewSpy.mockReset();
+    learningEntrySpy.mockReset();
+    unitFrontSpy.mockReset();
+    unitCyclesSpy.mockReset();
+    learningMainSpy.mockReset();
+  });
+
   it("wires home actions into navigation dispatches", () => {
     const { dispatch } = renderMainView({ kind: "home" });
 
@@ -129,27 +236,112 @@ describe("MainView", () => {
     expect(dispatch).toHaveBeenCalledWith({ type: "go-profile-edit", learnerId: "learner-1" });
   });
 
-  it("passes payloads through profile and entry branches", () => {
+  it("passes payloads through profile, entry, and learning front branches", () => {
     renderMainView({ kind: "profile", mode: "edit", learnerId: "learner-7" });
     expect(profileViewSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         mode: "edit",
         learnerId: "learner-7",
-      })
+      }),
     );
 
-    renderMainView({ kind: "learning-entry", learnerId: "learner-8" });
+    const { dispatch } = renderMainView({ kind: "learning-entry", learnerId: "learner-8" });
     expect(learningEntrySpy).toHaveBeenCalledWith(
       expect.objectContaining({
         learnerId: "learner-8",
-      })
+      }),
     );
 
-    renderMainView({ kind: "english-main", learnerId: "learner-9" });
-    expect(englishMainSpy).toHaveBeenCalledWith(
+    fireEvent.click(screen.getByRole("button", { name: "open-english" }));
+    expect(dispatch).toHaveBeenCalledWith({
+      type: "go-unit-front",
+      learnerId: "learner-8",
+      learningType: "english",
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "open-math" }));
+    expect(dispatch).toHaveBeenCalledWith({
+      type: "go-unit-front",
+      learnerId: "learner-8",
+      learningType: "mathematics",
+    });
+  });
+
+  it("wires learning front into the next navigation step", () => {
+    const { dispatch } = renderMainView({
+      kind: "unit-front",
+      learnerId: "learner-9",
+      learningType: "english",
+    });
+    expect(unitFrontSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         learnerId: "learner-9",
-      })
+        learningType: "english",
+      }),
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "open-unit" }));
+    expect(dispatch).toHaveBeenCalledWith({
+      type: "go-unit-cycles",
+      learnerId: "learner-9",
+      learningType: "english",
+      unitId: "unit-1",
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "back-learning" }));
+    expect(dispatch).toHaveBeenCalledWith({
+      type: "go-learning-entry",
+      learnerId: "learner-9",
+    });
+  });
+
+  it("wires learning cycles into the next navigation step", () => {
+    const { dispatch } = renderMainView({
+      kind: "unit-cycles",
+      learnerId: "learner-10",
+      learningType: "mathematics",
+      unitId: "unit-7",
+    });
+    expect(unitCyclesSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        learnerId: "learner-10",
+        learningType: "mathematics",
+        unitId: "unit-7",
+      }),
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "open-cycle" }));
+    expect(dispatch).toHaveBeenCalledWith({
+      type: "go-learning-main",
+      learnerId: "learner-10",
+      learningType: "mathematics",
+      unitId: "unit-7",
+      unitCycleId: "cycle-1",
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "back-front" }));
+    expect(dispatch).toHaveBeenCalledWith({
+      type: "go-unit-front",
+      learnerId: "learner-10",
+      learningType: "mathematics",
+    });
+  });
+
+  it("passes the unit id and learning type through the learning main branch", () => {
+    renderMainView({
+      kind: "learning-main",
+      learnerId: "learner-10",
+      learningType: "mathematics",
+      unitId: "unit-9",
+      unitCycleId: "cycle-9",
+    });
+    expect(learningMainSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        learnerId: "learner-10",
+        learningType: "mathematics",
+        unitId: "unit-9",
+        unitCycleId: "cycle-9",
+      }),
     );
   });
 });

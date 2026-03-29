@@ -30,17 +30,39 @@ describe("navigationReducer", () => {
     });
 
     expect(
-      navigationReducer({ kind: "home" }, { type: "go-english-main", learnerId: "learner-3" })
+      navigationReducer({ kind: "home" }, { type: "go-unit-front", learnerId: "learner-3", learningType: "english" })
     ).toEqual({
-      kind: "english-main",
+      kind: "unit-front",
       learnerId: "learner-3",
+      learningType: "english",
     });
 
     expect(
-      navigationReducer({ kind: "home" }, { type: "go-mathematics-main", learnerId: "learner-4" })
+      navigationReducer(
+        { kind: "home" },
+        { type: "go-unit-cycles", learnerId: "learner-4", learningType: "mathematics", unitId: "unit-1" }
+      )
     ).toEqual({
-      kind: "mathematics-main",
+      kind: "unit-cycles",
       learnerId: "learner-4",
+      learningType: "mathematics",
+      unitId: "unit-1",
+    });
+
+    expect(
+      navigationReducer({ kind: "home" }, {
+        type: "go-learning-main",
+        learnerId: "learner-5",
+        learningType: "mathematics",
+        unitId: "unit-1",
+        unitCycleId: "cycle-1",
+      })
+    ).toEqual({
+      kind: "learning-main",
+      learnerId: "learner-5",
+      learningType: "mathematics",
+      unitId: "unit-1",
+      unitCycleId: "cycle-1",
     });
   });
 });
