@@ -20,5 +20,9 @@ module.exports = {
     'no-react-toastify-outside-notifications': 'error',
     'no-safehandle-outside-ipc': 'error',
     'require-frontapperror-on-appresult-unwrap': 'error',
+    'no-window-api-invoke-outside-invokerequest': 'error',
+    'no-invokerequest-import-in-features': 'error',
+    'no-backend-dto-imports-outside-app': 'error',
+    'no-toast-outside-notifications': 'error',
   },
 }
