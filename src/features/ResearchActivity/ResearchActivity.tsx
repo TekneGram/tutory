@@ -1,5 +1,6 @@
+import type { ActivityComponentProps } from "@/features/ActivityDisplay/types/activityDisplay.types";
 
-const ResearchActivity = () => {
+const ResearchActivity = (_props: ActivityComponentProps) => {
 
     return (
         <>

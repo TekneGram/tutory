@@ -1,5 +1,6 @@
+import type { ActivityComponentProps } from "@/features/ActivityDisplay/types/activityDisplay.types";
 
-const MultiChoiceQuizActivity = () => {
+const MultiChoiceQuizActivity = (_props: ActivityComponentProps) => {
 
     return (
         <>

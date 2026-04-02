@@ -1,17 +1,29 @@
 import ActivityTab from "./ActivityTab";
-const ActivityTabs = () => {
+import type { UnitCycleActivityListItemDto } from "@/app/ports/activities.ports";
 
-    const createActivityTabs = () => {
-        return (
-            {ActivityTab}
-        );
-    };
+type ActivityTabsProps = {
+  activities: UnitCycleActivityListItemDto[];
+  selectedActivityId: string | null;
+  onSelectActivity: (unitCycleActivityId: string) => void;
+};
 
-    return(
-        <>
-            {createActivityTabs}
-        </>
-    );
+const ActivityTabs = ({
+  activities,
+  selectedActivityId,
+  onSelectActivity,
+}: ActivityTabsProps) => {
+  return (
+    <div aria-label="Cycle activities" className="activity-display-tabs" role="tablist">
+      {activities.map((activity) => (
+        <ActivityTab
+          key={activity.unitCycleActivityId}
+          activity={activity}
+          isSelected={activity.unitCycleActivityId === selectedActivityId}
+          onSelect={onSelectActivity}
+        />
+      ))}
+    </div>
+  );
 };
 
 export default ActivityTabs;

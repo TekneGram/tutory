@@ -1,5 +1,6 @@
+import type { ActivityComponentProps } from "@/features/ActivityDisplay/types/activityDisplay.types";
 
-const VocabReviewActivity = () => {
+const VocabReviewActivity = (_props: ActivityComponentProps) => {
 
     return (
         <>

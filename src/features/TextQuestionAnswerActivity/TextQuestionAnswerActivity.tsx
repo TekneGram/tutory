@@ -1,5 +1,6 @@
+import type { ActivityComponentProps } from "@/features/ActivityDisplay/types/activityDisplay.types";
 
-const TextQuestionAnswerActivity = () => {
+const TextQuestionAnswerActivity = (_props: ActivityComponentProps) => {
 
     return (
         <>

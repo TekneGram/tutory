@@ -1,0 +1,104 @@
+.image-container {
+  display: grid;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.image-container-shell {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.image-container-frame {
+  margin: 0;
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-4xl);
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.45), transparent 42%),
+    linear-gradient(180deg, var(--color-surface-raised), var(--color-surface));
+  box-shadow:
+    var(--shadow-md),
+    var(--shadow-inset-highlight);
+  overflow: hidden;
+}
+
+.image-container-image {
+  display: block;
+  width: 100%;
+  max-height: min(68vh, 520px);
+  object-fit: contain;
+  object-position: center;
+  border-radius: calc(var(--radius-4xl) - 4px);
+  background: var(--color-surface-muted);
+}
+
+.image-container-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--shadow-interactive);
+  transition:
+    transform var(--motion-duration-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-fast) var(--motion-ease-standard),
+    border-color var(--motion-duration-fast) var(--motion-ease-standard),
+    background-color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.image-container-control:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: var(--color-accent);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-interactive-hover);
+}
+
+.image-container-control:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 3px;
+}
+
+.image-container-control:disabled {
+  cursor: default;
+  opacity: 0.45;
+  box-shadow: none;
+}
+
+.image-container-footer {
+  display: flex;
+  justify-content: center;
+}
+
+.image-container-counter {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-raised);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-caption-md);
+}
+
+@media (max-width: 640px) {
+  .image-container-shell {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: var(--space-2);
+  }
+
+  .image-container-control {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
