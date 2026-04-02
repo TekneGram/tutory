@@ -1,5 +1,6 @@
+import type { ActivityComponentProps } from "@/features/ActivityDisplay/types/activityDisplay.types";
 
-const WritingScaffoldActivity = () => {
+const WritingScaffoldActivity = (_props: ActivityComponentProps) => {
 
     return (
         <>

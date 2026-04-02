@@ -1,0 +1,126 @@
+.feedback-card {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-3xl);
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.78), transparent 44%),
+    linear-gradient(180deg, var(--color-surface-raised), var(--color-surface));
+  box-shadow: var(--shadow-md);
+}
+
+.feedback-form {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.feedback-header {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.feedback-kicker {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-label-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
+}
+
+.feedback-question {
+  margin: 0;
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  letter-spacing: var(--letter-spacing-display-tight);
+}
+
+.feedback-options {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.feedback-legend {
+  margin-bottom: var(--space-3);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-caption-md);
+}
+
+.feedback-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(88px, 1fr));
+  gap: var(--space-3);
+}
+
+.feedback-option {
+  display: grid;
+  place-items: center;
+  min-height: 60px;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  background: var(--color-surface-raised);
+  cursor: pointer;
+  transition:
+    border-color var(--motion-duration-fast) var(--motion-ease-standard),
+    background-color var(--motion-duration-fast) var(--motion-ease-standard),
+    transform var(--motion-duration-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.feedback-option:hover {
+  transform: translateY(-1px);
+  border-color: var(--color-accent-soft);
+  box-shadow: var(--shadow-sm);
+}
+
+.feedback-option.is-selected {
+  border-color: var(--color-input-focus-border);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), var(--color-accent-soft));
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+.feedback-option.is-disabled {
+  cursor: default;
+  opacity: 0.7;
+  transform: none;
+  box-shadow: none;
+}
+
+.feedback-option-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.feedback-option-label {
+  color: var(--color-text);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.feedback-comment-field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.feedback-comment-label {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-label-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
+}
+
+.feedback-comment-input {
+  min-height: 88px;
+  resize: vertical;
+}
+
+.feedback-actions {
+  display: flex;
+  justify-content: flex-end;
+}

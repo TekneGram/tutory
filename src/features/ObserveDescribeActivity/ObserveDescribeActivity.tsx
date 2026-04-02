@@ -1,5 +1,6 @@
+import type { ActivityComponentProps } from "@/features/ActivityDisplay/types/activityDisplay.types";
 
-const ObserveDescribeActivity = () => {
+const ObserveDescribeActivity = (_props: ActivityComponentProps) => {
 
     return (
         <>

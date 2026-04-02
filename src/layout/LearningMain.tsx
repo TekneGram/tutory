@@ -54,11 +54,16 @@ const LearningMain = ({
       </header>
 
       <div className="learning-main-view-body">
+        <HeaderBar />
+        <Sidebar />
+        <ActivityDisplay
+          learnerId={learnerId}
+          learningType={learningType}
+          unitId={unitId}
+          unitCycleId={unitCycleId}
+        />
+        <AssistantDisplay />
         <p className="learning-main-view-placeholder">{copy.placeholder}</p>
-        {/* HeaderBar */}
-        {/* Sidebar */}
-        {/* ActivityDisplay */}
-        {/* AssistantDisplay */}
       </div>
 
       <footer className="learning-main-view-footer">
