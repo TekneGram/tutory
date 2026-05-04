@@ -280,3 +280,42 @@ export function upsertActivityStoryAnswerRow(
         ]
     );
 }
+
+/**
+ * Multi Choice Quiz
+ */
+export type ActivityMultiChoiceQuizAnswerRow = {
+    attempt_id: string;
+    learner_id: string;
+    unit_cycle_activity_id: string;
+    question: string;
+    is_answered: boolean;
+    selected_option: string | null;
+    is_correct: boolean;
+    created_at: string;
+    updated_at: string;
+};
+
+export function getMultiChoiceQuizAnswerRowsByAttemptId(
+    db: SqliteDatabase,
+    attemptId: string
+) {
+    return queryAll<ActivityMultiChoiceQuizAnswerRow>(
+        db,
+        `
+            SELECT
+                mcqa.attempt_id AS attempt_id,
+                mcqa.learner_id AS learner_id,
+                mcqa.unit_cycle_activity_id AS unit_cycle_activity_id,
+                mcqa.question AS question,
+                mcqa.is_answered AS is_answered,
+                mcqa.selected_option AS selected_option,
+                mcqa.is_correct AS is_correct,
+                mcqa.created_at AS created_at,
+                mcqa.updated_at AS updated_at
+            FROM multi_choice_quiz_answers mcqa
+            WHERE mcqa.attempt_id = ?
+        `,
+        [attemptId]
+    );
+}

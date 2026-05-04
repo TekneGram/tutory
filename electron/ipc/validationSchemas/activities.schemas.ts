@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type {
+    GetMultiChoiceQuizActivityRequest,
     GetStoryActivityRequest,
     ListUnitCycleActivitiesRequest,
     SubmitStoryFeedbackRequest,
@@ -30,5 +31,12 @@ export const submitStoryFeedbackSchema: z.ZodType<SubmitStoryFeedbackRequest> = 
         unitCycleActivityId: unitCycleActivityIdSchema,
         selectedAnswer: selectedAnswerSchema,
         comment: commentSchema,
+    })
+    .strict();
+
+export const getMultiChoiceQuizActivitySchema: z.ZodType<GetMultiChoiceQuizActivityRequest> = z
+    .object({
+        learnerId: learnerIdSchema,
+        unitCycleActivityId: unitCycleActivityIdSchema,
     })
     .strict();

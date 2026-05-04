@@ -7,6 +7,8 @@ import type {
   ListUnitCycleActivitiesResponse,
   SubmitStoryFeedbackRequest,
   SubmitStoryFeedbackResponse,
+  GetMultiChoiceQuizActivityRequest,
+  GetMultiChoiceQuizActivityResponse,
 } from "@/app/ports/activities.ports";
 
 export const activitiesAdapter: ActivitiesPort = {
@@ -28,4 +30,10 @@ export const activitiesAdapter: ActivitiesPort = {
       request,
     );
   },
+  async getMultiChoiceQuizActivity(request: GetMultiChoiceQuizActivityRequest) {
+    return invokeRequest<GetMultiChoiceQuizActivityRequest, GetMultiChoiceQuizActivityResponse>(
+      "activities:multi-choice-quiz:get-quiz",
+      request,
+    )
+  }
 };

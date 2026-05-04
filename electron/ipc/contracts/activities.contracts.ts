@@ -106,3 +106,67 @@ export type SubmitStoryFeedbackResponse = {
         isCompleted: true;
     };
 };
+
+/**
+ * Multi Choice Quiz Activity
+ */
+export type GetMultiChoiceQuizActivityRequest = {
+    learnerId: string;
+    unitCycleActivityId: string;
+};
+
+export type MultiChoiceQuizImageRefDto = {
+  order: number;
+  imageRef: string;
+};
+
+export type MultiChoiceQuizAudioRefDto = {
+  order: number;
+  audioRef: string;
+};
+
+export type MultiChoiceQuizVideoRefDto = {
+  order: number;
+  videoRef: string;
+};
+
+export type MultiChoiceQuizAnswer = {
+  option: string;
+  answer: string;
+  is_correct: boolean;
+}
+
+export type MultiChoiceQuizQuestion = {
+  question: string;
+  answers: MultiChoiceQuizAnswer[];
+}
+
+export type MultiChoiceQuizLearnerAnswer = {
+    attemptId: string;
+    learnerId: string;
+    unitCycleActivityId: string;
+    question: string;
+    isAnswered: boolean;
+    selectedOption: string | null;
+    isCorrect: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export type GetMultiChoiceQuizActivityResponse = {
+  multiChoiceQuiz: {
+    instructions: string;
+    advice: string;
+    title: string;
+    assetBase: string | null;
+    assets: {
+      imageRefs: MultiChoiceQuizImageRefDto[];
+      audioRefs: MultiChoiceQuizAudioRefDto[];
+      videoRefs: MultiChoiceQuizVideoRefDto[];
+    },
+    questions: MultiChoiceQuizQuestion[];
+    learnerAnswers: MultiChoiceQuizLearnerAnswer[];
+  }
+};
+
+
