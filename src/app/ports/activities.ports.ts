@@ -1,4 +1,18 @@
 import type { AppResult } from "@/app/types/result";
+import type {
+  CheckMultiChoiceQuizAnswersRequest,
+  CheckMultiChoiceQuizAnswersResponse,
+  GetMultiChoiceQuizActivityRequest,
+  GetMultiChoiceQuizActivityResponse,
+  RetryMultiChoiceQuizRequest,
+  RetryMultiChoiceQuizResponse,
+} from "./activities/multichoicequiz.ports";
+import type {
+  GetStoryActivityRequest,
+  GetStoryActivityResponse,
+  SubmitStoryFeedbackRequest,
+  SubmitStoryFeedbackResponse,
+} from "./activities/story.ports";
 
 export type ActivityType =
   | "story"
@@ -37,180 +51,6 @@ export type ListUnitCycleActivitiesResponse = {
   activities: UnitCycleActivityListItemDto[];
 };
 
-export type StoryFeedbackDto = {
-  question: string;
-  answers: [string, string, string] | string[];
-  comment: string;
-};
-
-export type StoryImageRefDto = {
-  order: number;
-  imageRef: string;
-};
-
-export type StoryAudioRefDto = {
-  order: number;
-  audioRef: string;
-};
-
-export type StoryVideoRefDto = {
-  order: number;
-  videoRef: string;
-};
-
-export type StoryPassagePageDto = {
-  order: number;
-  text: string;
-};
-
-export type StoryWordDto = {
-  word: string;
-  japanese: string;
-  position: number;
-};
-
-export type GetStoryActivityRequest = {
-  learnerId: string;
-  unitCycleActivityId: string;
-};
-
-export type GetStoryActivityResponse = {
-  story: {
-    instructions: string;
-    advice: string;
-    title: string;
-    assetBase: string | null;
-    passage: {
-      pages: StoryPassagePageDto[];
-    };
-    assets: {
-      imageRefs: StoryImageRefDto[];
-      audioRefs: StoryAudioRefDto[];
-      videoRefs: StoryVideoRefDto[];
-    };
-    words: StoryWordDto[];
-    feedback: StoryFeedbackDto;
-    completion: {
-      isCompleted: boolean;
-    };
-  };
-};
-
-export type SubmitStoryFeedbackRequest = {
-  learnerId: string;
-  unitCycleActivityId: string;
-  selectedAnswer: string;
-  comment: string;
-};
-
-export type SubmitStoryFeedbackResponse = {
-  completion: {
-    isCompleted: true;
-  };
-};
-
-/**
- * MultiChoiceQuiz
- */
-
-export type GetMultiChoiceQuizActivityRequest = {
-  learnerId: string,
-  unitCycleActivityId: string,
-};
-
-export type MultiChoiceQuizImageRefDto = {
-  order: number;
-  imageRef: string;
-};
-
-export type MultiChoiceQuizAudioRefDto = {
-  order: number;
-  audioRef: string;
-};
-
-export type MultiChoiceQuizVideoRefDto = {
-  order: number;
-  videoRef: string;
-};
-
-export type MultiChoiceQuizAnswer = {
-  optionId: string;
-  option: string;
-  answer: string;
-  is_correct: boolean;
-}
-
-export type MultiChoiceQuizQuestion = {
-  questionId: string;
-  question: string;
-  answers: MultiChoiceQuizAnswer[];
-}
-
-export type MultiChoiceQuizLearnerAnswer = {
-    attemptId: string;
-    learnerId: string;
-    unitCycleActivityId: string;
-    questionId: string;
-    isAnswered: boolean;
-    selectedOption: string | null;
-    isCorrect: boolean;
-    createdAt: string;
-    updatedAt: string;
-}
-
-export type GetMultiChoiceQuizActivityResponse = {
-  multiChoiceQuiz: {
-    instructions: string;
-    advice: string;
-    title: string;
-    assetBase: string | null;
-    assets: {
-      imageRefs: MultiChoiceQuizImageRefDto[];
-      audioRefs: MultiChoiceQuizAudioRefDto[];
-      videoRefs: MultiChoiceQuizVideoRefDto[];
-    },
-    questions: MultiChoiceQuizQuestion[];
-    learnerAnswers: MultiChoiceQuizLearnerAnswer[];
-    quizState: {
-      isChecked: boolean;
-      finalScore: number;
-      checkedAt: string | null;
-    };
-  }
-};
-
-export type CheckMultiChoiceQuizAnswersRequest = {
-  learnerId: string;
-  unitCycleActivityId: string;
-  answers: Array<{
-    questionId: string;
-    selectedOption: string;
-  }>;
-};
-
-export type CheckMultiChoiceQuizAnswersResponse = {
-  learnerAnswers: MultiChoiceQuizLearnerAnswer[];
-  quizState: {
-    isChecked: true;
-    finalScore: number;
-    checkedAt: string;
-  };
-};
-
-export type RetryMultiChoiceQuizRequest = {
-  learnerId: string;
-  unitCycleActivityId: string;
-};
-
-export type RetryMultiChoiceQuizResponse = {
-  learnerAnswers: MultiChoiceQuizLearnerAnswer[];
-  quizState: {
-    isChecked: false;
-    finalScore: 0;
-    checkedAt: null;
-  };
-};
-
 export interface ActivitiesPort {
   listUnitCycleActivities(request: ListUnitCycleActivitiesRequest): Promise<AppResult<ListUnitCycleActivitiesResponse>>;
   getStoryActivity(request: GetStoryActivityRequest): Promise<AppResult<GetStoryActivityResponse>>;
@@ -219,3 +59,20 @@ export interface ActivitiesPort {
   checkMultiChoiceQuizAnswers(request: CheckMultiChoiceQuizAnswersRequest): Promise<AppResult<CheckMultiChoiceQuizAnswersResponse>>;
   retryMultiChoiceQuiz(request: RetryMultiChoiceQuizRequest): Promise<AppResult<RetryMultiChoiceQuizResponse>>;
 }
+
+export type {
+  GetStoryActivityRequest,
+  GetStoryActivityResponse,
+  SubmitStoryFeedbackRequest,
+  SubmitStoryFeedbackResponse,
+} from "./activities/story.ports";
+
+export type {
+  GetMultiChoiceQuizActivityRequest,
+  GetMultiChoiceQuizActivityResponse,
+  MultiChoiceQuizQuestion,
+  CheckMultiChoiceQuizAnswersRequest,
+  CheckMultiChoiceQuizAnswersResponse,
+  RetryMultiChoiceQuizRequest,
+  RetryMultiChoiceQuizResponse,
+} from "./activities/multichoicequiz.ports";

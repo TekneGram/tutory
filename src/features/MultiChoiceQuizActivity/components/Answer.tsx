@@ -1,4 +1,4 @@
-import type { MultiChoiceQuizQuestion } from "@/app/ports/activities.ports";
+import type { MultiChoiceQuizQuestion } from "@/app/ports/activities/multichoicequiz.ports";
 
 type AnswerProps = {
   answers: MultiChoiceQuizQuestion["answers"];

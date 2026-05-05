@@ -4,7 +4,7 @@ import type {
   StoryFeedbackDto,
   StoryPassagePageDto,
   StoryWordDto,
-} from "@/app/ports/activities.ports";
+} from "@/app/ports/activities/story.ports";
 import Feedback, {
   type FeedbackSubmitValue,
 } from "@/features/ActivitySubComponents/Feedback/Feedback";

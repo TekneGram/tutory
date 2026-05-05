@@ -3,7 +3,7 @@ import { FrontAppError } from "@/app/errors/FrontAppError";
 import type {
   CheckMultiChoiceQuizAnswersRequest,
   CheckMultiChoiceQuizAnswersResponse,
-} from "@/app/ports/activities.ports";
+} from "@/app/ports/activities/multichoicequiz.ports";
 
 export async function checkMultiChoiceQuizAnswers(
   request: CheckMultiChoiceQuizAnswersRequest,

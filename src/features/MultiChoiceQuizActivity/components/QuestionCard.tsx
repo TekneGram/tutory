@@ -1,5 +1,5 @@
 
-import type { MultiChoiceQuizQuestion } from "@/app/ports/activities.ports";
+import type { MultiChoiceQuizQuestion } from "@/app/ports/activities/multichoicequiz.ports";
 import Question from "./Question";
 import Answer from "./Answer";
 

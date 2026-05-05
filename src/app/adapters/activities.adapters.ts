@@ -1,19 +1,23 @@
 import { invokeRequest } from "./invokeRequest";
 import type {
   ActivitiesPort,
-  GetStoryActivityRequest,
-  GetStoryActivityResponse,
   ListUnitCycleActivitiesRequest,
   ListUnitCycleActivitiesResponse,
+} from "@/app/ports/activities.ports";
+import type {
+  GetStoryActivityRequest,
+  GetStoryActivityResponse,
   SubmitStoryFeedbackRequest,
   SubmitStoryFeedbackResponse,
+} from "@/app/ports/activities/story.ports";
+import type {
   GetMultiChoiceQuizActivityRequest,
   GetMultiChoiceQuizActivityResponse,
   CheckMultiChoiceQuizAnswersRequest,
   CheckMultiChoiceQuizAnswersResponse,
   RetryMultiChoiceQuizRequest,
   RetryMultiChoiceQuizResponse,
-} from "@/app/ports/activities.ports";
+} from "@/app/ports/activities/multichoicequiz.ports";
 
 export const activitiesAdapter: ActivitiesPort = {
   async listUnitCycleActivities(request: ListUnitCycleActivitiesRequest) {

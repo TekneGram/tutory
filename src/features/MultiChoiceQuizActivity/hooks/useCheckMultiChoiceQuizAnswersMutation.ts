@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type {
   CheckMultiChoiceQuizAnswersRequest,
   GetMultiChoiceQuizActivityResponse,
-} from "@/app/ports/activities.ports";
+} from "@/app/ports/activities/multichoicequiz.ports";
 import { multiChoiceQuizActivityKey } from "./useMultiChoiceQuizActivityQuery";
 import { checkMultiChoiceQuizAnswers } from "../services/checkMultiChoiceQuizAnswers.service";
 

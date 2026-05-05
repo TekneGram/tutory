@@ -3,13 +3,12 @@ import { FrontAppError } from "@/app/errors/FrontAppError";
 import type {
     GetMultiChoiceQuizActivityRequest,
     GetMultiChoiceQuizActivityResponse,
-} from "@/app/ports/activities.ports";
+} from "@/app/ports/activities/multichoicequiz.ports";
 
 export async function getMultiChoiceQuizActivity(
     request: GetMultiChoiceQuizActivityRequest,
 ): Promise<GetMultiChoiceQuizActivityResponse> {
     const result = await activitiesAdapter.getMultiChoiceQuizActivity(request);
-    console.log(result);
 
     if (!result.ok) {
         throw new FrontAppError(result.error);

@@ -3,7 +3,7 @@ import { FrontAppError } from "@/app/errors/FrontAppError";
 import type {
   GetStoryActivityRequest,
   GetStoryActivityResponse,
-} from "@/app/ports/activities.ports";
+} from "@/app/ports/activities/story.ports";
 
 export async function getStoryActivity(
   request: GetStoryActivityRequest,
