@@ -9,8 +9,10 @@ import type {
   SubmitStoryFeedbackResponse,
   GetMultiChoiceQuizActivityRequest,
   GetMultiChoiceQuizActivityResponse,
-  SubmitMultiChoiceQuizAnswerRequest,
-  SubmitMultiChoiceQuizAnswerResponse,
+  CheckMultiChoiceQuizAnswersRequest,
+  CheckMultiChoiceQuizAnswersResponse,
+  RetryMultiChoiceQuizRequest,
+  RetryMultiChoiceQuizResponse,
 } from "@/app/ports/activities.ports";
 
 export const activitiesAdapter: ActivitiesPort = {
@@ -38,9 +40,15 @@ export const activitiesAdapter: ActivitiesPort = {
       request,
     )
   },
-  async submitMultiChoiceQuizAnswer(request: SubmitMultiChoiceQuizAnswerRequest) {
-    return invokeRequest<SubmitMultiChoiceQuizAnswerRequest, SubmitMultiChoiceQuizAnswerResponse>(
-      "activities:multi-choice-quiz:submit-answer",
+  async checkMultiChoiceQuizAnswers(request: CheckMultiChoiceQuizAnswersRequest) {
+    return invokeRequest<CheckMultiChoiceQuizAnswersRequest, CheckMultiChoiceQuizAnswersResponse>(
+      "activities:multi-choice-quiz:check-answers",
+      request,
+    );
+  },
+  async retryMultiChoiceQuiz(request: RetryMultiChoiceQuizRequest) {
+    return invokeRequest<RetryMultiChoiceQuizRequest, RetryMultiChoiceQuizResponse>(
+      "activities:multi-choice-quiz:retry",
       request,
     );
   },

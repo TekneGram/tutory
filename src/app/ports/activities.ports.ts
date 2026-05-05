@@ -171,19 +171,44 @@ export type GetMultiChoiceQuizActivityResponse = {
     },
     questions: MultiChoiceQuizQuestion[];
     learnerAnswers: MultiChoiceQuizLearnerAnswer[];
+    quizState: {
+      isChecked: boolean;
+      finalScore: number;
+      checkedAt: string | null;
+    };
   }
 };
 
-export type SubmitMultiChoiceQuizAnswerRequest = {
+export type CheckMultiChoiceQuizAnswersRequest = {
   learnerId: string;
   unitCycleActivityId: string;
-  questionId: string;
-  selectedOption: string;
-  isCorrect: boolean;
+  answers: Array<{
+    questionId: string;
+    selectedOption: string;
+  }>;
 };
 
-export type SubmitMultiChoiceQuizAnswerResponse = {
-  learnerAnswer: MultiChoiceQuizLearnerAnswer;
+export type CheckMultiChoiceQuizAnswersResponse = {
+  learnerAnswers: MultiChoiceQuizLearnerAnswer[];
+  quizState: {
+    isChecked: true;
+    finalScore: number;
+    checkedAt: string;
+  };
+};
+
+export type RetryMultiChoiceQuizRequest = {
+  learnerId: string;
+  unitCycleActivityId: string;
+};
+
+export type RetryMultiChoiceQuizResponse = {
+  learnerAnswers: MultiChoiceQuizLearnerAnswer[];
+  quizState: {
+    isChecked: false;
+    finalScore: 0;
+    checkedAt: null;
+  };
 };
 
 export interface ActivitiesPort {
@@ -191,5 +216,6 @@ export interface ActivitiesPort {
   getStoryActivity(request: GetStoryActivityRequest): Promise<AppResult<GetStoryActivityResponse>>;
   submitStoryFeedback(request: SubmitStoryFeedbackRequest): Promise<AppResult<SubmitStoryFeedbackResponse>>;
   getMultiChoiceQuizActivity(request: GetMultiChoiceQuizActivityRequest): Promise<AppResult<GetMultiChoiceQuizActivityResponse>>;
-  submitMultiChoiceQuizAnswer(request: SubmitMultiChoiceQuizAnswerRequest): Promise<AppResult<SubmitMultiChoiceQuizAnswerResponse>>;
+  checkMultiChoiceQuizAnswers(request: CheckMultiChoiceQuizAnswersRequest): Promise<AppResult<CheckMultiChoiceQuizAnswersResponse>>;
+  retryMultiChoiceQuiz(request: RetryMultiChoiceQuizRequest): Promise<AppResult<RetryMultiChoiceQuizResponse>>;
 }

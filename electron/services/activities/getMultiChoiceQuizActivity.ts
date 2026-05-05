@@ -21,6 +21,7 @@ import {
     listMultiChoiceQuizOptionRowsByActivityContentId,
     listMultiChoiceQuizQuestionRowsByActivityContentId,
     getMultiChoiceQuizAnswerRowsByAttemptId,
+    getMultiChoiceQuizStateRowByAttemptId,
 } from "@electron/db/repositories/activityRepositories";
 
 import { randomUUID } from "node:crypto";
@@ -147,6 +148,7 @@ export async function getMultiChoiceQuizActivity(
                 activity.activity_type_id
             );
             const answers = getMultiChoiceQuizAnswerRowsByAttemptId(appDatabase.db, attempt.id);
+            const quizState = getMultiChoiceQuizStateRowByAttemptId(appDatabase.db, attempt.id);
 
             const learnerAnswers = toMultiChoiceQuizLearnerAnswers(answers);
             
@@ -169,7 +171,12 @@ export async function getMultiChoiceQuizActivity(
                         videoRefs: toMultiChoiceQuizVideoRefDtos(assets),
                     },
                     questions: toMultiChoiceQuizQuestions(questions, options),
-                    learnerAnswers: learnerAnswers
+                    learnerAnswers: learnerAnswers,
+                    quizState: {
+                        isChecked: Boolean(quizState?.is_checked ?? 0),
+                        finalScore: quizState?.final_score ?? 0,
+                        checkedAt: quizState?.checked_at ?? null,
+                    },
                 },
             };
         });

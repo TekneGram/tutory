@@ -60,7 +60,7 @@ export type MultiChoiceQuizOptionRow = {
     option_key: string;
     option_order: number;
     answer_text: string;
-    is_correct: boolean;
+    is_correct: 0 | 1;
 };
 
 export type MultiChoiceQuizQuestionIdentityRow = {
@@ -465,9 +465,20 @@ export type ActivityMultiChoiceQuizAnswerRow = {
     unit_cycle_activity_id: string;
     question_id: string;
     question: string;
-    is_answered: boolean;
+    is_answered: 0 | 1;
     selected_option: string | null;
-    is_correct: boolean;
+    is_correct: 0 | 1;
+    created_at: string;
+    updated_at: string;
+};
+
+export type MultiChoiceQuizStateRow = {
+    attempt_id: string;
+    learner_id: string;
+    unit_cycle_activity_id: string;
+    is_checked: 0 | 1;
+    final_score: number;
+    checked_at: string | null;
     created_at: string;
     updated_at: string;
 };
@@ -562,6 +573,87 @@ export function upsertMultiChoiceQuizAnswerRow(
             row.is_answered,
             row.selected_option,
             row.is_correct,
+            row.created_at,
+            row.updated_at,
+        ]
+    );
+}
+
+export function resetMultiChoiceQuizAnswerRowsByAttemptId(
+    db: SqliteDatabase,
+    attemptId: string,
+    updatedAt: string
+): void {
+    executeRun(
+        db,
+        `
+            UPDATE multi_choice_quiz_answers
+            SET is_answered = 0,
+                selected_option = NULL,
+                is_correct = 0,
+                updated_at = ?
+            WHERE attempt_id = ?
+        `,
+        [updatedAt, attemptId]
+    );
+}
+
+export function getMultiChoiceQuizStateRowByAttemptId(
+    db: SqliteDatabase,
+    attemptId: string
+): MultiChoiceQuizStateRow | undefined {
+    return queryOne<MultiChoiceQuizStateRow>(
+        db,
+        `
+            SELECT
+                mcqs.attempt_id AS attempt_id,
+                mcqs.learner_id AS learner_id,
+                mcqs.unit_cycle_activity_id AS unit_cycle_activity_id,
+                mcqs.is_checked AS is_checked,
+                mcqs.final_score AS final_score,
+                mcqs.checked_at AS checked_at,
+                mcqs.created_at AS created_at,
+                mcqs.updated_at AS updated_at
+            FROM multi_choice_quiz_state mcqs
+            WHERE mcqs.attempt_id = ?
+            LIMIT 1
+        `,
+        [attemptId]
+    );
+}
+
+export function upsertMultiChoiceQuizStateRow(
+    db: SqliteDatabase,
+    row: MultiChoiceQuizStateRow
+): void {
+    executeRun(
+        db,
+        `
+            INSERT INTO multi_choice_quiz_state (
+                attempt_id,
+                learner_id,
+                unit_cycle_activity_id,
+                is_checked,
+                final_score,
+                checked_at,
+                created_at,
+                updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(attempt_id) DO UPDATE SET
+                learner_id = excluded.learner_id,
+                unit_cycle_activity_id = excluded.unit_cycle_activity_id,
+                is_checked = excluded.is_checked,
+                final_score = excluded.final_score,
+                checked_at = excluded.checked_at,
+                updated_at = excluded.updated_at
+        `,
+        [
+            row.attempt_id,
+            row.learner_id,
+            row.unit_cycle_activity_id,
+            row.is_checked,
+            row.final_score,
+            row.checked_at,
             row.created_at,
             row.updated_at,
         ]

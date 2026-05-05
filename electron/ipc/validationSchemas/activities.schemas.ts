@@ -1,9 +1,10 @@
 import { z } from "zod";
 import type {
+    CheckMultiChoiceQuizAnswersRequest,
     GetMultiChoiceQuizActivityRequest,
+    RetryMultiChoiceQuizRequest,
     GetStoryActivityRequest,
     ListUnitCycleActivitiesRequest,
-    SubmitMultiChoiceQuizAnswerRequest,
     SubmitStoryFeedbackRequest,
 } from "../contracts/activities.contracts";
 
@@ -13,7 +14,6 @@ const unitCycleActivityIdSchema = z.string().trim().min(1);
 const selectedAnswerSchema = z.string().trim().min(1);
 const questionIdSchema = z.string().trim().min(1);
 const selectedOptionSchema = z.string().trim().min(1);
-const isCorrectSchema = z.boolean();
 const commentSchema = z.string();
 
 export const listUnitCycleActivitiesSchema: z.ZodType<ListUnitCycleActivitiesRequest> = z
@@ -45,12 +45,24 @@ export const getMultiChoiceQuizActivitySchema: z.ZodType<GetMultiChoiceQuizActiv
     })
     .strict();
 
-export const submitMultiChoiceQuizAnswerSchema: z.ZodType<SubmitMultiChoiceQuizAnswerRequest> = z
+export const checkMultiChoiceQuizAnswersSchema: z.ZodType<CheckMultiChoiceQuizAnswersRequest> = z
     .object({
         learnerId: learnerIdSchema,
         unitCycleActivityId: unitCycleActivityIdSchema,
-        questionId: questionIdSchema,
-        selectedOption: selectedOptionSchema,
-        isCorrect: isCorrectSchema,
+        answers: z.array(
+            z
+                .object({
+                    questionId: questionIdSchema,
+                    selectedOption: selectedOptionSchema,
+                })
+                .strict()
+        ).min(1),
+    })
+    .strict();
+
+export const retryMultiChoiceQuizSchema: z.ZodType<RetryMultiChoiceQuizRequest> = z
+    .object({
+        learnerId: learnerIdSchema,
+        unitCycleActivityId: unitCycleActivityIdSchema,
     })
     .strict();

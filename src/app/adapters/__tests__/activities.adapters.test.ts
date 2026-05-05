@@ -85,38 +85,53 @@ describe("activitiesAdapter", () => {
     });
   });
 
-  it("invokes the multi choice quiz submit-answer channel with the request payload", async () => {
+  it("invokes the multi choice quiz check-answers channel with the request payload", async () => {
     vi.mocked(invokeRequest).mockResolvedValue({
       ok: true,
       value: {
-        learnerAnswer: {
-          attemptId: "attempt-1",
-          learnerId: "learner-1",
-          unitCycleActivityId: "activity-1",
-          questionId: "question-1",
-          isAnswered: true,
-          selectedOption: "option-a",
-          isCorrect: true,
-          createdAt: "2026-05-05T00:00:00.000Z",
-          updatedAt: "2026-05-05T00:00:00.000Z",
+        learnerAnswers: [],
+        quizState: {
+          isChecked: true,
+          finalScore: 2,
+          checkedAt: "2026-05-05T00:00:00.000Z",
         },
       },
     });
 
-    await activitiesAdapter.submitMultiChoiceQuizAnswer({
+    await activitiesAdapter.checkMultiChoiceQuizAnswers({
       learnerId: "learner-1",
       unitCycleActivityId: "activity-1",
-      questionId: "question-1",
-      selectedOption: "option-a",
-      isCorrect: true,
+      answers: [{ questionId: "question-1", selectedOption: "option-a" }],
     });
 
-    expect(invokeRequest).toHaveBeenCalledWith("activities:multi-choice-quiz:submit-answer", {
+    expect(invokeRequest).toHaveBeenCalledWith("activities:multi-choice-quiz:check-answers", {
       learnerId: "learner-1",
       unitCycleActivityId: "activity-1",
-      questionId: "question-1",
-      selectedOption: "option-a",
-      isCorrect: true,
+      answers: [{ questionId: "question-1", selectedOption: "option-a" }],
+    });
+  });
+
+  it("invokes the multi choice quiz retry channel with the request payload", async () => {
+    vi.mocked(invokeRequest).mockResolvedValue({
+      ok: true,
+      value: {
+        learnerAnswers: [],
+        quizState: {
+          isChecked: false,
+          finalScore: 0,
+          checkedAt: null,
+        },
+      },
+    });
+
+    await activitiesAdapter.retryMultiChoiceQuiz({
+      learnerId: "learner-1",
+      unitCycleActivityId: "activity-1",
+    });
+
+    expect(invokeRequest).toHaveBeenCalledWith("activities:multi-choice-quiz:retry", {
+      learnerId: "learner-1",
+      unitCycleActivityId: "activity-1",
     });
   });
 });

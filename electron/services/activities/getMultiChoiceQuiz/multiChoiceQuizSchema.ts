@@ -60,7 +60,7 @@ export function toMultiChoiceQuizQuestions(
             optionId: option.id,
             option: option.option_key,
             answer: option.answer_text,
-            is_correct: option.is_correct,
+            is_correct: Boolean(option.is_correct),
         };
 
         const group = optionsByQuestionId.get(option.question_id) ?? [];
@@ -85,9 +85,9 @@ export function toMultiChoiceQuizLearnerAnswers(
         learnerId: answer.learner_id,
         unitCycleActivityId: answer.unit_cycle_activity_id,
         questionId: answer.question_id,
-        isAnswered: answer.is_answered,
+        isAnswered: Boolean(answer.is_answered),
         selectedOption: answer.selected_option,
-        isCorrect: answer.is_correct,
+        isCorrect: Boolean(answer.is_correct),
         createdAt: answer.created_at,
         updatedAt: answer.updated_at,
     }));

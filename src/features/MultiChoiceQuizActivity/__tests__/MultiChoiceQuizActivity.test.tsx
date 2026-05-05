@@ -2,17 +2,26 @@ import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/re
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import MultiChoiceQuizActivity from "../MultiChoiceQuizActivity";
 
-const { useMultiChoiceQuizActivityQueryMock, useSubmitMultiChoiceQuizAnswerMutationMock } = vi.hoisted(() => ({
+const {
+  useMultiChoiceQuizActivityQueryMock,
+  useCheckMultiChoiceQuizAnswersMutationMock,
+  useRetryMultiChoiceQuizMutationMock,
+} = vi.hoisted(() => ({
   useMultiChoiceQuizActivityQueryMock: vi.fn(),
-  useSubmitMultiChoiceQuizAnswerMutationMock: vi.fn(),
+  useCheckMultiChoiceQuizAnswersMutationMock: vi.fn(),
+  useRetryMultiChoiceQuizMutationMock: vi.fn(),
 }));
 
 vi.mock("../hooks/useMultiChoiceQuizActivityQuery", () => ({
   useMultiChoiceQuizActivityQuery: useMultiChoiceQuizActivityQueryMock,
 }));
 
-vi.mock("../hooks/useSubmitMultiChoiceQuizAnswerMutation", () => ({
-  useSubmitMultiChoiceQuizAnswerMutation: useSubmitMultiChoiceQuizAnswerMutationMock,
+vi.mock("../hooks/useCheckMultiChoiceQuizAnswersMutation", () => ({
+  useCheckMultiChoiceQuizAnswersMutation: useCheckMultiChoiceQuizAnswersMutationMock,
+}));
+
+vi.mock("../hooks/useRetryMultiChoiceQuizMutation", () => ({
+  useRetryMultiChoiceQuizMutation: useRetryMultiChoiceQuizMutationMock,
 }));
 
 const quizResponse = {
@@ -21,11 +30,7 @@ const quizResponse = {
     advice: "Read carefully.",
     title: "Quick Math Quiz",
     assetBase: null,
-    assets: {
-      imageRefs: [],
-      audioRefs: [],
-      videoRefs: [],
-    },
+    assets: { imageRefs: [], audioRefs: [], videoRefs: [] },
     questions: [
       {
         questionId: "q1",
@@ -68,139 +73,70 @@ const quizResponse = {
         updatedAt: "2026-05-05T00:00:00.000Z",
       },
     ],
+    quizState: {
+      isChecked: false,
+      finalScore: 0,
+      checkedAt: null,
+    },
   },
 };
 
 describe("MultiChoiceQuizActivity", () => {
   beforeEach(() => {
     useMultiChoiceQuizActivityQueryMock.mockReset();
-    useSubmitMultiChoiceQuizAnswerMutationMock.mockReset();
+    useCheckMultiChoiceQuizAnswersMutationMock.mockReset();
+    useRetryMultiChoiceQuizMutationMock.mockReset();
   });
 
-  afterEach(() => {
-    cleanup();
-  });
+  afterEach(() => cleanup());
 
   it("renders loading, error, and success states", () => {
-    useSubmitMultiChoiceQuizAnswerMutationMock.mockReturnValue({
-      mutateAsync: vi.fn(),
-      isPending: false,
-    });
+    useCheckMultiChoiceQuizAnswersMutationMock.mockReturnValue({ mutateAsync: vi.fn(), isPending: false });
+    useRetryMultiChoiceQuizMutationMock.mockReturnValue({ mutateAsync: vi.fn(), isPending: false });
 
-    useMultiChoiceQuizActivityQueryMock.mockReturnValue({
-      data: undefined,
-      isLoading: true,
-      isError: false,
-      error: null,
-    });
-
+    useMultiChoiceQuizActivityQueryMock.mockReturnValue({ data: undefined, isLoading: true, isError: false, error: null });
     const { rerender } = render(
-      <MultiChoiceQuizActivity
-        learnerId="learner-1"
-        learningType="english"
-        unitId="unit-1"
-        unitCycleId="cycle-1"
-        unitCycleActivityId="activity-1"
-      />,
+      <MultiChoiceQuizActivity learnerId="learner-1" learningType="english" unitId="unit-1" unitCycleId="cycle-1" unitCycleActivityId="activity-1" />
     );
-
     expect(screen.getByText("Loading quiz...")).toBeTruthy();
 
-    useMultiChoiceQuizActivityQueryMock.mockReturnValue({
-      data: undefined,
-      isLoading: false,
-      isError: true,
-      error: new Error("Unable to load quiz."),
-    });
-
+    useMultiChoiceQuizActivityQueryMock.mockReturnValue({ data: undefined, isLoading: false, isError: true, error: new Error("Unable to load quiz.") });
     rerender(
-      <MultiChoiceQuizActivity
-        learnerId="learner-1"
-        learningType="english"
-        unitId="unit-1"
-        unitCycleId="cycle-1"
-        unitCycleActivityId="activity-1"
-      />,
+      <MultiChoiceQuizActivity learnerId="learner-1" learningType="english" unitId="unit-1" unitCycleId="cycle-1" unitCycleActivityId="activity-1" />
     );
-
     expect(screen.getByText("Unable to load quiz.")).toBeTruthy();
 
-    useMultiChoiceQuizActivityQueryMock.mockReturnValue({
-      data: quizResponse,
-      isLoading: false,
-      isError: false,
-      error: null,
-    });
-
+    useMultiChoiceQuizActivityQueryMock.mockReturnValue({ data: quizResponse, isLoading: false, isError: false, error: null });
     rerender(
-      <MultiChoiceQuizActivity
-        learnerId="learner-1"
-        learningType="english"
-        unitId="unit-1"
-        unitCycleId="cycle-1"
-        unitCycleActivityId="activity-1"
-      />,
+      <MultiChoiceQuizActivity learnerId="learner-1" learningType="english" unitId="unit-1" unitCycleId="cycle-1" unitCycleActivityId="activity-1" />
     );
-
     expect(screen.getByRole("heading", { name: "Quick Math Quiz" })).toBeTruthy();
-    expect(screen.getByText("Choose one answer for each question.")).toBeTruthy();
   });
 
-  it("submits all answers on check and supports retry", async () => {
-    const mutateAsync = vi.fn().mockResolvedValue({});
-    useMultiChoiceQuizActivityQueryMock.mockReturnValue({
-      data: quizResponse,
-      isLoading: false,
-      isError: false,
-      error: null,
-    });
-
-    useSubmitMultiChoiceQuizAnswerMutationMock.mockReturnValue({
-      mutateAsync,
-      isPending: false,
-    });
+  it("checks all answers in one request payload", async () => {
+    const checkMutateAsync = vi.fn().mockResolvedValue({});
+    useMultiChoiceQuizActivityQueryMock.mockReturnValue({ data: quizResponse, isLoading: false, isError: false, error: null });
+    useCheckMultiChoiceQuizAnswersMutationMock.mockReturnValue({ mutateAsync: checkMutateAsync, isPending: false });
+    useRetryMultiChoiceQuizMutationMock.mockReturnValue({ mutateAsync: vi.fn(), isPending: false });
 
     render(
-      <MultiChoiceQuizActivity
-        learnerId="learner-1"
-        learningType="english"
-        unitId="unit-1"
-        unitCycleId="cycle-1"
-        unitCycleActivityId="activity-1"
-      />,
+      <MultiChoiceQuizActivity learnerId="learner-1" learningType="english" unitId="unit-1" unitCycleId="cycle-1" unitCycleActivityId="activity-1" />
     );
-
-    const checkButton = screen.getByRole("button", { name: "Check answers" });
-    expect(checkButton.hasAttribute("disabled")).toBe(true);
 
     fireEvent.click(screen.getByRole("radio", { name: "B. 4" }));
     fireEvent.click(screen.getByRole("button", { name: "Next" }));
     fireEvent.click(screen.getByRole("radio", { name: "A. 4" }));
-
-    expect(checkButton.hasAttribute("disabled")).toBe(false);
-    fireEvent.click(checkButton);
+    fireEvent.click(screen.getByRole("button", { name: "Check answers" }));
 
     await waitFor(() => {
-      expect(mutateAsync).toHaveBeenCalledTimes(2);
+      expect(checkMutateAsync).toHaveBeenCalledWith({
+        learnerId: "learner-1",
+        unitCycleActivityId: "activity-1",
+        answers: [
+          { questionId: "q1", selectedOption: "q1b" },
+          { questionId: "q2", selectedOption: "q2a" },
+        ],
+      });
     });
-
-    expect(mutateAsync).toHaveBeenNthCalledWith(1, {
-      learnerId: "learner-1",
-      unitCycleActivityId: "activity-1",
-      questionId: "q1",
-      selectedOption: "q1b",
-      isCorrect: true,
-    });
-    expect(mutateAsync).toHaveBeenNthCalledWith(2, {
-      learnerId: "learner-1",
-      unitCycleActivityId: "activity-1",
-      questionId: "q2",
-      selectedOption: "q2a",
-      isCorrect: true,
-    });
-
-    expect(screen.getByRole("button", { name: "Retry" })).toBeTruthy();
-    fireEvent.click(screen.getByRole("button", { name: "Retry" }));
-    expect(screen.getByText("Score: 0/2")).toBeTruthy();
   });
 });

@@ -168,17 +168,42 @@ export type GetMultiChoiceQuizActivityResponse = {
     },
     questions: MultiChoiceQuizQuestion[];
     learnerAnswers: MultiChoiceQuizLearnerAnswer[];
+    quizState: {
+      isChecked: boolean;
+      finalScore: number;
+      checkedAt: string | null;
+    };
   }
 };
 
-export type SubmitMultiChoiceQuizAnswerRequest = {
+export type CheckMultiChoiceQuizAnswersRequest = {
     learnerId: string;
     unitCycleActivityId: string;
-    questionId: string;
-    selectedOption: string;
-    isCorrect: boolean;
+    answers: Array<{
+        questionId: string;
+        selectedOption: string;
+    }>;
 };
 
-export type SubmitMultiChoiceQuizAnswerResponse = {
-    learnerAnswer: MultiChoiceQuizLearnerAnswer;
+export type CheckMultiChoiceQuizAnswersResponse = {
+    learnerAnswers: MultiChoiceQuizLearnerAnswer[];
+    quizState: {
+        isChecked: true;
+        finalScore: number;
+        checkedAt: string;
+    };
+};
+
+export type RetryMultiChoiceQuizRequest = {
+    learnerId: string;
+    unitCycleActivityId: string;
+};
+
+export type RetryMultiChoiceQuizResponse = {
+    learnerAnswers: MultiChoiceQuizLearnerAnswer[];
+    quizState: {
+        isChecked: false;
+        finalScore: 0;
+        checkedAt: null;
+    };
 };

@@ -84,9 +84,9 @@ describe("activityRepositories", () => {
             unit_cycle_activity_id: "activity-1",
             question_id: "question-1",
             question: "What is 2 + 2?",
-            is_answered: true,
+            is_answered: 1,
             selected_option: "option-2",
-            is_correct: true,
+            is_correct: 1,
             created_at: "2026-05-05T00:00:00.000Z",
             updated_at: "2026-05-05T00:00:01.000Z",
         });

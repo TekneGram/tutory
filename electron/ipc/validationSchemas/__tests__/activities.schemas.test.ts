@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import {
+    checkMultiChoiceQuizAnswersSchema,
     getStoryActivitySchema,
     listUnitCycleActivitiesSchema,
-    submitMultiChoiceQuizAnswerSchema,
+    retryMultiChoiceQuizSchema,
     submitStoryFeedbackSchema,
 } from "../activities.schemas";
 
@@ -75,45 +76,64 @@ describe("activities schemas", () => {
         ).toThrow();
     });
 
-    it("accepts a valid submitMultiChoiceQuizAnswer request", () => {
+    it("accepts a valid checkMultiChoiceQuizAnswers request", () => {
         expect(
-            submitMultiChoiceQuizAnswerSchema.parse({
+            checkMultiChoiceQuizAnswersSchema.parse({
                 learnerId: "learner-1",
                 unitCycleActivityId: "activity-1",
-                questionId: "question-1",
-                selectedOption: "option-a",
-                isCorrect: false,
+                answers: [
+                    {
+                        questionId: "question-1",
+                        selectedOption: "option-a",
+                    },
+                ],
             })
         ).toEqual({
             learnerId: "learner-1",
             unitCycleActivityId: "activity-1",
-            questionId: "question-1",
-            selectedOption: "option-a",
-            isCorrect: false,
+            answers: [
+                {
+                    questionId: "question-1",
+                    selectedOption: "option-a",
+                },
+            ],
         });
     });
 
-    it("rejects blank submitMultiChoiceQuizAnswer fields", () => {
+    it("rejects blank checkMultiChoiceQuizAnswers fields", () => {
         expect(() =>
-            submitMultiChoiceQuizAnswerSchema.parse({
+            checkMultiChoiceQuizAnswersSchema.parse({
                 learnerId: "learner-1",
                 unitCycleActivityId: "activity-1",
-                questionId: "   ",
-                selectedOption: "option-a",
-                isCorrect: true,
+                answers: [
+                    {
+                        questionId: "   ",
+                        selectedOption: "option-a",
+                    },
+                ],
             })
         ).toThrow();
     });
 
-    it("rejects non-boolean isCorrect for submitMultiChoiceQuizAnswer", () => {
+    it("rejects empty answers for checkMultiChoiceQuizAnswers", () => {
         expect(() =>
-            submitMultiChoiceQuizAnswerSchema.parse({
+            checkMultiChoiceQuizAnswersSchema.parse({
                 learnerId: "learner-1",
                 unitCycleActivityId: "activity-1",
-                questionId: "question-1",
-                selectedOption: "option-a",
-                isCorrect: "true",
+                answers: [],
             })
         ).toThrow();
+    });
+
+    it("accepts a valid retryMultiChoiceQuiz request", () => {
+        expect(
+            retryMultiChoiceQuizSchema.parse({
+                learnerId: "learner-1",
+                unitCycleActivityId: "activity-1",
+            })
+        ).toEqual({
+            learnerId: "learner-1",
+            unitCycleActivityId: "activity-1",
+        });
     });
 });

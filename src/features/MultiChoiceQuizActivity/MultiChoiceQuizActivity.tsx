@@ -1,7 +1,8 @@
 import { useState } from "react";
 import type { ActivityComponentProps } from "@/features/ActivityDisplay/types/activityDisplay.types";
 import { useMultiChoiceQuizActivityQuery } from "./hooks/useMultiChoiceQuizActivityQuery";
-import { useSubmitMultiChoiceQuizAnswerMutation } from "./hooks/useSubmitMultiChoiceQuizAnswerMutation";
+import { useCheckMultiChoiceQuizAnswersMutation } from "./hooks/useCheckMultiChoiceQuizAnswersMutation";
+import { useRetryMultiChoiceQuizMutation } from "./hooks/useRetryMultiChoiceQuizMutation";
 import QuestionCard from "./components/QuestionCard";
 import ScoreDisplay from "./components/ScoreDisplay";
 import "./multiChoiceQuizActivity.css";
@@ -10,10 +11,11 @@ const MultiChoiceQuizActivity = ({ learnerId, unitCycleActivityId }: ActivityCom
   const [isHintVisible, setIsHintVisible] = useState(false);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(0);
   const [selectedByQuestionId, setSelectedByQuestionId] = useState<Record<string, string | null>>({});
-  const [isChecked, setIsChecked] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const query = useMultiChoiceQuizActivityQuery(learnerId, unitCycleActivityId);
-  const submitMutation = useSubmitMultiChoiceQuizAnswerMutation();
+  const checkMutation = useCheckMultiChoiceQuizAnswersMutation();
+  const retryMutation = useRetryMultiChoiceQuizMutation();
 
   if (query.isLoading) {
     return <section aria-live="polite">Loading quiz...</section>;
@@ -28,6 +30,7 @@ const MultiChoiceQuizActivity = ({ learnerId, unitCycleActivityId }: ActivityCom
   }
 
   const quiz = query.data.multiChoiceQuiz;
+  const isChecked = quiz.quizState.isChecked;
   const questions = quiz.questions;
   const learnerAnswersByQuestionId = new Map(
     quiz.learnerAnswers.map((answer) => [answer.questionId, answer])
@@ -52,7 +55,7 @@ const MultiChoiceQuizActivity = ({ learnerId, unitCycleActivityId }: ActivityCom
   const activeQuestion = questionsStatus[activeQuestionIndex];
   const answeredCount = questionsStatus.filter((status) => status.selectedOption !== null).length;
   const score = isChecked
-    ? questionsStatus.filter((status) => status.selectedOption !== null && status.isCorrect).length
+    ? quiz.quizState.finalScore
     : 0;
   const canCheckAnswers = !isChecked && questions.length > 0 && answeredCount === questions.length;
 
@@ -61,32 +64,33 @@ const MultiChoiceQuizActivity = ({ learnerId, unitCycleActivityId }: ActivityCom
       return;
     }
 
+    setSubmitError(null);
     const selectedAnswers = questionsStatus.filter((status) => status.selectedOption !== null);
 
-    await Promise.all(
-      selectedAnswers.map((status) => {
-        const choice = status.answers.find((answer) => answer.optionId === status.selectedOption);
-        if (!choice || !status.selectedOption) {
-          return Promise.resolve();
-        }
-
-        return submitMutation.mutateAsync({
-          learnerId,
-          unitCycleActivityId,
-          questionId: status.questionId,
-          selectedOption: status.selectedOption,
-          isCorrect: choice.is_correct,
-        });
-      })
-    );
-
-    setIsChecked(true);
+    try {
+      await checkMutation.mutateAsync({
+        learnerId,
+        unitCycleActivityId,
+        answers: selectedAnswers
+          .filter((status) => status.selectedOption !== null)
+          .map((status) => ({
+            questionId: status.questionId,
+            selectedOption: status.selectedOption as string,
+          })),
+      });
+    } catch {
+      setSubmitError("Unable to check answers right now. Please try again.");
+    }
   }
 
-  function handleRetry() {
-    setIsChecked(false);
+  async function handleRetry() {
+    await retryMutation.mutateAsync({
+      learnerId,
+      unitCycleActivityId,
+    });
     setActiveQuestionIndex(0);
     setSelectedByQuestionId({});
+    setSubmitError(null);
   }
 
   return (
@@ -146,15 +150,18 @@ const MultiChoiceQuizActivity = ({ learnerId, unitCycleActivityId }: ActivityCom
       ) : null}
 
       <div className="multi-choice-quiz__actions">
-        <button type="button" onClick={handleCheckAnswers} disabled={!canCheckAnswers || submitMutation.isPending}>
+        <button type="button" onClick={handleCheckAnswers} disabled={!canCheckAnswers || checkMutation.isPending}>
           Check answers
         </button>
         {isChecked ? (
-          <button type="button" onClick={handleRetry}>
+          <button type="button" onClick={() => void handleRetry()} disabled={retryMutation.isPending}>
             Retry
           </button>
         ) : null}
       </div>
+      {submitError ? (
+        <p aria-live="polite">{submitError}</p>
+      ) : null}
     </section>
   );
 };

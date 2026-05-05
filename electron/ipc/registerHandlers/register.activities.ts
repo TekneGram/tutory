@@ -2,29 +2,33 @@ import type { IpcDependencies } from "../registerHandlers";
 import { safeHandle } from "../safeHandle";
 import { validateOrThrow } from "../validate";
 import type {
+    CheckMultiChoiceQuizAnswersRequest,
+    CheckMultiChoiceQuizAnswersResponse,
     GetMultiChoiceQuizActivityRequest,
     GetMultiChoiceQuizActivityResponse,
     GetStoryActivityRequest,
     GetStoryActivityResponse,
     ListUnitCycleActivitiesRequest,
     ListUnitCycleActivitiesResponse,
-    SubmitMultiChoiceQuizAnswerRequest,
-    SubmitMultiChoiceQuizAnswerResponse,
+    RetryMultiChoiceQuizRequest,
+    RetryMultiChoiceQuizResponse,
     SubmitStoryFeedbackRequest,
     SubmitStoryFeedbackResponse,
 } from "../contracts/activities.contracts";
 import {
+    checkMultiChoiceQuizAnswersSchema,
     getStoryActivitySchema,
     listUnitCycleActivitiesSchema,
+    retryMultiChoiceQuizSchema,
     submitStoryFeedbackSchema,
     getMultiChoiceQuizActivitySchema,
-    submitMultiChoiceQuizAnswerSchema,
 } from "../validationSchemas/activities.schemas";
 import { getStoryActivity } from "@electron/services/activities/getStoryActivity";
 import { listUnitCycleActivities } from "@electron/services/activities/listUnitCycleActivities";
 import { submitStoryFeedback } from "@electron/services/activities/submitStoryFeedback";
 import { getMultiChoiceQuizActivity } from "@electron/services/activities/getMultiChoiceQuizActivity";
-import { updateMultiChoiceQuiz } from "@electron/services/activities/updateMultiChoiceQuiz";
+import { checkMultiChoiceQuizAnswers } from "@electron/services/activities/checkMultiChoiceQuizAnswers";
+import { retryMultiChoiceQuiz } from "@electron/services/activities/retryMultiChoiceQuiz";
 
 export function RegisterActivitiesHandlers(dependencies: IpcDependencies): void {
     void dependencies;
@@ -61,11 +65,19 @@ export function RegisterActivitiesHandlers(dependencies: IpcDependencies): void 
         }
     );
 
-    safeHandle<SubmitMultiChoiceQuizAnswerRequest, SubmitMultiChoiceQuizAnswerResponse>(
-        "activities:multi-choice-quiz:submit-answer",
+    safeHandle<CheckMultiChoiceQuizAnswersRequest, CheckMultiChoiceQuizAnswersResponse>(
+        "activities:multi-choice-quiz:check-answers",
         async (_event, rawArgs, ctx) => {
-            const args = validateOrThrow(submitMultiChoiceQuizAnswerSchema, rawArgs);
-            return updateMultiChoiceQuiz(args, ctx);
+            const args = validateOrThrow(checkMultiChoiceQuizAnswersSchema, rawArgs);
+            return checkMultiChoiceQuizAnswers(args, ctx);
+        }
+    );
+
+    safeHandle<RetryMultiChoiceQuizRequest, RetryMultiChoiceQuizResponse>(
+        "activities:multi-choice-quiz:retry",
+        async (_event, rawArgs, ctx) => {
+            const args = validateOrThrow(retryMultiChoiceQuizSchema, rawArgs);
+            return retryMultiChoiceQuiz(args, ctx);
         }
     );
 }
