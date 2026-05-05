@@ -174,6 +174,18 @@ export type GetMultiChoiceQuizActivityResponse = {
   }
 };
 
+export type SubmitMultiChoiceQuizAnswerRequest = {
+  learnerId: string;
+  unitCycleActivityId: string;
+  questionId: string;
+  selectedOption: string;
+  isCorrect: boolean;
+};
+
+export type SubmitMultiChoiceQuizAnswerResponse = {
+  learnerAnswer: MultiChoiceQuizLearnerAnswer;
+};
+
 export interface ActivitiesPort {
   listUnitCycleActivities(request: ListUnitCycleActivitiesRequest): Promise<AppResult<ListUnitCycleActivitiesResponse>>;
   getStoryActivity(request: GetStoryActivityRequest): Promise<AppResult<GetStoryActivityResponse>>;

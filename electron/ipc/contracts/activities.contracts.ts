@@ -171,3 +171,14 @@ export type GetMultiChoiceQuizActivityResponse = {
   }
 };
 
+export type SubmitMultiChoiceQuizAnswerRequest = {
+    learnerId: string;
+    unitCycleActivityId: string;
+    questionId: string;
+    selectedOption: string;
+    isCorrect: boolean;
+};
+
+export type SubmitMultiChoiceQuizAnswerResponse = {
+    learnerAnswer: MultiChoiceQuizLearnerAnswer;
+};
