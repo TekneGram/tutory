@@ -23,14 +23,29 @@ const multiChoiceQuizVideoRefSchema = z.object({
     videoRef: z.string(),
 }).strict();
 
+const isCorrectSchema = z.union([z.boolean(), z.string()]).transform((value, ctx) => {
+    if (typeof value === "boolean") return value;
+
+    const normalized = value.trim().toLowerCase();
+    if (normalized === "true") return true;
+    if (normalized === "false") return false;
+
+    ctx.addIssue({
+        code: "custom",
+        message: "is_correct must be true/false or \"true\"/\"false\"",
+    });
+
+    return z.NEVER;
+});
+
 const multiChoiceQuizAnswerSchema = z.object({
     option: z.string(),
     answer: z.string(),
-    is_correct: z.boolean(),
+    is_correct: isCorrectSchema,
 }).strict();
 
 const multiChoiceQuizContentSchema = z.object({
-    instruction: z.string(),
+    instructions: z.string(),
     advice: z.string(),
     title: z.string(),
     assetBase: z.string().trim().min(1).optional().nullable(),

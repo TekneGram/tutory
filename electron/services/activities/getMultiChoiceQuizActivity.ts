@@ -140,7 +140,7 @@ export async function getMultiChoiceQuizActivity(
 
             return {
                 multiChoiceQuiz: {
-                    instructions: content.instruction,
+                    instructions: content.instructions,
                     advice: content.advice,
                     title: content.title,
                     assetBase: content.assetBase?.trim() || null,

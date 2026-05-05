@@ -1,4 +1,8 @@
 import type { ActivityComponentProps } from "@/features/ActivityDisplay/types/activityDisplay.types";
+import Question from "./components/Question";
+import Answer from "./components/Answer";
+import ScoreDisplay from "./components/ScoreDisplay";
+import QuestionCard from "./components/QuestionCard";
 
 //import { useState } from "react";
 import { useMultiChoiceQuizActivityQuery } from "./hooks/useMultiChoiceQuizActivityQuery";
