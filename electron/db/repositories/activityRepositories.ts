@@ -63,6 +63,12 @@ export type MultiChoiceQuizOptionRow = {
     is_correct: boolean;
 };
 
+export type MultiChoiceQuizQuestionIdentityRow = {
+    id: string;
+    activity_content_id: string;
+    question_text: string;
+};
+
 export type ActivityAttemptRow = {
     id: string;
     learner_id: string;
@@ -261,6 +267,53 @@ export function listMultiChoiceQuizOptionRowsByActivityContentId(
     );
 }
 
+export function getMultiChoiceQuizQuestionRowByIdAndUnitCycleActivityId(
+    db: SqliteDatabase,
+    questionId: string,
+    unitCycleActivityId: string
+): MultiChoiceQuizQuestionIdentityRow | undefined {
+    return queryOne<MultiChoiceQuizQuestionIdentityRow>(
+        db,
+        `
+            SELECT
+                mq.id AS id,
+                mq.activity_content_id AS activity_content_id,
+                mq.question_text AS question_text
+            FROM multichoicequiz_questions mq
+            INNER JOIN activity_content ac
+                ON ac.id = mq.activity_content_id
+            WHERE mq.id = ?
+              AND ac.unit_cycle_activity_id = ?
+            LIMIT 1
+        `,
+        [questionId, unitCycleActivityId]
+    );
+}
+
+export function getMultiChoiceQuizOptionRowByIdAndQuestionId(
+    db: SqliteDatabase,
+    optionId: string,
+    questionId: string
+): MultiChoiceQuizOptionRow | undefined {
+    return queryOne<MultiChoiceQuizOptionRow>(
+        db,
+        `
+            SELECT
+                mo.id AS id,
+                mo.question_id AS question_id,
+                mo.option_key AS option_key,
+                mo.option_order AS option_order,
+                mo.answer_text AS answer_text,
+                mo.is_correct AS is_correct
+            FROM multichoicequiz_options mo
+            WHERE mo.id = ?
+              AND mo.question_id = ?
+            LIMIT 1
+        `,
+        [optionId, questionId]
+    );
+}
+
 export function getLatestActivityAttemptRowByLearnerAndUnitCycleActivityId(
     db: SqliteDatabase,
     learnerId: string,
@@ -441,5 +494,76 @@ export function getMultiChoiceQuizAnswerRowsByAttemptId(
             WHERE mcqa.attempt_id = ?
         `,
         [attemptId]
+    );
+}
+
+export function getMultiChoiceQuizAnswerRowByAttemptIdAndQuestionId(
+    db: SqliteDatabase,
+    attemptId: string,
+    questionId: string
+): ActivityMultiChoiceQuizAnswerRow | undefined {
+    return queryOne<ActivityMultiChoiceQuizAnswerRow>(
+        db,
+        `
+            SELECT
+                mcqa.attempt_id AS attempt_id,
+                mcqa.learner_id AS learner_id,
+                mcqa.unit_cycle_activity_id AS unit_cycle_activity_id,
+                mcqa.question_id AS question_id,
+                mcqa.question AS question,
+                mcqa.is_answered AS is_answered,
+                mcqa.selected_option AS selected_option,
+                mcqa.is_correct AS is_correct,
+                mcqa.created_at AS created_at,
+                mcqa.updated_at AS updated_at
+            FROM multi_choice_quiz_answers mcqa
+            WHERE mcqa.attempt_id = ?
+              AND mcqa.question_id = ?
+            LIMIT 1
+        `,
+        [attemptId, questionId]
+    );
+}
+
+export function upsertMultiChoiceQuizAnswerRow(
+    db: SqliteDatabase,
+    row: ActivityMultiChoiceQuizAnswerRow
+): void {
+    executeRun(
+        db,
+        `
+            INSERT INTO multi_choice_quiz_answers (
+                attempt_id,
+                learner_id,
+                unit_cycle_activity_id,
+                question_id,
+                question,
+                is_answered,
+                selected_option,
+                is_correct,
+                created_at,
+                updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(attempt_id, question_id) DO UPDATE SET
+                learner_id = excluded.learner_id,
+                unit_cycle_activity_id = excluded.unit_cycle_activity_id,
+                question = excluded.question,
+                is_answered = excluded.is_answered,
+                selected_option = excluded.selected_option,
+                is_correct = excluded.is_correct,
+                updated_at = excluded.updated_at
+        `,
+        [
+            row.attempt_id,
+            row.learner_id,
+            row.unit_cycle_activity_id,
+            row.question_id,
+            row.question,
+            row.is_answered,
+            row.selected_option,
+            row.is_correct,
+            row.created_at,
+            row.updated_at,
+        ]
     );
 }

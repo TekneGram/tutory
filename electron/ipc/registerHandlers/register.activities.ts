@@ -24,7 +24,7 @@ import { getStoryActivity } from "@electron/services/activities/getStoryActivity
 import { listUnitCycleActivities } from "@electron/services/activities/listUnitCycleActivities";
 import { submitStoryFeedback } from "@electron/services/activities/submitStoryFeedback";
 import { getMultiChoiceQuizActivity } from "@electron/services/activities/getMultiChoiceQuizActivity";
-import { raiseAppError } from "@electron/core/appException";
+import { updateMultiChoiceQuiz } from "@electron/services/activities/updateMultiChoiceQuiz";
 
 export function RegisterActivitiesHandlers(dependencies: IpcDependencies): void {
     void dependencies;
@@ -63,12 +63,9 @@ export function RegisterActivitiesHandlers(dependencies: IpcDependencies): void 
 
     safeHandle<SubmitMultiChoiceQuizAnswerRequest, SubmitMultiChoiceQuizAnswerResponse>(
         "activities:multi-choice-quiz:submit-answer",
-        async (_event, rawArgs, _ctx) => {
-            void validateOrThrow(submitMultiChoiceQuizAnswerSchema, rawArgs);
-            raiseAppError(
-                "INTERNAL_UNEXPECTED",
-                "Submit multi choice quiz answer handler is not implemented yet."
-            );
+        async (_event, rawArgs, ctx) => {
+            const args = validateOrThrow(submitMultiChoiceQuizAnswerSchema, rawArgs);
+            return updateMultiChoiceQuiz(args, ctx);
         }
     );
 }
