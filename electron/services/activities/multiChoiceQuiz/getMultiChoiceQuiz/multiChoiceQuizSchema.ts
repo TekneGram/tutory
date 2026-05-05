@@ -7,11 +7,11 @@ import type {
     MultiChoiceQuizVideoRefDto,
 } from "@electron/ipc/contracts/activities.contracts";
 import type {
-    ActivityContentAssetRow,
     ActivityMultiChoiceQuizAnswerRow,
     MultiChoiceQuizOptionRow,
     MultiChoiceQuizQuestionRow,
-} from "@electron/db/repositories/activityRepositories";
+} from "@electron/db/repositories/activity.multichoicequizRepositories";
+import type { ActivityContentAssetRow } from "@electron/db/repositories/activityRepositories";
 
 export function toMultiChoiceQuizImageRefDtos(
     assets: ActivityContentAssetRow[]

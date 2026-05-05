@@ -3,12 +3,14 @@ import { describe, expect, it, vi } from "vitest";
 import type { SqliteDatabase } from "../../sqlite";
 import { executeRun, queryAll, queryOne } from "../../sqlite";
 import {
-    getMultiChoiceQuizOptionRowByIdAndQuestionId,
-    getMultiChoiceQuizQuestionRowByIdAndUnitCycleActivityId,
     getUnitCycleIdentityRowById,
-    upsertMultiChoiceQuizAnswerRow,
     listUnitCycleActivityRowsByUnitCycleId,
 } from "../activityRepositories";
+import {
+    getMultiChoiceQuizOptionRowByIdAndQuestionId,
+    getMultiChoiceQuizQuestionRowByIdAndUnitCycleActivityId,
+    upsertMultiChoiceQuizAnswerRow,
+} from "../activity.multichoicequizRepositories";
 
 vi.mock("../../sqlite", () => ({
     executeRun: vi.fn(),

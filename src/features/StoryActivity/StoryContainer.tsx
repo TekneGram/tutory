@@ -1,4 +1,3 @@
-import { useState } from "react";
 import type {
   GetStoryActivityResponse,
   StoryFeedbackDto,
@@ -10,40 +9,13 @@ import Feedback, {
 } from "@/features/ActivitySubComponents/Feedback/Feedback";
 import ImageContainer from "@/features/ActivitySubComponents/ImageContainer/ImageContainer";
 import TextDisplay from "@/features/ActivitySubComponents/TextDisplay/TextDisplay";
+import StoryHint from "./StoryHint";
 
 type StoryContainerProps = {
   story: GetStoryActivityResponse["story"];
   isCompleted: boolean;
   isSubmitting?: boolean;
   onSubmitFeedback: (value: FeedbackSubmitValue) => Promise<void> | void;
-};
-
-type StoryHintProps = {
-  advice: string;
-};
-
-const StoryHint = ({ advice }: StoryHintProps) => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  return (
-    <div className="story-activity-hint">
-      <button
-        type="button"
-        aria-describedby={isVisible ? "story-activity-advice" : undefined}
-        onMouseEnter={() => setIsVisible(true)}
-        onMouseLeave={() => setIsVisible(false)}
-        onFocus={() => setIsVisible(true)}
-        onBlur={() => setIsVisible(false)}
-      >
-        Hint
-      </button>
-      {isVisible ? (
-        <p id="story-activity-advice" role="tooltip">
-          {advice}
-        </p>
-      ) : null}
-    </div>
-  );
 };
 
 export type StoryContentProps = {

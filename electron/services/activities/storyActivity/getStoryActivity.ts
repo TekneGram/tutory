@@ -3,11 +3,11 @@ import { raiseAppError } from "@electron/core/appException";
 import { createAppDatabase } from "@electron/db/appDatabase";
 import {
     getActivityContentRowByUnitCycleActivityId,
-    getActivityStoryAnswerRowByAttemptId,
     getLatestActivityAttemptRowByLearnerAndUnitCycleActivityId,
     getUnitCycleActivityIdentityRowById,
     insertActivityAttemptRow,
 } from "@electron/db/repositories/activityRepositories";
+import { getActivityStoryAnswerRowByAttemptId } from "@electron/db/repositories/activity.storyRespositories";
 import { runInTransaction } from "@electron/db/sqlite";
 import { getRuntimeDbPath } from "@electron/runtime/runtimePaths";
 import { logger } from "@electron/utilities/logger";

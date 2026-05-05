@@ -19,7 +19,7 @@ const ActivityDisplay = ({
   unitCycleId,
 }: ActivityDisplayProps) => {
   const query = useUnitCycleActivitiesQuery(unitCycleId);
-  const activities = query.data?.activities ?? [];
+  const activities = useMemo(() => query.data?.activities ?? [], [query.data?.activities]);
   const [selectedActivityId, setSelectedActivityId] = useState<string | null>(null);
 
   useEffect(() => {

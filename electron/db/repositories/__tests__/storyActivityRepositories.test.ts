@@ -4,13 +4,15 @@ import type { SqliteDatabase } from "../../sqlite";
 import { executeRun, queryOne } from "../../sqlite";
 import {
     getActivityContentRowByUnitCycleActivityId,
-    getActivityStoryAnswerRowByAttemptId,
     getLatestActivityAttemptRowByLearnerAndUnitCycleActivityId,
     getUnitCycleActivityIdentityRowById,
     insertActivityAttemptRow,
     updateActivityAttemptStatusRow,
-    upsertActivityStoryAnswerRow,
 } from "../activityRepositories";
+import {
+    getActivityStoryAnswerRowByAttemptId,
+    upsertActivityStoryAnswerRow,
+} from "../activity.storyRespositories";
 
 vi.mock("../../sqlite", () => ({
     executeRun: vi.fn(),

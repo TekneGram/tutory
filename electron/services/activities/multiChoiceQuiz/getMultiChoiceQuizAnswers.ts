@@ -18,11 +18,13 @@ import {
     getUnitCycleActivityIdentityRowById,
     insertActivityAttemptRow,
     listActivityContentAssetRowsByActivityContentId,
-    listMultiChoiceQuizOptionRowsByActivityContentId,
-    listMultiChoiceQuizQuestionRowsByActivityContentId,
+} from "@electron/db/repositories/activityRepositories";
+import {
     getMultiChoiceQuizAnswerRowsByAttemptId,
     getMultiChoiceQuizStateRowByAttemptId,
-} from "@electron/db/repositories/activityRepositories";
+    listMultiChoiceQuizOptionRowsByActivityContentId,
+    listMultiChoiceQuizQuestionRowsByActivityContentId,
+} from "@electron/db/repositories/activity.multichoicequizRepositories";
 
 import { randomUUID } from "node:crypto";
 

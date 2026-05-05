@@ -4,15 +4,17 @@ import { raiseAppError } from "@electron/core/appException";
 import { createAppDatabase } from "@electron/db/appDatabase";
 import {
     getLatestActivityAttemptRowByLearnerAndUnitCycleActivityId,
+    getUnitCycleActivityIdentityRowById,
+    insertActivityAttemptRow,
+} from "@electron/db/repositories/activityRepositories";
+import {
     getMultiChoiceQuizAnswerRowsByAttemptId,
     getMultiChoiceQuizOptionRowByIdAndQuestionId,
     getMultiChoiceQuizQuestionRowByIdAndUnitCycleActivityId,
     getMultiChoiceQuizStateRowByAttemptId,
-    getUnitCycleActivityIdentityRowById,
-    insertActivityAttemptRow,
     upsertMultiChoiceQuizAnswerRow,
     upsertMultiChoiceQuizStateRow,
-} from "@electron/db/repositories/activityRepositories";
+} from "@electron/db/repositories/activity.multichoicequizRepositories";
 import { runInTransaction } from "@electron/db/sqlite";
 import type {
     CheckMultiChoiceQuizAnswersRequest,

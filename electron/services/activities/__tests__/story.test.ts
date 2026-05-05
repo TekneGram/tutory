@@ -4,13 +4,15 @@ import type { RequestContext } from "@electron/core/requestContext";
 import { createAppDatabase } from "@electron/db/appDatabase";
 import {
     getActivityContentRowByUnitCycleActivityId,
-    getActivityStoryAnswerRowByAttemptId,
     getLatestActivityAttemptRowByLearnerAndUnitCycleActivityId,
     getUnitCycleActivityIdentityRowById,
     insertActivityAttemptRow,
     updateActivityAttemptStatusRow,
-    upsertActivityStoryAnswerRow,
 } from "@electron/db/repositories/activityRepositories";
+import {
+    getActivityStoryAnswerRowByAttemptId,
+    upsertActivityStoryAnswerRow,
+} from "@electron/db/repositories/activity.storyRespositories";
 import { runInTransaction } from "@electron/db/sqlite";
 
 import { getStoryActivity } from "../storyActivity/getStoryActivity";
@@ -33,11 +35,14 @@ vi.mock("@electron/db/sqlite", () => ({
 
 vi.mock("@electron/db/repositories/activityRepositories", () => ({
     getActivityContentRowByUnitCycleActivityId: vi.fn(),
-    getActivityStoryAnswerRowByAttemptId: vi.fn(),
     getLatestActivityAttemptRowByLearnerAndUnitCycleActivityId: vi.fn(),
     getUnitCycleActivityIdentityRowById: vi.fn(),
     insertActivityAttemptRow: vi.fn(),
     updateActivityAttemptStatusRow: vi.fn(),
+}));
+
+vi.mock("@electron/db/repositories/activity.storyRespositories", () => ({
+    getActivityStoryAnswerRowByAttemptId: vi.fn(),
     upsertActivityStoryAnswerRow: vi.fn(),
 }));
 

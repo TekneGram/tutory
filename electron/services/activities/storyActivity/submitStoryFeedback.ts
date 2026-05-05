@@ -8,8 +8,8 @@ import {
     getUnitCycleActivityIdentityRowById,
     insertActivityAttemptRow,
     updateActivityAttemptStatusRow,
-    upsertActivityStoryAnswerRow,
 } from "@electron/db/repositories/activityRepositories";
+import { upsertActivityStoryAnswerRow } from "@electron/db/repositories/activity.storyRespositories";
 import { runInTransaction } from "@electron/db/sqlite";
 import { getRuntimeDbPath } from "@electron/runtime/runtimePaths";
 import { logger } from "@electron/utilities/logger";
