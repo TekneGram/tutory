@@ -134,12 +134,14 @@ export type MultiChoiceQuizVideoRefDto = {
 };
 
 export type MultiChoiceQuizAnswer = {
+  optionId: string;
   option: string;
   answer: string;
   is_correct: boolean;
 }
 
 export type MultiChoiceQuizQuestion = {
+  questionId: string;
   question: string;
   answers: MultiChoiceQuizAnswer[];
 }
@@ -148,7 +150,7 @@ export type MultiChoiceQuizLearnerAnswer = {
     attemptId: string;
     learnerId: string;
     unitCycleActivityId: string;
-    question: string;
+    questionId: string;
     isAnswered: boolean;
     selectedOption: string | null;
     isCorrect: boolean;

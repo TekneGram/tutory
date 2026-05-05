@@ -13,19 +13,23 @@ import type {
 
 import {
     getActivityContentRowByUnitCycleActivityId,
+    getActivityContentPrimaryRowByActivityContentId,
     getLatestActivityAttemptRowByLearnerAndUnitCycleActivityId,
     getUnitCycleActivityIdentityRowById,
     insertActivityAttemptRow,
+    listActivityContentAssetRowsByActivityContentId,
+    listMultiChoiceQuizOptionRowsByActivityContentId,
+    listMultiChoiceQuizQuestionRowsByActivityContentId,
     getMultiChoiceQuizAnswerRowsByAttemptId,
 } from "@electron/db/repositories/activityRepositories";
 
 import { randomUUID } from "node:crypto";
 
 import { 
-    parseMultiChoiceQuizContent,
     toMultiChoiceQuizImageRefDtos,
     toMultiChoiceQuizAudioRefDtos,
     toMultiChoiceQuizVideoRefDtos,
+    toMultiChoiceQuizQuestions,
     toMultiChoiceQuizLearnerAnswers,
 } from "./getMultiChoiceQuiz/multiChoiceQuizSchema";
 
@@ -33,8 +37,7 @@ function ensureStartedAttempt(
     db: Parameters<typeof getLatestActivityAttemptRowByLearnerAndUnitCycleActivityId>[0],
     learnerId: string,
     unitCycleActivityId: string,
-    activityTypeId: number,
-    contentSnapshotJson: string
+    activityTypeId: number
 ) {
     const existingAttempt = getLatestActivityAttemptRowByLearnerAndUnitCycleActivityId(
         db, learnerId, unitCycleActivityId
@@ -55,7 +58,7 @@ function ensureStartedAttempt(
         score: null,
         started_at: startedAt,
         submitted_at: null,
-        content_snapshot_json: contentSnapshotJson
+        content_snapshot_json: null
     });
 
     const createdAttempt = getLatestActivityAttemptRowByLearnerAndUnitCycleActivityId(
@@ -118,14 +121,30 @@ export async function getMultiChoiceQuizActivity(
                     `Multi choice quiz activity content for "${request.unitCycleActivityId}" was not found.`
                 );
             }
+            if (!contentRow.id) {
+                raiseAppError(
+                    "DB_QUERY_FAILED",
+                    `Multi choice quiz content id for "${request.unitCycleActivityId}" was not found.`
+                );
+            }
 
-            const content = parseMultiChoiceQuizContent(contentRow.content_json);
+            const primary = getActivityContentPrimaryRowByActivityContentId(appDatabase.db, contentRow.id);
+            if (!primary) {
+                raiseAppError(
+                    "DB_QUERY_FAILED",
+                    `Primary multi choice quiz content for "${request.unitCycleActivityId}" was not found.`
+                );
+            }
+
+            const assets = listActivityContentAssetRowsByActivityContentId(appDatabase.db, contentRow.id);
+            const questions = listMultiChoiceQuizQuestionRowsByActivityContentId(appDatabase.db, contentRow.id);
+            const options = listMultiChoiceQuizOptionRowsByActivityContentId(appDatabase.db, contentRow.id);
+
             const attempt = ensureStartedAttempt(
                 appDatabase.db,
                 request.learnerId,
                 request.unitCycleActivityId,
-                activity.activity_type_id,
-                contentRow.content_json
+                activity.activity_type_id
             );
             const answers = getMultiChoiceQuizAnswerRowsByAttemptId(appDatabase.db, attempt.id);
 
@@ -140,16 +159,16 @@ export async function getMultiChoiceQuizActivity(
 
             return {
                 multiChoiceQuiz: {
-                    instructions: content.instructions,
-                    advice: content.advice,
-                    title: content.title,
-                    assetBase: content.assetBase?.trim() || null,
+                    instructions: primary.instructions,
+                    advice: primary.advice,
+                    title: primary.title,
+                    assetBase: primary.asset_base?.trim() || null,
                     assets: {
-                        imageRefs: toMultiChoiceQuizImageRefDtos(content.assets.imageRefs),
-                        audioRefs: toMultiChoiceQuizAudioRefDtos(content.assets.audioRefs),
-                        videoRefs: toMultiChoiceQuizVideoRefDtos(content.assets.videoRefs),
+                        imageRefs: toMultiChoiceQuizImageRefDtos(assets),
+                        audioRefs: toMultiChoiceQuizAudioRefDtos(assets),
+                        videoRefs: toMultiChoiceQuizVideoRefDtos(assets),
                     },
-                    questions: content.questions,
+                    questions: toMultiChoiceQuizQuestions(questions, options),
                     learnerAnswers: learnerAnswers
                 },
             };

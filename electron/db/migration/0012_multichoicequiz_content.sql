@@ -122,7 +122,7 @@ JOIN activity_types at
 JOIN json_each(ac.content_json, '$.questions') j
 WHERE at.name = 'multi-choice-quiz';
 
-INSERT INTO motichoicequiz_options (
+INSERT INTO multichoicequiz_options (
     id,
     question_id,
     option_key,

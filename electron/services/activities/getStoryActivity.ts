@@ -30,8 +30,7 @@ function ensureStartedAttempt(
     db: Parameters<typeof getLatestActivityAttemptRowByLearnerAndUnitCycleActivityId>[0],
     learnerId: string,
     unitCycleActivityId: string,
-    activityTypeId: number,
-    contentSnapshotJson: string
+    activityTypeId: number
 ) {
     const existingAttempt = getLatestActivityAttemptRowByLearnerAndUnitCycleActivityId(
         db,
@@ -55,7 +54,7 @@ function ensureStartedAttempt(
         score: null,
         started_at: startedAt,
         submitted_at: null,
-        content_snapshot_json: contentSnapshotJson,
+        content_snapshot_json: null,
     });
 
     const createdAttempt = getLatestActivityAttemptRowByLearnerAndUnitCycleActivityId(
@@ -124,8 +123,7 @@ export async function getStoryActivity(
                 appDatabase.db,
                 request.learnerId,
                 request.unitCycleActivityId,
-                activity.activity_type_id,
-                contentRow.content_json
+                activity.activity_type_id
             );
             const answer = getActivityStoryAnswerRowByAttemptId(appDatabase.db, attempt.id);
             const feedbackComment = answer?.comment ?? "";

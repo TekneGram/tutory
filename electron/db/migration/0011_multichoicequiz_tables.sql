@@ -62,5 +62,5 @@ CREATE INDEX idx_multichoicequiz_questions_activity_content_id
 CREATE INDEX idx_multichoicequiz_questions_activity_content_order
     ON multichoicequiz_questions (activity_content_id, question_order);
 
-CREATE INDEX idx_motichoicequiz_options_question_id
-    ON motichoicequiz_options (question_id);
+CREATE INDEX idx_multichoicequiz_options_question_id
+    ON multichoicequiz_options (question_id);

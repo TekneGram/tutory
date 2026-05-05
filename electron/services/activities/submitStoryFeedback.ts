@@ -23,8 +23,7 @@ function ensureAttemptRow(
     db: Parameters<typeof getLatestActivityAttemptRowByLearnerAndUnitCycleActivityId>[0],
     learnerId: string,
     unitCycleActivityId: string,
-    activityTypeId: number,
-    contentSnapshotJson: string
+    activityTypeId: number
 ) {
     const existingAttempt = getLatestActivityAttemptRowByLearnerAndUnitCycleActivityId(
         db,
@@ -48,7 +47,7 @@ function ensureAttemptRow(
         score: null,
         started_at: startedAt,
         submitted_at: null,
-        content_snapshot_json: contentSnapshotJson,
+        content_snapshot_json: null,
     });
 
     const createdAttempt = getLatestActivityAttemptRowByLearnerAndUnitCycleActivityId(
@@ -126,8 +125,7 @@ export async function submitStoryFeedback(
                 appDatabase.db,
                 request.learnerId,
                 request.unitCycleActivityId,
-                activity.activity_type_id,
-                contentRow.content_json
+                activity.activity_type_id
             );
             const timestamp = new Date().toISOString();
 

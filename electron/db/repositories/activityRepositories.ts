@@ -25,8 +25,42 @@ export type UnitCycleActivityIdentityRow = {
 };
 
 export type ActivityContentRow = {
+    id?: string;
     unit_cycle_activity_id: string;
     content_json: string;
+};
+
+export type ActivityContentPrimaryRow = {
+    id: string;
+    activity_content_id: string;
+    instructions: string;
+    advice: string;
+    title: string;
+    asset_base: string | null;
+};
+
+export type ActivityContentAssetRow = {
+    id: string;
+    activity_content_id: string;
+    asset_kind: "image" | "audio" | "video";
+    asset_order: number;
+    asset_ref: string;
+};
+
+export type MultiChoiceQuizQuestionRow = {
+    id: string;
+    activity_content_id: string;
+    question_order: number;
+    question_text: string;
+};
+
+export type MultiChoiceQuizOptionRow = {
+    id: string;
+    question_id: string;
+    option_key: string;
+    option_order: number;
+    answer_text: string;
+    is_correct: boolean;
 };
 
 export type ActivityAttemptRow = {
@@ -129,6 +163,7 @@ export function getActivityContentRowByUnitCycleActivityId(
         db,
         `
             SELECT
+                ac.id AS id,
                 ac.unit_cycle_activity_id AS unit_cycle_activity_id,
                 ac.content_json AS content_json
             FROM activity_content ac
@@ -136,6 +171,93 @@ export function getActivityContentRowByUnitCycleActivityId(
             LIMIT 1
         `,
         [unitCycleActivityId]
+    );
+}
+
+export function getActivityContentPrimaryRowByActivityContentId(
+    db: SqliteDatabase,
+    activityContentId: string
+): ActivityContentPrimaryRow | undefined {
+    return queryOne<ActivityContentPrimaryRow>(
+        db,
+        `
+            SELECT
+                acp.id AS id,
+                acp.activity_content_id AS activity_content_id,
+                acp.instructions AS instructions,
+                acp.advice AS advice,
+                acp.title AS title,
+                acp.asset_base AS asset_base
+            FROM activity_content_primary acp
+            WHERE acp.activity_content_id = ?
+            LIMIT 1
+        `,
+        [activityContentId]
+    );
+}
+
+export function listActivityContentAssetRowsByActivityContentId(
+    db: SqliteDatabase,
+    activityContentId: string
+): ActivityContentAssetRow[] {
+    return queryAll<ActivityContentAssetRow>(
+        db,
+        `
+            SELECT
+                aca.id AS id,
+                aca.activity_content_id AS activity_content_id,
+                aca.asset_kind AS asset_kind,
+                aca.asset_order AS asset_order,
+                aca.asset_ref AS asset_ref
+            FROM activity_content_assets aca
+            WHERE aca.activity_content_id = ?
+            ORDER BY aca.asset_kind ASC, aca.asset_order ASC
+        `,
+        [activityContentId]
+    );
+}
+
+export function listMultiChoiceQuizQuestionRowsByActivityContentId(
+    db: SqliteDatabase,
+    activityContentId: string
+): MultiChoiceQuizQuestionRow[] {
+    return queryAll<MultiChoiceQuizQuestionRow>(
+        db,
+        `
+            SELECT
+                mq.id AS id,
+                mq.activity_content_id AS activity_content_id,
+                mq.question_order AS question_order,
+                mq.question_text AS question_text
+            FROM multichoicequiz_questions mq
+            WHERE mq.activity_content_id = ?
+            ORDER BY mq.question_order ASC
+        `,
+        [activityContentId]
+    );
+}
+
+export function listMultiChoiceQuizOptionRowsByActivityContentId(
+    db: SqliteDatabase,
+    activityContentId: string
+): MultiChoiceQuizOptionRow[] {
+    return queryAll<MultiChoiceQuizOptionRow>(
+        db,
+        `
+            SELECT
+                mo.id AS id,
+                mo.question_id AS question_id,
+                mo.option_key AS option_key,
+                mo.option_order AS option_order,
+                mo.answer_text AS answer_text,
+                mo.is_correct AS is_correct
+            FROM multichoicequiz_options mo
+            INNER JOIN multichoicequiz_questions mq
+                ON mq.id = mo.question_id
+            WHERE mq.activity_content_id = ?
+            ORDER BY mq.question_order ASC, mo.option_order ASC
+        `,
+        [activityContentId]
     );
 }
 
@@ -288,6 +410,7 @@ export type ActivityMultiChoiceQuizAnswerRow = {
     attempt_id: string;
     learner_id: string;
     unit_cycle_activity_id: string;
+    question_id: string;
     question: string;
     is_answered: boolean;
     selected_option: string | null;
@@ -307,6 +430,7 @@ export function getMultiChoiceQuizAnswerRowsByAttemptId(
                 mcqa.attempt_id AS attempt_id,
                 mcqa.learner_id AS learner_id,
                 mcqa.unit_cycle_activity_id AS unit_cycle_activity_id,
+                mcqa.question_id AS question_id,
                 mcqa.question AS question,
                 mcqa.is_answered AS is_answered,
                 mcqa.selected_option AS selected_option,

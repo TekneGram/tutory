@@ -1,114 +1,90 @@
-import { z } from "zod";
 import type {
+    MultiChoiceQuizAnswer,
     MultiChoiceQuizAudioRefDto,
-    MultiChoiceQuizVideoRefDto,
     MultiChoiceQuizImageRefDto,
+    MultiChoiceQuizQuestion,
     MultiChoiceQuizLearnerAnswer,
-
+    MultiChoiceQuizVideoRefDto,
 } from "@electron/ipc/contracts/activities.contracts";
-import { ActivityMultiChoiceQuizAnswerRow } from "@electron/db/repositories/activityRepositories";
-
-const multiChoiceQuizImageRefSchema = z.object({
-    order: z.number(),
-    imageRef: z.string(),
-}).strict();
-
-const multiChoiceQuizAudioRefSchema = z.object({
-    order: z.number(),
-    audioRef: z.string(),
-}).strict();
-
-const multiChoiceQuizVideoRefSchema = z.object({
-    order: z.number(),
-    videoRef: z.string(),
-}).strict();
-
-const isCorrectSchema = z.union([z.boolean(), z.string()]).transform((value, ctx) => {
-    if (typeof value === "boolean") return value;
-
-    const normalized = value.trim().toLowerCase();
-    if (normalized === "true") return true;
-    if (normalized === "false") return false;
-
-    ctx.addIssue({
-        code: "custom",
-        message: "is_correct must be true/false or \"true\"/\"false\"",
-    });
-
-    return z.NEVER;
-});
-
-const multiChoiceQuizAnswerSchema = z.object({
-    option: z.string(),
-    answer: z.string(),
-    is_correct: isCorrectSchema,
-}).strict();
-
-const multiChoiceQuizContentSchema = z.object({
-    instructions: z.string(),
-    advice: z.string(),
-    title: z.string(),
-    assetBase: z.string().trim().min(1).optional().nullable(),
-    assets: z.object({
-        imageRefs: z.array(multiChoiceQuizImageRefSchema),
-        audioRefs: z.array(multiChoiceQuizAudioRefSchema),
-        videoRefs: z.array(multiChoiceQuizVideoRefSchema)
-    }).strict(),
-    questions: z.array(
-        z.object({
-            question: z.string(),
-            answers: z.array(multiChoiceQuizAnswerSchema)
-        })
-    )
-})
-
-export type MultiChoiceQuizContent = z.infer<typeof multiChoiceQuizContentSchema>
-
-export function parseMultiChoiceQuizContent(contentJson: string): MultiChoiceQuizContent {
-    return multiChoiceQuizContentSchema.parse(JSON.parse(contentJson));
-}
+import type {
+    ActivityContentAssetRow,
+    ActivityMultiChoiceQuizAnswerRow,
+    MultiChoiceQuizOptionRow,
+    MultiChoiceQuizQuestionRow,
+} from "@electron/db/repositories/activityRepositories";
 
 export function toMultiChoiceQuizImageRefDtos(
-    imageRefs: MultiChoiceQuizContent["assets"]["imageRefs"]
+    assets: ActivityContentAssetRow[]
 ): MultiChoiceQuizImageRefDto[] {
-    return [...imageRefs]
-        .sort((left, right) => left.order - right.order)
-        .map((imageRef) => ({
-            order: imageRef.order,
-            imageRef: imageRef.imageRef,
+    return assets
+        .filter((asset) => asset.asset_kind === "image")
+        .sort((left, right) => left.asset_order - right.asset_order)
+        .map((asset) => ({
+            order: asset.asset_order,
+            imageRef: asset.asset_ref,
         }));
 }
 
 export function toMultiChoiceQuizAudioRefDtos(
-    audioRefs: MultiChoiceQuizContent["assets"]["audioRefs"]
+    assets: ActivityContentAssetRow[]
 ): MultiChoiceQuizAudioRefDto[] {
-    return [...audioRefs]
-        .sort((left, right) => left.order - right.order)
-        .map((audioRef) => ({
-            order: audioRef.order,
-            audioRef: audioRef.audioRef,
+    return assets
+        .filter((asset) => asset.asset_kind === "audio")
+        .sort((left, right) => left.asset_order - right.asset_order)
+        .map((asset) => ({
+            order: asset.asset_order,
+            audioRef: asset.asset_ref,
         }));
 }
 
 export function toMultiChoiceQuizVideoRefDtos(
-    videoRefs: MultiChoiceQuizContent["assets"]["videoRefs"]
+    assets: ActivityContentAssetRow[]
 ): MultiChoiceQuizVideoRefDto[] {
-    return [...videoRefs]
-        .sort((left, right) => left.order - right.order)
-        .map((videoRef) => ({
-            order: videoRef.order,
-            videoRef: videoRef.videoRef,
+    return assets
+        .filter((asset) => asset.asset_kind === "video")
+        .sort((left, right) => left.asset_order - right.asset_order)
+        .map((asset) => ({
+            order: asset.asset_order,
+            videoRef: asset.asset_ref,
+        }));
+}
+
+export function toMultiChoiceQuizQuestions(
+    questions: MultiChoiceQuizQuestionRow[],
+    options: MultiChoiceQuizOptionRow[]
+): MultiChoiceQuizQuestion[] {
+    const optionsByQuestionId = new Map<string, MultiChoiceQuizAnswer[]>();
+
+    for (const option of options) {
+        const mapped: MultiChoiceQuizAnswer = {
+            optionId: option.id,
+            option: option.option_key,
+            answer: option.answer_text,
+            is_correct: option.is_correct,
+        };
+
+        const group = optionsByQuestionId.get(option.question_id) ?? [];
+        group.push(mapped);
+        optionsByQuestionId.set(option.question_id, group);
+    }
+
+    return questions
+        .sort((left, right) => left.question_order - right.question_order)
+        .map((question) => ({
+            questionId: question.id,
+            question: question.question_text,
+            answers: optionsByQuestionId.get(question.id) ?? [],
         }));
 }
 
 export function toMultiChoiceQuizLearnerAnswers(
     answers: ActivityMultiChoiceQuizAnswerRow[]
 ): MultiChoiceQuizLearnerAnswer[] {
-    const learnerAnswer = answers.map(answer => ({
+    const learnerAnswer = answers.map((answer) => ({
         attemptId: answer.attempt_id,
         learnerId: answer.learner_id,
         unitCycleActivityId: answer.unit_cycle_activity_id,
-        question: answer.question,
+        questionId: answer.question_id,
         isAnswered: answer.is_answered,
         selectedOption: answer.selected_option,
         isCorrect: answer.is_correct,
