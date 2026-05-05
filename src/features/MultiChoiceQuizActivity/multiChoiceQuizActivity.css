@@ -1,0 +1,104 @@
+.multi-choice-quiz {
+  display: grid;
+  gap: 1rem;
+}
+
+.multi-choice-quiz__header h2 {
+  margin: 0 0 0.25rem;
+}
+
+.multi-choice-quiz__header p {
+  margin: 0;
+}
+
+.multi-choice-quiz__hint {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.multi-choice-quiz__hint-button {
+  border: 1px solid var(--color-border-soft, #d0d0d0);
+  background: var(--color-surface, #fff);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  cursor: pointer;
+}
+
+.multi-choice-quiz__hint-text {
+  margin: 0;
+}
+
+.multi-choice-quiz__score {
+  border: 1px solid var(--color-border-soft, #d0d0d0);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+}
+
+.multi-choice-quiz__question-card {
+  border: 1px solid var(--color-border-soft, #d0d0d0);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.multi-choice-quiz__question-meta {
+  margin: 0;
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+.multi-choice-quiz__question-text {
+  margin: 0;
+}
+
+.multi-choice-quiz__answers {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.multi-choice-quiz__answer-button {
+  text-align: left;
+  border: 1px solid var(--color-border-soft, #d0d0d0);
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.75rem;
+  background: var(--color-surface, #fff);
+  cursor: pointer;
+}
+
+.multi-choice-quiz__answer-button.is-selected {
+  border-color: var(--color-accent, #4a6ee0);
+}
+
+.multi-choice-quiz__answer-button.is-correct {
+  border-color: #2d8a4f;
+  background: #eaf8f0;
+}
+
+.multi-choice-quiz__answer-button.is-incorrect {
+  border-color: #ba2d2d;
+  background: #fdeeee;
+}
+
+.multi-choice-quiz__actions,
+.multi-choice-quiz__nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.multi-choice-quiz__actions button,
+.multi-choice-quiz__nav button {
+  border: 1px solid var(--color-border-soft, #d0d0d0);
+  background: var(--color-surface, #fff);
+  border-radius: 0.5rem;
+  padding: 0.45rem 0.75rem;
+  cursor: pointer;
+}
+
+.multi-choice-quiz__actions button:disabled,
+.multi-choice-quiz__nav button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
