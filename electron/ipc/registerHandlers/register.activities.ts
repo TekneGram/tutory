@@ -23,12 +23,12 @@ import {
     submitStoryFeedbackSchema,
     getMultiChoiceQuizActivitySchema,
 } from "../validationSchemas/activities.schemas";
-import { getStoryActivity } from "@electron/services/activities/getStoryActivity";
+import { getStoryActivity } from "@electron/services/activities/storyActivity/getStoryActivity";
 import { listUnitCycleActivities } from "@electron/services/activities/listUnitCycleActivities";
-import { submitStoryFeedback } from "@electron/services/activities/submitStoryFeedback";
-import { getMultiChoiceQuizActivity } from "@electron/services/activities/getMultiChoiceQuizActivity";
-import { checkMultiChoiceQuizAnswers } from "@electron/services/activities/checkMultiChoiceQuizAnswers";
-import { retryMultiChoiceQuiz } from "@electron/services/activities/retryMultiChoiceQuiz";
+import { submitStoryFeedback } from "@electron/services/activities/storyActivity/submitStoryFeedback";
+import { getMultiChoiceQuizActivity } from "@electron/services/activities/multiChoiceQuiz/getMultiChoiceQuizAnswers";
+import { checkMultiChoiceQuizAnswers } from "@electron/services/activities/multiChoiceQuiz/checkMultiChoiceQuizAnswers";
+import { retryMultiChoiceQuiz } from "@electron/services/activities/multiChoiceQuiz/retryMultiChoiceQuiz";
 
 export function RegisterActivitiesHandlers(dependencies: IpcDependencies): void {
     void dependencies;

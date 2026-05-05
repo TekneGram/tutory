@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   toMultiChoiceQuizLearnerAnswers,
   toMultiChoiceQuizQuestions,
-} from "../multiChoiceQuizSchema";
+} from "../../multiChoiceQuiz/getMultiChoiceQuiz/multiChoiceQuizSchema";
 
 describe("multiChoiceQuizSchema", () => {
   it("maps numeric db correctness flags to boolean in questions", () => {

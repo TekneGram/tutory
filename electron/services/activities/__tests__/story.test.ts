@@ -13,8 +13,8 @@ import {
 } from "@electron/db/repositories/activityRepositories";
 import { runInTransaction } from "@electron/db/sqlite";
 
-import { getStoryActivity } from "../getStoryActivity";
-import { submitStoryFeedback } from "../submitStoryFeedback";
+import { getStoryActivity } from "../storyActivity/getStoryActivity";
+import { submitStoryFeedback } from "../storyActivity/submitStoryFeedback";
 
 function makeContext(correlationId: string): RequestContext {
     return {
