@@ -8,6 +8,8 @@ import type {
     GetStoryActivityResponse,
     ListUnitCycleActivitiesRequest,
     ListUnitCycleActivitiesResponse,
+    SubmitMultiChoiceQuizAnswerRequest,
+    SubmitMultiChoiceQuizAnswerResponse,
     SubmitStoryFeedbackRequest,
     SubmitStoryFeedbackResponse,
 } from "../contracts/activities.contracts";
@@ -15,12 +17,14 @@ import {
     getStoryActivitySchema,
     listUnitCycleActivitiesSchema,
     submitStoryFeedbackSchema,
-    getMultiChoiceQuizActivitySchema
+    getMultiChoiceQuizActivitySchema,
+    submitMultiChoiceQuizAnswerSchema,
 } from "../validationSchemas/activities.schemas";
 import { getStoryActivity } from "@electron/services/activities/getStoryActivity";
 import { listUnitCycleActivities } from "@electron/services/activities/listUnitCycleActivities";
 import { submitStoryFeedback } from "@electron/services/activities/submitStoryFeedback";
 import { getMultiChoiceQuizActivity } from "@electron/services/activities/getMultiChoiceQuizActivity";
+import { raiseAppError } from "@electron/core/appException";
 
 export function RegisterActivitiesHandlers(dependencies: IpcDependencies): void {
     void dependencies;
@@ -55,5 +59,16 @@ export function RegisterActivitiesHandlers(dependencies: IpcDependencies): void 
             const args = validateOrThrow(getMultiChoiceQuizActivitySchema, rawArgs);
             return getMultiChoiceQuizActivity(args, ctx);
         }
-    )
+    );
+
+    safeHandle<SubmitMultiChoiceQuizAnswerRequest, SubmitMultiChoiceQuizAnswerResponse>(
+        "activities:multi-choice-quiz:submit-answer",
+        async (_event, rawArgs, _ctx) => {
+            void validateOrThrow(submitMultiChoiceQuizAnswerSchema, rawArgs);
+            raiseAppError(
+                "INTERNAL_UNEXPECTED",
+                "Submit multi choice quiz answer handler is not implemented yet."
+            );
+        }
+    );
 }

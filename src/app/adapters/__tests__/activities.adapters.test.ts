@@ -84,4 +84,39 @@ describe("activitiesAdapter", () => {
       comment: "Good pacing.",
     });
   });
+
+  it("invokes the multi choice quiz submit-answer channel with the request payload", async () => {
+    vi.mocked(invokeRequest).mockResolvedValue({
+      ok: true,
+      value: {
+        learnerAnswer: {
+          attemptId: "attempt-1",
+          learnerId: "learner-1",
+          unitCycleActivityId: "activity-1",
+          questionId: "question-1",
+          isAnswered: true,
+          selectedOption: "option-a",
+          isCorrect: true,
+          createdAt: "2026-05-05T00:00:00.000Z",
+          updatedAt: "2026-05-05T00:00:00.000Z",
+        },
+      },
+    });
+
+    await activitiesAdapter.submitMultiChoiceQuizAnswer({
+      learnerId: "learner-1",
+      unitCycleActivityId: "activity-1",
+      questionId: "question-1",
+      selectedOption: "option-a",
+      isCorrect: true,
+    });
+
+    expect(invokeRequest).toHaveBeenCalledWith("activities:multi-choice-quiz:submit-answer", {
+      learnerId: "learner-1",
+      unitCycleActivityId: "activity-1",
+      questionId: "question-1",
+      selectedOption: "option-a",
+      isCorrect: true,
+    });
+  });
 });

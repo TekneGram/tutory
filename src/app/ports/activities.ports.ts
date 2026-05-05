@@ -191,4 +191,5 @@ export interface ActivitiesPort {
   getStoryActivity(request: GetStoryActivityRequest): Promise<AppResult<GetStoryActivityResponse>>;
   submitStoryFeedback(request: SubmitStoryFeedbackRequest): Promise<AppResult<SubmitStoryFeedbackResponse>>;
   getMultiChoiceQuizActivity(request: GetMultiChoiceQuizActivityRequest): Promise<AppResult<GetMultiChoiceQuizActivityResponse>>;
+  submitMultiChoiceQuizAnswer(request: SubmitMultiChoiceQuizAnswerRequest): Promise<AppResult<SubmitMultiChoiceQuizAnswerResponse>>;
 }

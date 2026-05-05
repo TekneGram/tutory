@@ -3,6 +3,7 @@ import type {
     GetMultiChoiceQuizActivityRequest,
     GetStoryActivityRequest,
     ListUnitCycleActivitiesRequest,
+    SubmitMultiChoiceQuizAnswerRequest,
     SubmitStoryFeedbackRequest,
 } from "../contracts/activities.contracts";
 
@@ -10,6 +11,9 @@ const unitCycleIdSchema = z.string().trim().min(1);
 const learnerIdSchema = z.string().trim().min(1);
 const unitCycleActivityIdSchema = z.string().trim().min(1);
 const selectedAnswerSchema = z.string().trim().min(1);
+const questionIdSchema = z.string().trim().min(1);
+const selectedOptionSchema = z.string().trim().min(1);
+const isCorrectSchema = z.boolean();
 const commentSchema = z.string();
 
 export const listUnitCycleActivitiesSchema: z.ZodType<ListUnitCycleActivitiesRequest> = z
@@ -38,5 +42,15 @@ export const getMultiChoiceQuizActivitySchema: z.ZodType<GetMultiChoiceQuizActiv
     .object({
         learnerId: learnerIdSchema,
         unitCycleActivityId: unitCycleActivityIdSchema,
+    })
+    .strict();
+
+export const submitMultiChoiceQuizAnswerSchema: z.ZodType<SubmitMultiChoiceQuizAnswerRequest> = z
+    .object({
+        learnerId: learnerIdSchema,
+        unitCycleActivityId: unitCycleActivityIdSchema,
+        questionId: questionIdSchema,
+        selectedOption: selectedOptionSchema,
+        isCorrect: isCorrectSchema,
     })
     .strict();

@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
     getStoryActivitySchema,
     listUnitCycleActivitiesSchema,
+    submitMultiChoiceQuizAnswerSchema,
     submitStoryFeedbackSchema,
 } from "../activities.schemas";
 
@@ -70,6 +71,48 @@ describe("activities schemas", () => {
                 unitCycleActivityId: "activity-1",
                 selectedAnswer: "   ",
                 comment: "",
+            })
+        ).toThrow();
+    });
+
+    it("accepts a valid submitMultiChoiceQuizAnswer request", () => {
+        expect(
+            submitMultiChoiceQuizAnswerSchema.parse({
+                learnerId: "learner-1",
+                unitCycleActivityId: "activity-1",
+                questionId: "question-1",
+                selectedOption: "option-a",
+                isCorrect: false,
+            })
+        ).toEqual({
+            learnerId: "learner-1",
+            unitCycleActivityId: "activity-1",
+            questionId: "question-1",
+            selectedOption: "option-a",
+            isCorrect: false,
+        });
+    });
+
+    it("rejects blank submitMultiChoiceQuizAnswer fields", () => {
+        expect(() =>
+            submitMultiChoiceQuizAnswerSchema.parse({
+                learnerId: "learner-1",
+                unitCycleActivityId: "activity-1",
+                questionId: "   ",
+                selectedOption: "option-a",
+                isCorrect: true,
+            })
+        ).toThrow();
+    });
+
+    it("rejects non-boolean isCorrect for submitMultiChoiceQuizAnswer", () => {
+        expect(() =>
+            submitMultiChoiceQuizAnswerSchema.parse({
+                learnerId: "learner-1",
+                unitCycleActivityId: "activity-1",
+                questionId: "question-1",
+                selectedOption: "option-a",
+                isCorrect: "true",
             })
         ).toThrow();
     });
