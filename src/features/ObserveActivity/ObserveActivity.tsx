@@ -8,6 +8,17 @@ import { usePlaceObserveWordMutation } from "./hooks/usePlaceObserveWordMutation
 import { useResetObserveActivityMutation } from "./hooks/useResetObserveActivityMutation";
 import "./observeActivity.css";
 
+function createShuffledWordOrder(wordIds: string[]): string[] {
+  const next = [...wordIds];
+
+  for (let index = next.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [next[index], next[swapIndex]] = [next[swapIndex], next[index]];
+  }
+
+  return next;
+}
+
 const ObserveActivity = ({
   learnerId,
   learningType,
@@ -60,24 +71,13 @@ const ObserveActivity = ({
     );
   }, [observe]);
 
-  function shuffleWordIds(wordIds: string[]) {
-    const next = [...wordIds];
-
-    for (let index = next.length - 1; index > 0; index -= 1) {
-      const swapIndex = Math.floor(Math.random() * (index + 1));
-      [next[index], next[swapIndex]] = [next[swapIndex], next[index]];
-    }
-
-    return next;
-  }
-
   useEffect(() => {
     if (!observe) {
       return;
     }
 
     if (wordOrderActivityId !== unitCycleActivityId || wordOrder.length !== observe.words.length) {
-      setWordOrder(shuffleWordIds(observe.words.map((word) => word.wordId)));
+      setWordOrder(createShuffledWordOrder(observe.words.map((word) => word.wordId)));
       setWordOrderActivityId(unitCycleActivityId);
     }
   }, [observe, unitCycleActivityId, wordOrder.length, wordOrderActivityId]);
@@ -89,11 +89,15 @@ const ObserveActivity = ({
 
     const wordById = new Map(observe.words.map((word) => [word.wordId, word]));
 
-    return wordOrder
-      .map((wordId) => wordById.get(wordId))
-      .filter((word): word is (typeof observe.words)[number] => Boolean(word))
-      .filter((word) => !correctWordIds.has(word.wordId))
-      .map((word) => ({ wordId: word.wordId, word: word.word }));
+    return wordOrder.flatMap((wordId) => {
+      const word = wordById.get(wordId);
+
+      if (!word || correctWordIds.has(word.wordId)) {
+        return [];
+      }
+
+      return [{ wordId: word.wordId, word: word.word }];
+    });
   }, [observe, correctWordIds, wordOrder]);
 
   const categoriesWithWords = useMemo(() => {
@@ -137,7 +141,8 @@ const ObserveActivity = ({
     return <section aria-live="polite">Observe activity is unavailable.</section>;
   }
 
-  const isComplete = observe.progress.isFinished;
+  const observeData = observe;
+  const isComplete = observeData.progress.isFinished;
 
   async function handleDropWord(wordId: string, categoryId: string) {
     setSubmitError(null);
@@ -178,7 +183,7 @@ const ObserveActivity = ({
         learnerId,
         unitCycleActivityId,
       });
-      setWordOrder(shuffleWordIds(observe.words.map((word) => word.wordId)));
+      setWordOrder(createShuffledWordOrder(observeData.words.map((word) => word.wordId)));
       setWordOrderActivityId(unitCycleActivityId);
       setIncorrectWordIds(new Set());
       setActiveDropCategoryId(null);
@@ -190,13 +195,13 @@ const ObserveActivity = ({
   return (
     <section className="observe-activity" aria-labelledby="observe-activity-title">
       <header className="observe-activity__header">
-        <h2 id="observe-activity-title">{observe.title}</h2>
-        <p>{observe.instructions}</p>
+        <h2 id="observe-activity-title">{observeData.title}</h2>
+        <p>{observeData.instructions}</p>
       </header>
 
-      <p className="observe-activity__hint">{observe.advice}</p>
+      <p className="observe-activity__hint">{observeData.advice}</p>
 
-      <MultipleImageDisplay imageRefs={observe.assets.imageRefs} assetBase={observe.assetBase} />
+      <MultipleImageDisplay imageRefs={observeData.assets.imageRefs} assetBase={observeData.assetBase} />
 
       <div className="observe-activity__panels">
         <WordsPanel words={availableWords} incorrectWordIds={incorrectWordIds} />
