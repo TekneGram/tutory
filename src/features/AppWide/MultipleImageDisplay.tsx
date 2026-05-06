@@ -1,11 +1,18 @@
+import type { ImageRef } from "@/app/types/media";
+import ImageContainer from "@/features/ActivitySubComponents/ImageContainer/ImageContainer";
 
-// Displays multiple images and allows scrolling through each image
-const MultipleImageDisplay = () => {
+type MultipleImageDisplayProps = {
+  imageRefs: ImageRef[];
+  assetBase: string | null;
+  autoScroll?: boolean;
+};
 
-    return(
-        <>
-        </>
-    );
+const MultipleImageDisplay = ({ imageRefs, assetBase, autoScroll = false }: MultipleImageDisplayProps) => {
+  if (imageRefs.length === 0) {
+    return null;
+  }
+
+  return <ImageContainer imageRefs={imageRefs} assetBase={assetBase} autoScroll={autoScroll} />;
 };
 
 export default MultipleImageDisplay;

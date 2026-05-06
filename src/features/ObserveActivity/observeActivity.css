@@ -1,0 +1,140 @@
+.observe-activity {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-3xl);
+  background: linear-gradient(180deg, var(--color-surface-raised) 0%, var(--color-surface) 100%);
+  box-shadow: var(--shadow-md);
+}
+
+.observe-activity__header h2 {
+  margin: 0;
+}
+
+.observe-activity__header p {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-muted);
+}
+
+.observe-activity__hint {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.observe-activity__panels {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.observe-words-panel,
+.observe-categories-panel {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.observe-words-panel h3,
+.observe-categories-panel h3 {
+  margin: 0;
+  font-size: var(--font-size-title-sm);
+}
+
+.observe-words-panel__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  min-height: 3rem;
+}
+
+.observe-word-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+  padding: 0.45rem 0.8rem;
+  cursor: grab;
+  transition: transform var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.observe-word-card:hover {
+  transform: translateY(-1px);
+}
+
+.observe-word-card:active {
+  cursor: grabbing;
+}
+
+.observe-word-card--incorrect {
+  border-color: color-mix(in oklab, var(--color-danger, #ff4a4a) 70%, black 5%);
+  background: color-mix(in oklab, var(--color-danger, #ff4a4a) 15%, white 85%);
+  color: var(--color-danger, #b82020);
+}
+
+.observe-categories-panel__list {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.observe-category-card {
+  min-height: 9rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  background: var(--color-surface-raised);
+  padding: var(--space-3);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.observe-category-card--active {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-interactive-hover);
+}
+
+.observe-category-card__header h4 {
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.observe-category-card__words {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: var(--space-2);
+}
+
+.observe-category-card__word-pill {
+  margin: 0;
+  padding: 0.35rem 0.6rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid color-mix(in oklab, var(--color-success, #24a148) 30%, white 70%);
+  background: color-mix(in oklab, var(--color-success, #24a148) 16%, white 84%);
+  color: var(--color-success, #1f8f3f);
+  font-size: var(--font-size-caption-lg, 0.92rem);
+}
+
+.observe-activity__completion {
+  margin: 0;
+  color: var(--color-success, #1f8f3f);
+  font-weight: var(--font-weight-semibold);
+}
+
+.observe-activity__actions button {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+  padding: 0.45rem 0.75rem;
+  cursor: pointer;
+}
+
+.observe-activity__error {
+  margin: 0;
+  color: var(--color-error-text);
+}
+
+@media (max-width: 740px) {
+  .observe-activity {
+    padding: var(--space-4);
+  }
+}
