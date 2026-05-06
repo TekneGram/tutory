@@ -18,6 +18,14 @@ import type {
   RetryVocabReviewWordResponse,
 } from "./activities/vocabreview.ports";
 import type {
+  GetObserveActivityRequest,
+  GetObserveActivityResponse,
+  PlaceObserveWordRequest,
+  PlaceObserveWordResponse,
+  ResetObserveActivityRequest,
+  ResetObserveActivityResponse,
+} from "./activities/observe.ports";
+import type {
   GetStoryActivityRequest,
   GetStoryActivityResponse,
   SubmitStoryFeedbackRequest,
@@ -80,6 +88,9 @@ export interface ActivitiesPort {
   checkVocabReviewWord(request: CheckVocabReviewWordRequest): Promise<AppResult<CheckVocabReviewWordResponse>>;
   retryVocabReviewWord(request: RetryVocabReviewWordRequest): Promise<AppResult<RetryVocabReviewWordResponse>>;
   resetVocabReviewActivity(request: ResetVocabReviewActivityRequest): Promise<AppResult<ResetVocabReviewActivityResponse>>;
+  getObserveActivity(request: GetObserveActivityRequest): Promise<AppResult<GetObserveActivityResponse>>;
+  placeObserveWord(request: PlaceObserveWordRequest): Promise<AppResult<PlaceObserveWordResponse>>;
+  resetObserveActivity(request: ResetObserveActivityRequest): Promise<AppResult<ResetObserveActivityResponse>>;
   getWriteExtraActivity(request: GetWriteExtraActivityRequest): Promise<AppResult<GetWriteExtraActivityResponse>>;
   submitWriteExtra(request: SubmitWriteExtraRequest): Promise<AppResult<SubmitWriteExtraResponse>>;
   resumeWriteExtra(request: ResumeWriteExtraRequest): Promise<AppResult<ResumeWriteExtraResponse>>;
@@ -115,6 +126,19 @@ export type {
   ResetVocabReviewActivityRequest,
   ResetVocabReviewActivityResponse,
 } from "./activities/vocabreview.ports";
+
+export type {
+  GetObserveActivityRequest,
+  GetObserveActivityResponse,
+  ObserveWordDto,
+  ObserveCategoryDto,
+  ObserveLearnerWordStateDto,
+  ObserveProgressDto,
+  PlaceObserveWordRequest,
+  PlaceObserveWordResponse,
+  ResetObserveActivityRequest,
+  ResetObserveActivityResponse,
+} from "./activities/observe.ports";
 
 export type {
   GetWriteExtraActivityRequest,

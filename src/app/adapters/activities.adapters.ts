@@ -29,6 +29,14 @@ import type {
   RetryVocabReviewWordResponse,
 } from "@/app/ports/activities/vocabreview.ports";
 import type {
+  GetObserveActivityRequest,
+  GetObserveActivityResponse,
+  PlaceObserveWordRequest,
+  PlaceObserveWordResponse,
+  ResetObserveActivityRequest,
+  ResetObserveActivityResponse,
+} from "@/app/ports/activities/observe.ports";
+import type {
   GetWriteExtraActivityRequest,
   GetWriteExtraActivityResponse,
   ResumeWriteExtraRequest,
@@ -95,6 +103,24 @@ export const activitiesAdapter: ActivitiesPort = {
   async resetVocabReviewActivity(request: ResetVocabReviewActivityRequest) {
     return invokeRequest<ResetVocabReviewActivityRequest, ResetVocabReviewActivityResponse>(
       "activities:vocab-review:reset",
+      request,
+    );
+  },
+  async getObserveActivity(request: GetObserveActivityRequest) {
+    return invokeRequest<GetObserveActivityRequest, GetObserveActivityResponse>(
+      "activities:observe:get",
+      request,
+    );
+  },
+  async placeObserveWord(request: PlaceObserveWordRequest) {
+    return invokeRequest<PlaceObserveWordRequest, PlaceObserveWordResponse>(
+      "activities:observe:place-word",
+      request,
+    );
+  },
+  async resetObserveActivity(request: ResetObserveActivityRequest) {
+    return invokeRequest<ResetObserveActivityRequest, ResetObserveActivityResponse>(
+      "activities:observe:reset",
       request,
     );
   },

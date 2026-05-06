@@ -1,10 +1,13 @@
 import { z } from "zod";
 import type {
     CheckMultiChoiceQuizAnswersRequest,
+    GetObserveActivityRequest,
     CheckVocabReviewWordRequest,
     GetMultiChoiceQuizActivityRequest,
     GetVocabReviewActivityRequest,
     GetWriteExtraActivityRequest,
+    PlaceObserveWordRequest,
+    ResetObserveActivityRequest,
     ResetVocabReviewActivityRequest,
     ResumeWriteExtraRequest,
     RetryMultiChoiceQuizRequest,
@@ -22,6 +25,7 @@ const selectedAnswerSchema = z.string().trim().min(1);
 const questionIdSchema = z.string().trim().min(1);
 const selectedOptionSchema = z.string().trim().min(1);
 const wordIdSchema = z.string().trim().min(1);
+const categoryIdSchema = z.string().trim().min(1);
 const learnerInputSchema = z.string();
 const commentSchema = z.string();
 
@@ -101,6 +105,29 @@ export const retryVocabReviewWordSchema: z.ZodType<RetryVocabReviewWordRequest> 
     .strict();
 
 export const resetVocabReviewActivitySchema: z.ZodType<ResetVocabReviewActivityRequest> = z
+    .object({
+        learnerId: learnerIdSchema,
+        unitCycleActivityId: unitCycleActivityIdSchema,
+    })
+    .strict();
+
+export const getObserveActivitySchema: z.ZodType<GetObserveActivityRequest> = z
+    .object({
+        learnerId: learnerIdSchema,
+        unitCycleActivityId: unitCycleActivityIdSchema,
+    })
+    .strict();
+
+export const placeObserveWordSchema: z.ZodType<PlaceObserveWordRequest> = z
+    .object({
+        learnerId: learnerIdSchema,
+        unitCycleActivityId: unitCycleActivityIdSchema,
+        wordId: wordIdSchema,
+        categoryId: categoryIdSchema,
+    })
+    .strict();
+
+export const resetObserveActivitySchema: z.ZodType<ResetObserveActivityRequest> = z
     .object({
         learnerId: learnerIdSchema,
         unitCycleActivityId: unitCycleActivityIdSchema,

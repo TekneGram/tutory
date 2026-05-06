@@ -4,6 +4,12 @@ import { validateOrThrow } from "../validate";
 import type {
     CheckMultiChoiceQuizAnswersRequest,
     CheckMultiChoiceQuizAnswersResponse,
+    GetObserveActivityRequest,
+    GetObserveActivityResponse,
+    PlaceObserveWordRequest,
+    PlaceObserveWordResponse,
+    ResetObserveActivityRequest,
+    ResetObserveActivityResponse,
     CheckVocabReviewWordRequest,
     CheckVocabReviewWordResponse,
     GetMultiChoiceQuizActivityRequest,
@@ -32,9 +38,12 @@ import type {
 import {
     checkMultiChoiceQuizAnswersSchema,
     checkVocabReviewWordSchema,
+    getObserveActivitySchema,
     getVocabReviewActivitySchema,
     getStoryActivitySchema,
     getWriteExtraActivitySchema,
+    placeObserveWordSchema,
+    resetObserveActivitySchema,
     listUnitCycleActivitiesSchema,
     resetVocabReviewActivitySchema,
     resumeWriteExtraSchema,
@@ -54,6 +63,9 @@ import { checkVocabReviewWord } from "@electron/services/activities/vocabReview/
 import { getVocabReviewActivity } from "@electron/services/activities/vocabReview/getVocabReviewActivity";
 import { resetVocabReviewActivity } from "@electron/services/activities/vocabReview/resetVocabReviewActivity";
 import { retryVocabReviewWord } from "@electron/services/activities/vocabReview/retryVocabReviewWord";
+import { getObserveActivity } from "@electron/services/activities/observe/getObserveActivity";
+import { placeObserveWord } from "@electron/services/activities/observe/placeObserveWord";
+import { resetObserveActivity } from "@electron/services/activities/observe/resetObserveActivity";
 import { getWriteExtraActivity } from "@electron/services/activities/writeExtra/getWriteExtraActivity";
 import { resumeWriteExtra } from "@electron/services/activities/writeExtra/resumeWriteExtra";
 import { submitWriteExtra } from "@electron/services/activities/writeExtra/submitWriteExtra";
@@ -138,6 +150,30 @@ export function RegisterActivitiesHandlers(dependencies: IpcDependencies): void 
         async (_event, rawArgs, ctx) => {
             const args = validateOrThrow(resetVocabReviewActivitySchema, rawArgs);
             return resetVocabReviewActivity(args, ctx);
+        }
+    );
+
+    safeHandle<GetObserveActivityRequest, GetObserveActivityResponse>(
+        "activities:observe:get",
+        async (_event, rawArgs, ctx) => {
+            const args = validateOrThrow(getObserveActivitySchema, rawArgs);
+            return getObserveActivity(args, ctx);
+        }
+    );
+
+    safeHandle<PlaceObserveWordRequest, PlaceObserveWordResponse>(
+        "activities:observe:place-word",
+        async (_event, rawArgs, ctx) => {
+            const args = validateOrThrow(placeObserveWordSchema, rawArgs);
+            return placeObserveWord(args, ctx);
+        }
+    );
+
+    safeHandle<ResetObserveActivityRequest, ResetObserveActivityResponse>(
+        "activities:observe:reset",
+        async (_event, rawArgs, ctx) => {
+            const args = validateOrThrow(resetObserveActivitySchema, rawArgs);
+            return resetObserveActivity(args, ctx);
         }
     );
 
