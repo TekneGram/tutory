@@ -35,6 +35,11 @@
   margin-top: var(--space-3);
 }
 
+.write-extra__story h1,
+.write-extra__story h2 {
+  margin: 0 0 var(--space-2);
+}
+
 .write-extra__hint {
   position: relative;
   display: inline-flex;
@@ -140,6 +145,11 @@
 
 .write-extra__submitted p + p {
   margin-top: var(--space-2);
+}
+
+.write-extra__submitted h1,
+.write-extra__submitted h2 {
+  margin: 0 0 var(--space-2);
 }
 
 .write-extra__error {

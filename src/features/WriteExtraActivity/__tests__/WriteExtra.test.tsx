@@ -67,7 +67,7 @@ describe("WriteExtra", () => {
   it("renders markdown formatting in completed view", () => {
     render(
       <WriteExtra
-        value={"Hello **bold** and *italic* plus <u>underlined</u> text."}
+        value={"# Main Title\n## Subtitle\nHello **bold** and *italic* plus <u>underlined</u> text."}
         isCompleted
         isSubmitting={false}
         isResuming={false}
@@ -78,6 +78,8 @@ describe("WriteExtra", () => {
       />,
     );
 
+    expect(screen.getByText("Main Title").tagName).toBe("H1");
+    expect(screen.getByText("Subtitle").tagName).toBe("H2");
     expect(screen.getByText("bold").tagName).toBe("STRONG");
     expect(screen.getByText("italic").tagName).toBe("EM");
     expect(screen.getByText("underlined").tagName).toBe("U");

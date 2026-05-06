@@ -41,21 +41,70 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
 }
 
 const MarkdownText = ({ text, className }: MarkdownTextProps) => {
-  const paragraphs = text.split(/\n{2,}/).filter((paragraph) => paragraph.length > 0);
+  const lines = text.split("\n");
+  const blocks: Array<{ kind: "h1" | "h2" | "p"; text: string }> = [];
+  let paragraphBuffer: string[] = [];
 
-  if (paragraphs.length === 0) {
+  function flushParagraphBuffer() {
+    if (paragraphBuffer.length === 0) {
+      return;
+    }
+    blocks.push({
+      kind: "p",
+      text: paragraphBuffer.join("\n"),
+    });
+    paragraphBuffer = [];
+  }
+
+  for (const line of lines) {
+    if (line.trim().length === 0) {
+      flushParagraphBuffer();
+      continue;
+    }
+
+    if (line.startsWith("## ")) {
+      flushParagraphBuffer();
+      blocks.push({
+        kind: "h2",
+        text: line.slice(3),
+      });
+      continue;
+    }
+
+    if (line.startsWith("# ")) {
+      flushParagraphBuffer();
+      blocks.push({
+        kind: "h1",
+        text: line.slice(2),
+      });
+      continue;
+    }
+
+    paragraphBuffer.push(line);
+  }
+
+  flushParagraphBuffer();
+
+  if (blocks.length === 0) {
     return null;
   }
 
   return (
     <div className={className}>
-      {paragraphs.map((paragraph, paragraphIndex) => {
-        const lines = paragraph.split("\n");
+      {blocks.map((block, blockIndex) => {
+        if (block.kind === "h1") {
+          return <h1 key={`h1-${blockIndex}`}>{parseInlineMarkdown(block.text)}</h1>;
+        }
 
+        if (block.kind === "h2") {
+          return <h2 key={`h2-${blockIndex}`}>{parseInlineMarkdown(block.text)}</h2>;
+        }
+
+        const paragraphLines = block.text.split("\n");
         return (
-          <p key={`p-${paragraphIndex}`}>
-            {lines.map((line, lineIndex) => (
-              <Fragment key={`l-${paragraphIndex}-${lineIndex}`}>
+          <p key={`p-${blockIndex}`}>
+            {paragraphLines.map((line, lineIndex) => (
+              <Fragment key={`l-${blockIndex}-${lineIndex}`}>
                 {lineIndex > 0 ? <br /> : null}
                 {parseInlineMarkdown(line)}
               </Fragment>

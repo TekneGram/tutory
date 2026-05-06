@@ -18,3 +18,11 @@
   - `src/features/WriteExtraActivity/__tests__/WriteExtraActivity.test.tsx`
   - `src/features/WriteExtraActivity/__tests__/WriteExtra.test.tsx`
   - Latest targeted run: all tests passed.
+- Added protocol-level media transport fixes for audio playback reliability:
+  - Implemented `HEAD` and `Range` request handling in `app-asset` protocol.
+  - Added `Accept-Ranges`, `Content-Length`, and `Content-Range` response behavior.
+  - Added protocol tests for byte-range parsing and response semantics.
+- Extended markdown rendering support in `WriteExtraActivity`:
+  - Added heading support for `#` (title) and `##` (subtitle).
+  - Headings now render in both story display and completed submission display.
+  - Added/updated tests to verify heading and inline markdown rendering.
