@@ -8,6 +8,12 @@ import type {
   GetVocabReviewActivityResponse as FrontGetVocabReviewActivityResponse,
   ResetVocabReviewActivityRequest as FrontResetVocabReviewActivityRequest,
   ResetVocabReviewActivityResponse as FrontResetVocabReviewActivityResponse,
+  GetWriteExtraActivityRequest as FrontGetWriteExtraActivityRequest,
+  GetWriteExtraActivityResponse as FrontGetWriteExtraActivityResponse,
+  SubmitWriteExtraRequest as FrontSubmitWriteExtraRequest,
+  SubmitWriteExtraResponse as FrontSubmitWriteExtraResponse,
+  ResumeWriteExtraRequest as FrontResumeWriteExtraRequest,
+  ResumeWriteExtraResponse as FrontResumeWriteExtraResponse,
   RetryMultiChoiceQuizRequest as FrontRetryMultiChoiceQuizRequest,
   RetryMultiChoiceQuizResponse as FrontRetryMultiChoiceQuizResponse,
   RetryVocabReviewWordRequest as FrontRetryVocabReviewWordRequest,
@@ -22,6 +28,12 @@ import type {
   GetVocabReviewActivityResponse as IpcGetVocabReviewActivityResponse,
   ResetVocabReviewActivityRequest as IpcResetVocabReviewActivityRequest,
   ResetVocabReviewActivityResponse as IpcResetVocabReviewActivityResponse,
+  GetWriteExtraActivityRequest as IpcGetWriteExtraActivityRequest,
+  GetWriteExtraActivityResponse as IpcGetWriteExtraActivityResponse,
+  SubmitWriteExtraRequest as IpcSubmitWriteExtraRequest,
+  SubmitWriteExtraResponse as IpcSubmitWriteExtraResponse,
+  ResumeWriteExtraRequest as IpcResumeWriteExtraRequest,
+  ResumeWriteExtraResponse as IpcResumeWriteExtraResponse,
   RetryMultiChoiceQuizRequest as IpcRetryMultiChoiceQuizRequest,
   RetryMultiChoiceQuizResponse as IpcRetryMultiChoiceQuizResponse,
   RetryVocabReviewWordRequest as IpcRetryVocabReviewWordRequest,
@@ -69,5 +81,22 @@ describe("activities boundary contracts", () => {
     expectTypeOf<IpcResetVocabReviewActivityRequest>().toEqualTypeOf<FrontResetVocabReviewActivityRequest>();
     expectTypeOf<FrontResetVocabReviewActivityResponse>().toEqualTypeOf<IpcResetVocabReviewActivityResponse>();
     expectTypeOf<IpcResetVocabReviewActivityResponse>().toEqualTypeOf<FrontResetVocabReviewActivityResponse>();
+  });
+
+  it("keeps write extra DTO parity across frontend and IPC boundaries", () => {
+    expectTypeOf<FrontGetWriteExtraActivityRequest>().toEqualTypeOf<IpcGetWriteExtraActivityRequest>();
+    expectTypeOf<IpcGetWriteExtraActivityRequest>().toEqualTypeOf<FrontGetWriteExtraActivityRequest>();
+    expectTypeOf<FrontGetWriteExtraActivityResponse>().toEqualTypeOf<IpcGetWriteExtraActivityResponse>();
+    expectTypeOf<IpcGetWriteExtraActivityResponse>().toEqualTypeOf<FrontGetWriteExtraActivityResponse>();
+
+    expectTypeOf<FrontSubmitWriteExtraRequest>().toEqualTypeOf<IpcSubmitWriteExtraRequest>();
+    expectTypeOf<IpcSubmitWriteExtraRequest>().toEqualTypeOf<FrontSubmitWriteExtraRequest>();
+    expectTypeOf<FrontSubmitWriteExtraResponse>().toEqualTypeOf<IpcSubmitWriteExtraResponse>();
+    expectTypeOf<IpcSubmitWriteExtraResponse>().toEqualTypeOf<FrontSubmitWriteExtraResponse>();
+
+    expectTypeOf<FrontResumeWriteExtraRequest>().toEqualTypeOf<IpcResumeWriteExtraRequest>();
+    expectTypeOf<IpcResumeWriteExtraRequest>().toEqualTypeOf<FrontResumeWriteExtraRequest>();
+    expectTypeOf<FrontResumeWriteExtraResponse>().toEqualTypeOf<IpcResumeWriteExtraResponse>();
+    expectTypeOf<IpcResumeWriteExtraResponse>().toEqualTypeOf<FrontResumeWriteExtraResponse>();
   });
 });

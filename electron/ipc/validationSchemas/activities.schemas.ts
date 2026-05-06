@@ -4,11 +4,14 @@ import type {
     CheckVocabReviewWordRequest,
     GetMultiChoiceQuizActivityRequest,
     GetVocabReviewActivityRequest,
+    GetWriteExtraActivityRequest,
     ResetVocabReviewActivityRequest,
+    ResumeWriteExtraRequest,
     RetryMultiChoiceQuizRequest,
     RetryVocabReviewWordRequest,
     GetStoryActivityRequest,
     ListUnitCycleActivitiesRequest,
+    SubmitWriteExtraRequest,
     SubmitStoryFeedbackRequest,
 } from "../contracts/activities.contracts";
 
@@ -98,6 +101,28 @@ export const retryVocabReviewWordSchema: z.ZodType<RetryVocabReviewWordRequest> 
     .strict();
 
 export const resetVocabReviewActivitySchema: z.ZodType<ResetVocabReviewActivityRequest> = z
+    .object({
+        learnerId: learnerIdSchema,
+        unitCycleActivityId: unitCycleActivityIdSchema,
+    })
+    .strict();
+
+export const getWriteExtraActivitySchema: z.ZodType<GetWriteExtraActivityRequest> = z
+    .object({
+        learnerId: learnerIdSchema,
+        unitCycleActivityId: unitCycleActivityIdSchema,
+    })
+    .strict();
+
+export const submitWriteExtraSchema: z.ZodType<SubmitWriteExtraRequest> = z
+    .object({
+        learnerId: learnerIdSchema,
+        unitCycleActivityId: unitCycleActivityIdSchema,
+        learnerText: z.string(),
+    })
+    .strict();
+
+export const resumeWriteExtraSchema: z.ZodType<ResumeWriteExtraRequest> = z
     .object({
         learnerId: learnerIdSchema,
         unitCycleActivityId: unitCycleActivityIdSchema,

@@ -263,4 +263,81 @@ describe("activitiesAdapter", () => {
       unitCycleActivityId: "activity-1",
     });
   });
+
+  it("invokes the write extra get channel with the request payload", async () => {
+    vi.mocked(invokeRequest).mockResolvedValue({
+      ok: true,
+      value: {
+        writeExtra: {
+          instructions: "Read and write.",
+          advice: "Use your own words.",
+          title: "Write extra",
+          assetBase: "english/unit_1/cycle_1",
+          assets: {
+            imageRefs: [],
+            audioRefs: [],
+          },
+          storyText: "A story.",
+          learnerText: "",
+          completion: {
+            isCompleted: false,
+          },
+        },
+      },
+    });
+
+    await activitiesAdapter.getWriteExtraActivity({
+      learnerId: "learner-1",
+      unitCycleActivityId: "activity-1",
+    });
+
+    expect(invokeRequest).toHaveBeenCalledWith("activities:write-extra:get", {
+      learnerId: "learner-1",
+      unitCycleActivityId: "activity-1",
+    });
+  });
+
+  it("invokes the write extra submit channel with the request payload", async () => {
+    vi.mocked(invokeRequest).mockResolvedValue({
+      ok: true,
+      value: {
+        completion: {
+          isCompleted: true,
+        },
+      },
+    });
+
+    await activitiesAdapter.submitWriteExtra({
+      learnerId: "learner-1",
+      unitCycleActivityId: "activity-1",
+      learnerText: "I wrote enough words here for submission.",
+    });
+
+    expect(invokeRequest).toHaveBeenCalledWith("activities:write-extra:submit", {
+      learnerId: "learner-1",
+      unitCycleActivityId: "activity-1",
+      learnerText: "I wrote enough words here for submission.",
+    });
+  });
+
+  it("invokes the write extra resume channel with the request payload", async () => {
+    vi.mocked(invokeRequest).mockResolvedValue({
+      ok: true,
+      value: {
+        completion: {
+          isCompleted: false,
+        },
+      },
+    });
+
+    await activitiesAdapter.resumeWriteExtra({
+      learnerId: "learner-1",
+      unitCycleActivityId: "activity-1",
+    });
+
+    expect(invokeRequest).toHaveBeenCalledWith("activities:write-extra:resume", {
+      learnerId: "learner-1",
+      unitCycleActivityId: "activity-1",
+    });
+  });
 });

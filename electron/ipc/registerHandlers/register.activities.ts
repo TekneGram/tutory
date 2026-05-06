@@ -12,14 +12,20 @@ import type {
     GetStoryActivityResponse,
     GetVocabReviewActivityRequest,
     GetVocabReviewActivityResponse,
+    GetWriteExtraActivityRequest,
+    GetWriteExtraActivityResponse,
     ListUnitCycleActivitiesRequest,
     ListUnitCycleActivitiesResponse,
     ResetVocabReviewActivityRequest,
     ResetVocabReviewActivityResponse,
+    ResumeWriteExtraRequest,
+    ResumeWriteExtraResponse,
     RetryMultiChoiceQuizRequest,
     RetryMultiChoiceQuizResponse,
     RetryVocabReviewWordRequest,
     RetryVocabReviewWordResponse,
+    SubmitWriteExtraRequest,
+    SubmitWriteExtraResponse,
     SubmitStoryFeedbackRequest,
     SubmitStoryFeedbackResponse,
 } from "../contracts/activities.contracts";
@@ -28,10 +34,13 @@ import {
     checkVocabReviewWordSchema,
     getVocabReviewActivitySchema,
     getStoryActivitySchema,
+    getWriteExtraActivitySchema,
     listUnitCycleActivitiesSchema,
     resetVocabReviewActivitySchema,
+    resumeWriteExtraSchema,
     retryMultiChoiceQuizSchema,
     retryVocabReviewWordSchema,
+    submitWriteExtraSchema,
     submitStoryFeedbackSchema,
     getMultiChoiceQuizActivitySchema,
 } from "../validationSchemas/activities.schemas";
@@ -45,6 +54,9 @@ import { checkVocabReviewWord } from "@electron/services/activities/vocabReview/
 import { getVocabReviewActivity } from "@electron/services/activities/vocabReview/getVocabReviewActivity";
 import { resetVocabReviewActivity } from "@electron/services/activities/vocabReview/resetVocabReviewActivity";
 import { retryVocabReviewWord } from "@electron/services/activities/vocabReview/retryVocabReviewWord";
+import { getWriteExtraActivity } from "@electron/services/activities/writeExtra/getWriteExtraActivity";
+import { resumeWriteExtra } from "@electron/services/activities/writeExtra/resumeWriteExtra";
+import { submitWriteExtra } from "@electron/services/activities/writeExtra/submitWriteExtra";
 
 export function RegisterActivitiesHandlers(dependencies: IpcDependencies): void {
     void dependencies;
@@ -126,6 +138,30 @@ export function RegisterActivitiesHandlers(dependencies: IpcDependencies): void 
         async (_event, rawArgs, ctx) => {
             const args = validateOrThrow(resetVocabReviewActivitySchema, rawArgs);
             return resetVocabReviewActivity(args, ctx);
+        }
+    );
+
+    safeHandle<GetWriteExtraActivityRequest, GetWriteExtraActivityResponse>(
+        "activities:write-extra:get",
+        async (_event, rawArgs, ctx) => {
+            const args = validateOrThrow(getWriteExtraActivitySchema, rawArgs);
+            return getWriteExtraActivity(args, ctx);
+        }
+    );
+
+    safeHandle<SubmitWriteExtraRequest, SubmitWriteExtraResponse>(
+        "activities:write-extra:submit",
+        async (_event, rawArgs, ctx) => {
+            const args = validateOrThrow(submitWriteExtraSchema, rawArgs);
+            return submitWriteExtra(args, ctx);
+        }
+    );
+
+    safeHandle<ResumeWriteExtraRequest, ResumeWriteExtraResponse>(
+        "activities:write-extra:resume",
+        async (_event, rawArgs, ctx) => {
+            const args = validateOrThrow(resumeWriteExtraSchema, rawArgs);
+            return resumeWriteExtra(args, ctx);
         }
     );
 }

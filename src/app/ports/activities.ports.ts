@@ -23,6 +23,14 @@ import type {
   SubmitStoryFeedbackRequest,
   SubmitStoryFeedbackResponse,
 } from "./activities/story.ports";
+import type {
+  GetWriteExtraActivityRequest,
+  GetWriteExtraActivityResponse,
+  ResumeWriteExtraRequest,
+  ResumeWriteExtraResponse,
+  SubmitWriteExtraRequest,
+  SubmitWriteExtraResponse,
+} from "./activities/writeextra.ports";
 
 export type ActivityType =
   | "story"
@@ -72,6 +80,9 @@ export interface ActivitiesPort {
   checkVocabReviewWord(request: CheckVocabReviewWordRequest): Promise<AppResult<CheckVocabReviewWordResponse>>;
   retryVocabReviewWord(request: RetryVocabReviewWordRequest): Promise<AppResult<RetryVocabReviewWordResponse>>;
   resetVocabReviewActivity(request: ResetVocabReviewActivityRequest): Promise<AppResult<ResetVocabReviewActivityResponse>>;
+  getWriteExtraActivity(request: GetWriteExtraActivityRequest): Promise<AppResult<GetWriteExtraActivityResponse>>;
+  submitWriteExtra(request: SubmitWriteExtraRequest): Promise<AppResult<SubmitWriteExtraResponse>>;
+  resumeWriteExtra(request: ResumeWriteExtraRequest): Promise<AppResult<ResumeWriteExtraResponse>>;
 }
 
 export type {
@@ -104,3 +115,12 @@ export type {
   ResetVocabReviewActivityRequest,
   ResetVocabReviewActivityResponse,
 } from "./activities/vocabreview.ports";
+
+export type {
+  GetWriteExtraActivityRequest,
+  GetWriteExtraActivityResponse,
+  SubmitWriteExtraRequest,
+  SubmitWriteExtraResponse,
+  ResumeWriteExtraRequest,
+  ResumeWriteExtraResponse,
+} from "./activities/writeextra.ports";

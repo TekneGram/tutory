@@ -28,6 +28,14 @@ import type {
   RetryVocabReviewWordRequest,
   RetryVocabReviewWordResponse,
 } from "@/app/ports/activities/vocabreview.ports";
+import type {
+  GetWriteExtraActivityRequest,
+  GetWriteExtraActivityResponse,
+  ResumeWriteExtraRequest,
+  ResumeWriteExtraResponse,
+  SubmitWriteExtraRequest,
+  SubmitWriteExtraResponse,
+} from "@/app/ports/activities/writeextra.ports";
 
 export const activitiesAdapter: ActivitiesPort = {
   async listUnitCycleActivities(request: ListUnitCycleActivitiesRequest) {
@@ -87,6 +95,24 @@ export const activitiesAdapter: ActivitiesPort = {
   async resetVocabReviewActivity(request: ResetVocabReviewActivityRequest) {
     return invokeRequest<ResetVocabReviewActivityRequest, ResetVocabReviewActivityResponse>(
       "activities:vocab-review:reset",
+      request,
+    );
+  },
+  async getWriteExtraActivity(request: GetWriteExtraActivityRequest) {
+    return invokeRequest<GetWriteExtraActivityRequest, GetWriteExtraActivityResponse>(
+      "activities:write-extra:get",
+      request,
+    );
+  },
+  async submitWriteExtra(request: SubmitWriteExtraRequest) {
+    return invokeRequest<SubmitWriteExtraRequest, SubmitWriteExtraResponse>(
+      "activities:write-extra:submit",
+      request,
+    );
+  },
+  async resumeWriteExtra(request: ResumeWriteExtraRequest) {
+    return invokeRequest<ResumeWriteExtraRequest, ResumeWriteExtraResponse>(
+      "activities:write-extra:resume",
       request,
     );
   },
