@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+find "$ROOT_DIR/electron" "$ROOT_DIR/src" \
+  \( -path "$ROOT_DIR/src/dist" -o -path "$ROOT_DIR/src/dist/*" \) -prune -o \
+  -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.css" -o -name "*.sql" \) -print0 |
+  xargs -0 wc -l | awk '
+    END {
+      if (NR == 0) {
+        print "Total lines: 0";
+      } else {
+        print "Total lines:", $1;
+      }
+    }
+  '

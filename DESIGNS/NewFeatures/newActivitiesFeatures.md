@@ -26,3 +26,7 @@ This file explains how to add a new activity feature.
 - Ensure DTOs are implemented in electron/ipc/activities.contracts.ts
 - Create a new folder in electron/services/activities/<activityName>/ and add the necessary services to this folder, such as reading the database for the initial state and updating the database. See electron/services/activities/multiChoiceQuiz/ for an example.
 - Create CRUD operations in electron/db/repositories/activity.<activityName>Repositories.ts
+
+## Completion state
+- Ensure that once the activity is complete, the unit/cycle completion counts are updated at `activity_attempts` where `status = 'completed'` to allow counting of completed activities in unit and cycle selection screens.
+- Activity resets should also update this status.
