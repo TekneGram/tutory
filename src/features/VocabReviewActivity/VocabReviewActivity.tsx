@@ -89,7 +89,7 @@ const VocabReviewActivity = ({
 
     setMode(activeWord.state.isCorrect ? "correct" : "incorrect");
     setInputValue(activeWord.state.learnerInput ?? "");
-  }, [activeWord?.state.checkedAt, activeWord?.state.isChecked, activeWord?.state.isCorrect, activeWord?.state.learnerInput]);
+  }, [activeWord]);
 
   if (query.isLoading) {
     return <section aria-live="polite">Loading vocabulary review...</section>;
