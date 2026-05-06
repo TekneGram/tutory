@@ -29,6 +29,8 @@ const ObserveActivity = ({
 
   const [activeDropCategoryId, setActiveDropCategoryId] = useState<string | null>(null);
   const [incorrectWordIds, setIncorrectWordIds] = useState<Set<string>>(new Set());
+  const [wordOrder, setWordOrder] = useState<string[]>([]);
+  const [wordOrderActivityId, setWordOrderActivityId] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const observe = query.data?.observe;
@@ -58,15 +60,41 @@ const ObserveActivity = ({
     );
   }, [observe]);
 
+  function shuffleWordIds(wordIds: string[]) {
+    const next = [...wordIds];
+
+    for (let index = next.length - 1; index > 0; index -= 1) {
+      const swapIndex = Math.floor(Math.random() * (index + 1));
+      [next[index], next[swapIndex]] = [next[swapIndex], next[index]];
+    }
+
+    return next;
+  }
+
+  useEffect(() => {
+    if (!observe) {
+      return;
+    }
+
+    if (wordOrderActivityId !== unitCycleActivityId || wordOrder.length !== observe.words.length) {
+      setWordOrder(shuffleWordIds(observe.words.map((word) => word.wordId)));
+      setWordOrderActivityId(unitCycleActivityId);
+    }
+  }, [observe, unitCycleActivityId, wordOrder.length, wordOrderActivityId]);
+
   const availableWords = useMemo(() => {
     if (!observe) {
       return [];
     }
 
-    return observe.words
+    const wordById = new Map(observe.words.map((word) => [word.wordId, word]));
+
+    return wordOrder
+      .map((wordId) => wordById.get(wordId))
+      .filter((word): word is (typeof observe.words)[number] => Boolean(word))
       .filter((word) => !correctWordIds.has(word.wordId))
       .map((word) => ({ wordId: word.wordId, word: word.word }));
-  }, [observe, correctWordIds]);
+  }, [observe, correctWordIds, wordOrder]);
 
   const categoriesWithWords = useMemo(() => {
     if (!observe) {
@@ -150,6 +178,8 @@ const ObserveActivity = ({
         learnerId,
         unitCycleActivityId,
       });
+      setWordOrder(shuffleWordIds(observe.words.map((word) => word.wordId)));
+      setWordOrderActivityId(unitCycleActivityId);
       setIncorrectWordIds(new Set());
       setActiveDropCategoryId(null);
     } catch {

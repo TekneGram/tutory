@@ -74,9 +74,13 @@ describe("ObserveActivity", () => {
     useResetObserveActivityMutationMock.mockReset();
   });
 
-  afterEach(() => cleanup());
+  afterEach(() => {
+    cleanup();
+    vi.restoreAllMocks();
+  });
 
   it("renders loading, error, and success states", () => {
+    vi.spyOn(Math, "random").mockReturnValue(0.1);
     usePlaceObserveWordMutationMock.mockReturnValue({ mutateAsync: vi.fn(), isPending: false });
     useResetObserveActivityMutationMock.mockReturnValue({ mutateAsync: vi.fn(), isPending: false });
 
@@ -136,7 +140,10 @@ describe("ObserveActivity", () => {
     );
 
     expect(screen.getByRole("heading", { name: "Animals, Feelings, Actions" })).toBeTruthy();
-    expect(screen.getByRole("button", { name: "lion" })).toBeTruthy();
+    expect(screen.getAllByRole("button", { name: /lion|run/ }).map((button) => button.textContent)).toEqual([
+      "run",
+      "lion",
+    ]);
     expect(screen.getByLabelText("Category animals")).toBeTruthy();
   });
 
