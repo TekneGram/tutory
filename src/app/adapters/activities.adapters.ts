@@ -18,6 +18,16 @@ import type {
   RetryMultiChoiceQuizRequest,
   RetryMultiChoiceQuizResponse,
 } from "@/app/ports/activities/multichoicequiz.ports";
+import type {
+  CheckVocabReviewWordRequest,
+  CheckVocabReviewWordResponse,
+  GetVocabReviewActivityRequest,
+  GetVocabReviewActivityResponse,
+  ResetVocabReviewActivityRequest,
+  ResetVocabReviewActivityResponse,
+  RetryVocabReviewWordRequest,
+  RetryVocabReviewWordResponse,
+} from "@/app/ports/activities/vocabreview.ports";
 
 export const activitiesAdapter: ActivitiesPort = {
   async listUnitCycleActivities(request: ListUnitCycleActivitiesRequest) {
@@ -53,6 +63,30 @@ export const activitiesAdapter: ActivitiesPort = {
   async retryMultiChoiceQuiz(request: RetryMultiChoiceQuizRequest) {
     return invokeRequest<RetryMultiChoiceQuizRequest, RetryMultiChoiceQuizResponse>(
       "activities:multi-choice-quiz:retry",
+      request,
+    );
+  },
+  async getVocabReviewActivity(request: GetVocabReviewActivityRequest) {
+    return invokeRequest<GetVocabReviewActivityRequest, GetVocabReviewActivityResponse>(
+      "activities:vocab-review:get",
+      request,
+    );
+  },
+  async checkVocabReviewWord(request: CheckVocabReviewWordRequest) {
+    return invokeRequest<CheckVocabReviewWordRequest, CheckVocabReviewWordResponse>(
+      "activities:vocab-review:check-word",
+      request,
+    );
+  },
+  async retryVocabReviewWord(request: RetryVocabReviewWordRequest) {
+    return invokeRequest<RetryVocabReviewWordRequest, RetryVocabReviewWordResponse>(
+      "activities:vocab-review:retry-word",
+      request,
+    );
+  },
+  async resetVocabReviewActivity(request: ResetVocabReviewActivityRequest) {
+    return invokeRequest<ResetVocabReviewActivityRequest, ResetVocabReviewActivityResponse>(
+      "activities:vocab-review:reset",
       request,
     );
   },

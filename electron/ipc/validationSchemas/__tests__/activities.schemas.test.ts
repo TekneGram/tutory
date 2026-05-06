@@ -2,9 +2,13 @@ import { describe, expect, it } from "vitest";
 
 import {
     checkMultiChoiceQuizAnswersSchema,
+    checkVocabReviewWordSchema,
+    getVocabReviewActivitySchema,
     getStoryActivitySchema,
     listUnitCycleActivitiesSchema,
+    resetVocabReviewActivitySchema,
     retryMultiChoiceQuizSchema,
+    retryVocabReviewWordSchema,
     submitStoryFeedbackSchema,
 } from "../activities.schemas";
 
@@ -128,6 +132,71 @@ describe("activities schemas", () => {
     it("accepts a valid retryMultiChoiceQuiz request", () => {
         expect(
             retryMultiChoiceQuizSchema.parse({
+                learnerId: "learner-1",
+                unitCycleActivityId: "activity-1",
+            })
+        ).toEqual({
+            learnerId: "learner-1",
+            unitCycleActivityId: "activity-1",
+        });
+    });
+
+    it("accepts a valid getVocabReviewActivity request", () => {
+        expect(
+            getVocabReviewActivitySchema.parse({
+                learnerId: "learner-1",
+                unitCycleActivityId: "activity-1",
+            })
+        ).toEqual({
+            learnerId: "learner-1",
+            unitCycleActivityId: "activity-1",
+        });
+    });
+
+    it("accepts a valid checkVocabReviewWord request", () => {
+        expect(
+            checkVocabReviewWordSchema.parse({
+                learnerId: "learner-1",
+                unitCycleActivityId: "activity-1",
+                wordId: "word-1",
+                learnerInput: " would ",
+            })
+        ).toEqual({
+            learnerId: "learner-1",
+            unitCycleActivityId: "activity-1",
+            wordId: "word-1",
+            learnerInput: " would ",
+        });
+    });
+
+    it("rejects blank checkVocabReviewWord fields", () => {
+        expect(() =>
+            checkVocabReviewWordSchema.parse({
+                learnerId: "learner-1",
+                unitCycleActivityId: "activity-1",
+                wordId: "   ",
+                learnerInput: "would",
+            })
+        ).toThrow();
+    });
+
+    it("accepts a valid retryVocabReviewWord request", () => {
+        expect(
+            retryVocabReviewWordSchema.parse({
+                learnerId: "learner-1",
+                unitCycleActivityId: "activity-1",
+                wordId: "word-1",
+            })
+        ).toEqual({
+            learnerId: "learner-1",
+            unitCycleActivityId: "activity-1",
+            wordId: "word-1",
+        });
+    });
+
+    it("accepts a valid resetVocabReviewActivity request", () => {
+        expect(
+            resetVocabReviewActivitySchema.parse({
                 learnerId: "learner-1",
                 unitCycleActivityId: "activity-1",
             })

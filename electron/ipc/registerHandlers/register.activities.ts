@@ -4,22 +4,34 @@ import { validateOrThrow } from "../validate";
 import type {
     CheckMultiChoiceQuizAnswersRequest,
     CheckMultiChoiceQuizAnswersResponse,
+    CheckVocabReviewWordRequest,
+    CheckVocabReviewWordResponse,
     GetMultiChoiceQuizActivityRequest,
     GetMultiChoiceQuizActivityResponse,
     GetStoryActivityRequest,
     GetStoryActivityResponse,
+    GetVocabReviewActivityRequest,
+    GetVocabReviewActivityResponse,
     ListUnitCycleActivitiesRequest,
     ListUnitCycleActivitiesResponse,
+    ResetVocabReviewActivityRequest,
+    ResetVocabReviewActivityResponse,
     RetryMultiChoiceQuizRequest,
     RetryMultiChoiceQuizResponse,
+    RetryVocabReviewWordRequest,
+    RetryVocabReviewWordResponse,
     SubmitStoryFeedbackRequest,
     SubmitStoryFeedbackResponse,
 } from "../contracts/activities.contracts";
 import {
     checkMultiChoiceQuizAnswersSchema,
+    checkVocabReviewWordSchema,
+    getVocabReviewActivitySchema,
     getStoryActivitySchema,
     listUnitCycleActivitiesSchema,
+    resetVocabReviewActivitySchema,
     retryMultiChoiceQuizSchema,
+    retryVocabReviewWordSchema,
     submitStoryFeedbackSchema,
     getMultiChoiceQuizActivitySchema,
 } from "../validationSchemas/activities.schemas";
@@ -29,6 +41,10 @@ import { submitStoryFeedback } from "@electron/services/activities/storyActivity
 import { getMultiChoiceQuizActivity } from "@electron/services/activities/multiChoiceQuiz/getMultiChoiceQuizAnswers";
 import { checkMultiChoiceQuizAnswers } from "@electron/services/activities/multiChoiceQuiz/checkMultiChoiceQuizAnswers";
 import { retryMultiChoiceQuiz } from "@electron/services/activities/multiChoiceQuiz/retryMultiChoiceQuiz";
+import { checkVocabReviewWord } from "@electron/services/activities/vocabReview/checkVocabReviewWord";
+import { getVocabReviewActivity } from "@electron/services/activities/vocabReview/getVocabReviewActivity";
+import { resetVocabReviewActivity } from "@electron/services/activities/vocabReview/resetVocabReviewActivity";
+import { retryVocabReviewWord } from "@electron/services/activities/vocabReview/retryVocabReviewWord";
 
 export function RegisterActivitiesHandlers(dependencies: IpcDependencies): void {
     void dependencies;
@@ -78,6 +94,38 @@ export function RegisterActivitiesHandlers(dependencies: IpcDependencies): void 
         async (_event, rawArgs, ctx) => {
             const args = validateOrThrow(retryMultiChoiceQuizSchema, rawArgs);
             return retryMultiChoiceQuiz(args, ctx);
+        }
+    );
+
+    safeHandle<GetVocabReviewActivityRequest, GetVocabReviewActivityResponse>(
+        "activities:vocab-review:get",
+        async (_event, rawArgs, ctx) => {
+            const args = validateOrThrow(getVocabReviewActivitySchema, rawArgs);
+            return getVocabReviewActivity(args, ctx);
+        }
+    );
+
+    safeHandle<CheckVocabReviewWordRequest, CheckVocabReviewWordResponse>(
+        "activities:vocab-review:check-word",
+        async (_event, rawArgs, ctx) => {
+            const args = validateOrThrow(checkVocabReviewWordSchema, rawArgs);
+            return checkVocabReviewWord(args, ctx);
+        }
+    );
+
+    safeHandle<RetryVocabReviewWordRequest, RetryVocabReviewWordResponse>(
+        "activities:vocab-review:retry-word",
+        async (_event, rawArgs, ctx) => {
+            const args = validateOrThrow(retryVocabReviewWordSchema, rawArgs);
+            return retryVocabReviewWord(args, ctx);
+        }
+    );
+
+    safeHandle<ResetVocabReviewActivityRequest, ResetVocabReviewActivityResponse>(
+        "activities:vocab-review:reset",
+        async (_event, rawArgs, ctx) => {
+            const args = validateOrThrow(resetVocabReviewActivitySchema, rawArgs);
+            return resetVocabReviewActivity(args, ctx);
         }
     );
 }

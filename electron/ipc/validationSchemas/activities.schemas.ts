@@ -1,8 +1,12 @@
 import { z } from "zod";
 import type {
     CheckMultiChoiceQuizAnswersRequest,
+    CheckVocabReviewWordRequest,
     GetMultiChoiceQuizActivityRequest,
+    GetVocabReviewActivityRequest,
+    ResetVocabReviewActivityRequest,
     RetryMultiChoiceQuizRequest,
+    RetryVocabReviewWordRequest,
     GetStoryActivityRequest,
     ListUnitCycleActivitiesRequest,
     SubmitStoryFeedbackRequest,
@@ -14,6 +18,8 @@ const unitCycleActivityIdSchema = z.string().trim().min(1);
 const selectedAnswerSchema = z.string().trim().min(1);
 const questionIdSchema = z.string().trim().min(1);
 const selectedOptionSchema = z.string().trim().min(1);
+const wordIdSchema = z.string().trim().min(1);
+const learnerInputSchema = z.string();
 const commentSchema = z.string();
 
 export const listUnitCycleActivitiesSchema: z.ZodType<ListUnitCycleActivitiesRequest> = z
@@ -61,6 +67,37 @@ export const checkMultiChoiceQuizAnswersSchema: z.ZodType<CheckMultiChoiceQuizAn
     .strict();
 
 export const retryMultiChoiceQuizSchema: z.ZodType<RetryMultiChoiceQuizRequest> = z
+    .object({
+        learnerId: learnerIdSchema,
+        unitCycleActivityId: unitCycleActivityIdSchema,
+    })
+    .strict();
+
+export const getVocabReviewActivitySchema: z.ZodType<GetVocabReviewActivityRequest> = z
+    .object({
+        learnerId: learnerIdSchema,
+        unitCycleActivityId: unitCycleActivityIdSchema,
+    })
+    .strict();
+
+export const checkVocabReviewWordSchema: z.ZodType<CheckVocabReviewWordRequest> = z
+    .object({
+        learnerId: learnerIdSchema,
+        unitCycleActivityId: unitCycleActivityIdSchema,
+        wordId: wordIdSchema,
+        learnerInput: learnerInputSchema,
+    })
+    .strict();
+
+export const retryVocabReviewWordSchema: z.ZodType<RetryVocabReviewWordRequest> = z
+    .object({
+        learnerId: learnerIdSchema,
+        unitCycleActivityId: unitCycleActivityIdSchema,
+        wordId: wordIdSchema,
+    })
+    .strict();
+
+export const resetVocabReviewActivitySchema: z.ZodType<ResetVocabReviewActivityRequest> = z
     .object({
         learnerId: learnerIdSchema,
         unitCycleActivityId: unitCycleActivityIdSchema,

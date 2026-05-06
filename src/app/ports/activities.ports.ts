@@ -8,6 +8,16 @@ import type {
   RetryMultiChoiceQuizResponse,
 } from "./activities/multichoicequiz.ports";
 import type {
+  CheckVocabReviewWordRequest,
+  CheckVocabReviewWordResponse,
+  GetVocabReviewActivityRequest,
+  GetVocabReviewActivityResponse,
+  ResetVocabReviewActivityRequest,
+  ResetVocabReviewActivityResponse,
+  RetryVocabReviewWordRequest,
+  RetryVocabReviewWordResponse,
+} from "./activities/vocabreview.ports";
+import type {
   GetStoryActivityRequest,
   GetStoryActivityResponse,
   SubmitStoryFeedbackRequest,
@@ -58,6 +68,10 @@ export interface ActivitiesPort {
   getMultiChoiceQuizActivity(request: GetMultiChoiceQuizActivityRequest): Promise<AppResult<GetMultiChoiceQuizActivityResponse>>;
   checkMultiChoiceQuizAnswers(request: CheckMultiChoiceQuizAnswersRequest): Promise<AppResult<CheckMultiChoiceQuizAnswersResponse>>;
   retryMultiChoiceQuiz(request: RetryMultiChoiceQuizRequest): Promise<AppResult<RetryMultiChoiceQuizResponse>>;
+  getVocabReviewActivity(request: GetVocabReviewActivityRequest): Promise<AppResult<GetVocabReviewActivityResponse>>;
+  checkVocabReviewWord(request: CheckVocabReviewWordRequest): Promise<AppResult<CheckVocabReviewWordResponse>>;
+  retryVocabReviewWord(request: RetryVocabReviewWordRequest): Promise<AppResult<RetryVocabReviewWordResponse>>;
+  resetVocabReviewActivity(request: ResetVocabReviewActivityRequest): Promise<AppResult<ResetVocabReviewActivityResponse>>;
 }
 
 export type {
@@ -76,3 +90,17 @@ export type {
   RetryMultiChoiceQuizRequest,
   RetryMultiChoiceQuizResponse,
 } from "./activities/multichoicequiz.ports";
+
+export type {
+  GetVocabReviewActivityRequest,
+  GetVocabReviewActivityResponse,
+  VocabReviewWordDto,
+  VocabReviewLearnerWordStateDto,
+  VocabReviewProgressDto,
+  CheckVocabReviewWordRequest,
+  CheckVocabReviewWordResponse,
+  RetryVocabReviewWordRequest,
+  RetryVocabReviewWordResponse,
+  ResetVocabReviewActivityRequest,
+  ResetVocabReviewActivityResponse,
+} from "./activities/vocabreview.ports";

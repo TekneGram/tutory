@@ -134,4 +134,133 @@ describe("activitiesAdapter", () => {
       unitCycleActivityId: "activity-1",
     });
   });
+
+  it("invokes the vocab review get channel with the request payload", async () => {
+    vi.mocked(invokeRequest).mockResolvedValue({
+      ok: true,
+      value: {
+        vocabReview: {
+          instructions: "Practice words",
+          advice: "Check your spelling",
+          title: "Vocabulary Review",
+          assetBase: null,
+          words: [],
+          learnerWordStates: [],
+          progress: {
+            checkedCount: 0,
+            correctCount: 0,
+            totalCount: 10,
+            isFinished: false,
+            completedAt: null,
+          },
+        },
+      },
+    });
+
+    await activitiesAdapter.getVocabReviewActivity({
+      learnerId: "learner-1",
+      unitCycleActivityId: "activity-1",
+    });
+
+    expect(invokeRequest).toHaveBeenCalledWith("activities:vocab-review:get", {
+      learnerId: "learner-1",
+      unitCycleActivityId: "activity-1",
+    });
+  });
+
+  it("invokes the vocab review check-word channel with the request payload", async () => {
+    vi.mocked(invokeRequest).mockResolvedValue({
+      ok: true,
+      value: {
+        learnerWordState: {
+          wordId: "word-1",
+          learnerInput: "would",
+          isChecked: true,
+          isCorrect: true,
+          checkedAt: "2026-05-06T00:00:00.000Z",
+        },
+        progress: {
+          checkedCount: 1,
+          correctCount: 1,
+          totalCount: 10,
+          isFinished: false,
+          completedAt: null,
+        },
+      },
+    });
+
+    await activitiesAdapter.checkVocabReviewWord({
+      learnerId: "learner-1",
+      unitCycleActivityId: "activity-1",
+      wordId: "word-1",
+      learnerInput: "would",
+    });
+
+    expect(invokeRequest).toHaveBeenCalledWith("activities:vocab-review:check-word", {
+      learnerId: "learner-1",
+      unitCycleActivityId: "activity-1",
+      wordId: "word-1",
+      learnerInput: "would",
+    });
+  });
+
+  it("invokes the vocab review retry-word channel with the request payload", async () => {
+    vi.mocked(invokeRequest).mockResolvedValue({
+      ok: true,
+      value: {
+        learnerWordState: {
+          wordId: "word-1",
+          learnerInput: null,
+          isChecked: false,
+          isCorrect: false,
+          checkedAt: null,
+        },
+        progress: {
+          checkedCount: 0,
+          correctCount: 0,
+          totalCount: 10,
+          isFinished: false,
+          completedAt: null,
+        },
+      },
+    });
+
+    await activitiesAdapter.retryVocabReviewWord({
+      learnerId: "learner-1",
+      unitCycleActivityId: "activity-1",
+      wordId: "word-1",
+    });
+
+    expect(invokeRequest).toHaveBeenCalledWith("activities:vocab-review:retry-word", {
+      learnerId: "learner-1",
+      unitCycleActivityId: "activity-1",
+      wordId: "word-1",
+    });
+  });
+
+  it("invokes the vocab review reset channel with the request payload", async () => {
+    vi.mocked(invokeRequest).mockResolvedValue({
+      ok: true,
+      value: {
+        learnerWordStates: [],
+        progress: {
+          checkedCount: 0,
+          correctCount: 0,
+          totalCount: 10,
+          isFinished: false,
+          completedAt: null,
+        },
+      },
+    });
+
+    await activitiesAdapter.resetVocabReviewActivity({
+      learnerId: "learner-1",
+      unitCycleActivityId: "activity-1",
+    });
+
+    expect(invokeRequest).toHaveBeenCalledWith("activities:vocab-review:reset", {
+      learnerId: "learner-1",
+      unitCycleActivityId: "activity-1",
+    });
+  });
 });
