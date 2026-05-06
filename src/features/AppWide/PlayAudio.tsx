@@ -1,10 +1,5 @@
 import { useMemo, useState } from "react";
-import type { WriteExtraAudioRefDto } from "@/app/ports/activities/writeextra.ports";
-
-type ListenToSummaryProps = {
-  audioRefs: WriteExtraAudioRefDto[];
-  assetBase: string | null;
-};
+import type { AudioRef } from "@/app/types/media";
 
 function encodePathSegmentPath(value: string): string {
   return value
@@ -43,7 +38,12 @@ function getAudioMimeType(audioRef: string): string {
   }
 }
 
-const ListenToSummary = ({ audioRefs, assetBase }: ListenToSummaryProps) => {
+type PlayAudioProps = {
+  audioRefs: AudioRef[];
+  assetBase: string | null;
+};
+
+const PlayAudio = ({ audioRefs, assetBase }: PlayAudioProps) => {
   const [hasError, setHasError] = useState(false);
   const [retryNonce, setRetryNonce] = useState(0);
 
@@ -86,4 +86,4 @@ const ListenToSummary = ({ audioRefs, assetBase }: ListenToSummaryProps) => {
   );
 };
 
-export default ListenToSummary;
+export default PlayAudio;

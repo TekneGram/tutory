@@ -1,12 +1,11 @@
+import type { AudioRef } from "@/app/types/media";
+
 export type WriteExtraImageRefDto = {
   order: number;
   imageRef: string;
 };
 
-export type WriteExtraAudioRefDto = {
-  order: number;
-  audioRef: string;
-};
+export type WriteExtraAudioRefDto = AudioRef;
 
 export type GetWriteExtraActivityRequest = {
   learnerId: string;

@@ -1,3 +1,5 @@
+import type { AudioRef } from "@/app/types/media";
+
 export type StoryFeedbackDto = {
   question: string;
   answers: [string, string, string] | string[];
@@ -9,10 +11,7 @@ export type StoryImageRefDto = {
   imageRef: string;
 };
 
-export type StoryAudioRefDto = {
-  order: number;
-  audioRef: string;
-};
+export type StoryAudioRefDto = AudioRef;
 
 export type StoryVideoRefDto = {
   order: number;

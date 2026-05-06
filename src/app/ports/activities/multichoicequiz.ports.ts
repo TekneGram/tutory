@@ -1,3 +1,5 @@
+import type { AudioRef } from "@/app/types/media";
+
 export type GetMultiChoiceQuizActivityRequest = {
   learnerId: string;
   unitCycleActivityId: string;
@@ -8,10 +10,7 @@ export type MultiChoiceQuizImageRefDto = {
   imageRef: string;
 };
 
-export type MultiChoiceQuizAudioRefDto = {
-  order: number;
-  audioRef: string;
-};
+export type MultiChoiceQuizAudioRefDto = AudioRef;
 
 export type MultiChoiceQuizVideoRefDto = {
   order: number;

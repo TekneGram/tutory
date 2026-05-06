@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ActivityComponentProps } from "@/features/ActivityDisplay/types/activityDisplay.types";
+import PlayAudio from "@/features/AppWide/PlayAudio";
 import Story from "./components/Story";
 import ImageSummary from "./components/ImageSummary";
-import ListenToSummary from "./components/ListenToSummary";
 import WriteExtra from "./components/WriteExtra";
 import { useWriteExtraActivityQuery } from "./hooks/useWriteExtraActivityQuery";
 import { useSubmitWriteExtraMutation } from "./hooks/useSubmitWriteExtraMutation";
@@ -127,7 +127,7 @@ const WriteExtraActivity = ({
         ) : null}
       </div>
 
-      <ListenToSummary audioRefs={writeExtra.assets.audioRefs} assetBase={writeExtra.assetBase} />
+      <PlayAudio audioRefs={writeExtra.assets.audioRefs} assetBase={writeExtra.assetBase} />
 
       <WriteExtra
         value={draftText}
