@@ -19,7 +19,7 @@ This file explains how to add a new activity feature.
     - An initial read is necessary which would include a previously saved state
     - Updates to the database each time the user interacts with the activity
 
-## Read data and render in the front end
+## CRUD from front end to back end to front end
 - Ensure DTOs in src/app/ports are defined in the relevant folder. For example, if the feature is an activity called MultiChoiceQuizActivity make a folder in src/app/ports/activities called multichoicequiz.ports.ts and define DTOs there.
 - Update activities.adapters.ts
 - Move to electron and update electron/ipc/registerHandlers/register.activities.ts, ensuring that the channel is named the same as in the frontend.
