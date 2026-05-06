@@ -1,4 +1,5 @@
 import { useMemo, useRef } from "react";
+import MarkdownText from "./MarkdownText";
 
 type WriteExtraProps = {
   value: string;
@@ -57,7 +58,7 @@ const WriteExtra = ({
       <section className="write-extra__editor" aria-label="Write extra completed">
         <p className="write-extra__completion">Congratulations, you have completed this task.</p>
         <div className="write-extra__submitted" role="status" aria-live="polite">
-          {value}
+          <MarkdownText text={value} />
         </div>
         <button type="button" onClick={onResume} disabled={isResuming}>
           Continue writing
@@ -71,7 +72,7 @@ const WriteExtra = ({
       <div className="write-extra__toolbar" role="toolbar" aria-label="Formatting tools">
         <button type="button" onClick={() => wrapSelection("**", "**")}>Bold</button>
         <button type="button" onClick={() => wrapSelection("*", "*")}>Italic</button>
-        <button type="button" onClick={() => wrapSelection("__", "__")}>Underline</button>
+        <button type="button" onClick={() => wrapSelection("<u>", "</u>")}>Underline</button>
       </div>
 
       <textarea

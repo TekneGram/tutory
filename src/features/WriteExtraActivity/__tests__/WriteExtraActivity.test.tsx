@@ -34,7 +34,7 @@ const response = {
       imageRefs: [{ order: 1, imageRef: "caring_fau_chan.webp" }],
       audioRefs: [{ order: 1, audioRef: "cycle_1_summary.ogg" }],
     },
-    storyText: "One afternoon, Fau-chan would not eat.",
+    storyText: "One afternoon, **Fau-chan** would *not* eat.",
     learnerText: "",
     completion: {
       isCompleted: false,
@@ -206,8 +206,54 @@ describe("WriteExtraActivity", () => {
     expect(screen.getByText("1 of 1")).toBeTruthy();
 
     expect(screen.getByText("Listen to summary")).toBeTruthy();
-    expect(screen.getByText("Listen to summary").nextElementSibling?.getAttribute("src")).toBe(
+    const source = document.querySelector(".write-extra__audio source");
+    expect(source?.getAttribute("src")).toBe(
       "app-asset://content/english/unit_1/cycle_1/cycle_1_summary.ogg",
     );
+    expect(source?.getAttribute("type")).toBe("audio/ogg");
+  });
+
+  it("renders markdown in story content", () => {
+    writeExtraQueryMock.mockReturnValue({ data: response, isLoading: false, isError: false, error: null });
+    submitWriteExtraMutationMock.mockReturnValue({ mutateAsync: vi.fn(), isPending: false });
+    resumeWriteExtraMutationMock.mockReturnValue({ mutateAsync: vi.fn(), isPending: false });
+
+    render(
+      <WriteExtraActivity
+        learnerId="learner-1"
+        learningType="english"
+        unitId="unit-1"
+        unitCycleId="cycle-1"
+        unitCycleActivityId="activity-1"
+      />,
+    );
+
+    expect(screen.getByText("Fau-chan").tagName).toBe("STRONG");
+    expect(screen.getByText("not").tagName).toBe("EM");
+  });
+
+  it("shows audio error and allows retry", () => {
+    writeExtraQueryMock.mockReturnValue({ data: response, isLoading: false, isError: false, error: null });
+    submitWriteExtraMutationMock.mockReturnValue({ mutateAsync: vi.fn(), isPending: false });
+    resumeWriteExtraMutationMock.mockReturnValue({ mutateAsync: vi.fn(), isPending: false });
+
+    render(
+      <WriteExtraActivity
+        learnerId="learner-1"
+        learningType="english"
+        unitId="unit-1"
+        unitCycleId="cycle-1"
+        unitCycleActivityId="activity-1"
+      />,
+    );
+
+    const audio = document.querySelector(".write-extra__audio audio");
+    expect(audio).toBeTruthy();
+
+    fireEvent.error(audio as Element);
+    expect(screen.getByText("Audio could not be loaded. Please try again.")).toBeTruthy();
+
+    fireEvent.click(screen.getByRole("button", { name: "Retry audio" }));
+    expect(screen.queryByText("Audio could not be loaded. Please try again.")).toBeNull();
   });
 });

@@ -1,3 +1,5 @@
+import MarkdownText from "./MarkdownText";
+
 type StoryProps = {
   text: string;
 };
@@ -5,7 +7,7 @@ type StoryProps = {
 const Story = ({ text }: StoryProps) => {
   return (
     <article className="write-extra__story" aria-label="Story summary text">
-      <p>{text}</p>
+      <MarkdownText text={text} />
     </article>
   );
 };

@@ -31,6 +31,10 @@
   margin: 0;
 }
 
+.write-extra__story p + p {
+  margin-top: var(--space-3);
+}
+
 .write-extra__hint {
   position: relative;
   display: inline-flex;
@@ -64,6 +68,20 @@
 .write-extra__audio audio {
   width: 100%;
   max-width: 460px;
+}
+
+.write-extra__audio-error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.write-extra__audio-error button {
+  border: 1px solid var(--color-border-soft, #d0d0d0);
+  background: var(--color-surface, #fff);
+  border-radius: var(--radius-md);
+  padding: 0.35rem 0.65rem;
+  cursor: pointer;
 }
 
 .write-extra__editor {
@@ -114,6 +132,14 @@
   padding: var(--space-4);
   white-space: pre-wrap;
   line-height: 1.6;
+}
+
+.write-extra__submitted p {
+  margin: 0;
+}
+
+.write-extra__submitted p + p {
+  margin-top: var(--space-2);
 }
 
 .write-extra__error {

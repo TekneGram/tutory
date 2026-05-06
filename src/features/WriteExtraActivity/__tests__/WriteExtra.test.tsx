@@ -64,6 +64,25 @@ describe("WriteExtra", () => {
     expect(onResume).toHaveBeenCalledTimes(1);
   });
 
+  it("renders markdown formatting in completed view", () => {
+    render(
+      <WriteExtra
+        value={"Hello **bold** and *italic* plus <u>underlined</u> text."}
+        isCompleted
+        isSubmitting={false}
+        isResuming={false}
+        submitError={null}
+        onChange={vi.fn()}
+        onSubmit={vi.fn()}
+        onResume={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByText("bold").tagName).toBe("STRONG");
+    expect(screen.getByText("italic").tagName).toBe("EM");
+    expect(screen.getByText("underlined").tagName).toBe("U");
+  });
+
   it("triggers submit callback", () => {
     const onSubmit = vi.fn();
 
@@ -82,5 +101,27 @@ describe("WriteExtra", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Submit" }));
     expect(onSubmit).toHaveBeenCalledTimes(1);
+  });
+
+  it("inserts underline tags from toolbar action", () => {
+    const onChange = vi.fn();
+    render(
+      <WriteExtra
+        value="underlined text"
+        isCompleted={false}
+        isSubmitting={false}
+        isResuming={false}
+        submitError={null}
+        onChange={onChange}
+        onSubmit={vi.fn()}
+        onResume={vi.fn()}
+      />,
+    );
+
+    const textarea = screen.getByPlaceholderText("Write what happens next...") as HTMLTextAreaElement;
+    textarea.setSelectionRange(0, 10);
+    fireEvent.click(screen.getByRole("button", { name: "Underline" }));
+
+    expect(onChange).toHaveBeenCalledWith("<u>underlined</u> text");
   });
 });
