@@ -3,10 +3,21 @@ import type {
   GetVocabReviewActivityResponse,
   ResetVocabReviewActivityRequest,
 } from "@/app/ports/activities/vocabreview.ports";
+import type { LearningType } from "@/app/types/learning";
+import { cycleProgressQueryKey } from "@/features/CyclesCardDisplay/hooks/useCycleProgressQuery";
+import { unitCyclesQueryKey } from "@/features/CyclesCardDisplay/hooks/useUnitCyclesQuery";
+import { learningUnitsQueryKey } from "@/features/UnitCardDisplay/hooks/useLearningUnitsQuery";
+import { unitProgressQueryKey } from "@/features/UnitCardDisplay/hooks/useUnitProgressQuery";
 import { resetVocabReviewActivity } from "../services/resetVocabReviewActivity.service";
 import { vocabReviewActivityQueryKey } from "./useVocabReviewActivityQuery";
 
-export function useResetVocabReviewActivityMutation() {
+type VocabReviewProgressContext = {
+  learningType: LearningType;
+  unitId: string;
+  unitCycleId: string;
+};
+
+export function useResetVocabReviewActivityMutation(context: VocabReviewProgressContext) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -25,6 +36,18 @@ export function useResetVocabReviewActivityMutation() {
     onSettled: async (_value, _error, variables) => {
       await queryClient.invalidateQueries({
         queryKey: vocabReviewActivityQueryKey(variables.learnerId, variables.unitCycleActivityId),
+      });
+      await queryClient.invalidateQueries({
+        queryKey: learningUnitsQueryKey(context.learningType),
+      });
+      await queryClient.invalidateQueries({
+        queryKey: unitCyclesQueryKey(context.unitId),
+      });
+      await queryClient.invalidateQueries({
+        queryKey: unitProgressQueryKey(variables.learnerId, context.unitId),
+      });
+      await queryClient.invalidateQueries({
+        queryKey: cycleProgressQueryKey(variables.learnerId, context.unitCycleId),
       });
     },
   });

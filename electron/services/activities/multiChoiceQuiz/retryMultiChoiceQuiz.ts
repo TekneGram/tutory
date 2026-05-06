@@ -6,6 +6,7 @@ import {
     getLatestActivityAttemptRowByLearnerAndUnitCycleActivityId,
     getUnitCycleActivityIdentityRowById,
     insertActivityAttemptRow,
+    updateActivityAttemptStatusRow,
 } from "@electron/db/repositories/activityRepositories";
 import {
     getMultiChoiceQuizAnswerRowsByAttemptId,
@@ -98,6 +99,11 @@ export async function retryMultiChoiceQuiz(
                 checked_at: null,
                 created_at: existingState?.created_at ?? updatedAt,
                 updated_at: updatedAt,
+            });
+            updateActivityAttemptStatusRow(appDatabase.db, {
+                id: attempt.id,
+                status: "in_progress",
+                submitted_at: null,
             });
 
             return {

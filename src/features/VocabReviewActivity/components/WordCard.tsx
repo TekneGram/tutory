@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import type { CardMode, VocabReviewWordWithState } from "../types/vocabReview.types";
 
 type WordCardProps = {
@@ -27,6 +28,14 @@ const WordCard = ({
   onCheck,
   onRetry,
 }: WordCardProps) => {
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (mode === "selected") {
+      inputRef.current?.focus();
+    }
+  }, [mode]);
+
   if (!activeWord) {
     return (
       <section className="vocab-review-card" aria-live="polite">
@@ -67,6 +76,7 @@ const WordCard = ({
           }}
         >
           <input
+            ref={inputRef}
             type="text"
             value={inputValue}
             onChange={(event) => onInputChange(event.target.value)}

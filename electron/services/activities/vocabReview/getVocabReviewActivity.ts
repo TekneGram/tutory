@@ -5,6 +5,7 @@ import {
     getActivityContentPrimaryRowByActivityContentId,
     getActivityContentRowByUnitCycleActivityId,
     getUnitCycleActivityIdentityRowById,
+    updateActivityAttemptStatusRow,
 } from "@electron/db/repositories/activityRepositories";
 import {
     getVocabReviewAnswerRowsByAttemptId,
@@ -96,6 +97,19 @@ export async function getVocabReviewActivity(
                     updatedAt
                 )
             );
+            if (progress.isFinished && attempt.status !== "completed") {
+                updateActivityAttemptStatusRow(appDatabase.db, {
+                    id: attempt.id,
+                    status: "completed",
+                    submitted_at: progress.completedAt ?? updatedAt,
+                });
+            } else if (!progress.isFinished && attempt.status === "completed") {
+                updateActivityAttemptStatusRow(appDatabase.db, {
+                    id: attempt.id,
+                    status: "in_progress",
+                    submitted_at: null,
+                });
+            }
 
             return {
                 vocabReview: {

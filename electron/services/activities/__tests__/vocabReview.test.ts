@@ -6,6 +6,7 @@ import {
   getActivityContentPrimaryRowByActivityContentId,
   getActivityContentRowByUnitCycleActivityId,
   getUnitCycleActivityIdentityRowById,
+  updateActivityAttemptStatusRow,
 } from "@electron/db/repositories/activityRepositories";
 import {
   getVocabReviewAnswerRowByAttemptIdAndWordId,
@@ -57,6 +58,7 @@ vi.mock("@electron/db/repositories/activityRepositories", () => ({
     }),
   getUnitCycleActivityIdentityRowById: vi.fn(),
   insertActivityAttemptRow: vi.fn(),
+  updateActivityAttemptStatusRow: vi.fn(),
 }));
 
 vi.mock("@electron/db/repositories/activity.vocabreviewRepositories", () => ({
@@ -182,6 +184,45 @@ describe("vocab review services", () => {
     expect(upsertVocabReviewStateRow).toHaveBeenCalledTimes(1);
   });
 
+  it("syncs attempt status to completed when progress is already finished", async () => {
+    vi.mocked(getActivityContentPrimaryRowByActivityContentId).mockReturnValue({
+      id: "primary-1",
+      activity_content_id: "content-1",
+      instructions: "Practice",
+      advice: "Spell carefully",
+      title: "Vocab review",
+      asset_base: "english/unit_1/cycle_1",
+    });
+    vi.mocked(getVocabReviewStateRowByAttemptId).mockReturnValue(undefined);
+    vi.mocked(getVocabReviewAnswerRowsByAttemptId).mockReturnValue([
+      {
+        attempt_id: "attempt-1",
+        learner_id: "learner-1",
+        unit_cycle_activity_id: "activity-1",
+        word_id: "word-1",
+        learner_input: "would",
+        is_checked: 1,
+        is_correct: 1,
+        checked_at: "2026-05-06T00:00:00.000Z",
+        created_at: "2026-05-06T00:00:00.000Z",
+        updated_at: "2026-05-06T00:00:00.000Z",
+      },
+    ]);
+
+    await getVocabReviewActivity(
+      { learnerId: "learner-1", unitCycleActivityId: "activity-1" },
+      makeContext("ctx-1b"),
+    );
+
+    expect(updateActivityAttemptStatusRow).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        id: "attempt-1",
+        status: "completed",
+      }),
+    );
+  });
+
   it("checks a word and stores checked state", async () => {
     vi.mocked(getVocabReviewWordRowByIdAndUnitCycleActivityId).mockReturnValue({
       id: "word-1",
@@ -216,6 +257,13 @@ describe("vocab review services", () => {
 
     expect(upsertVocabReviewAnswerRow).toHaveBeenCalledTimes(1);
     expect(upsertVocabReviewStateRow).toHaveBeenCalledTimes(1);
+    expect(updateActivityAttemptStatusRow).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        id: "attempt-1",
+        status: "completed",
+      }),
+    );
   });
 
   it("resets the activity and clears all learner word states", async () => {
@@ -261,6 +309,14 @@ describe("vocab review services", () => {
 
     expect(resetVocabReviewAnswerRowsByAttemptId).toHaveBeenCalledTimes(1);
     expect(upsertVocabReviewStateRow).toHaveBeenCalledTimes(1);
+    expect(updateActivityAttemptStatusRow).toHaveBeenCalledWith(
+      expect.anything(),
+      {
+        id: "attempt-1",
+        status: "in_progress",
+        submitted_at: null,
+      },
+    );
   });
 
   it("throws when requested activity is not vocab-review", async () => {
@@ -339,5 +395,13 @@ describe("vocab review services", () => {
     });
 
     expect(resetVocabReviewAnswerRowByAttemptIdAndWordId).toHaveBeenCalledTimes(1);
+    expect(updateActivityAttemptStatusRow).toHaveBeenCalledWith(
+      expect.anything(),
+      {
+        id: "attempt-1",
+        status: "in_progress",
+        submitted_at: null,
+      },
+    );
   });
 });

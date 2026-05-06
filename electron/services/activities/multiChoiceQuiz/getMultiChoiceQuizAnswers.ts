@@ -18,6 +18,7 @@ import {
     getUnitCycleActivityIdentityRowById,
     insertActivityAttemptRow,
     listActivityContentAssetRowsByActivityContentId,
+    updateActivityAttemptStatusRow,
 } from "@electron/db/repositories/activityRepositories";
 import {
     getMultiChoiceQuizAnswerRowsByAttemptId,
@@ -151,6 +152,20 @@ export async function getMultiChoiceQuizActivity(
             );
             const answers = getMultiChoiceQuizAnswerRowsByAttemptId(appDatabase.db, attempt.id);
             const quizState = getMultiChoiceQuizStateRowByAttemptId(appDatabase.db, attempt.id);
+            const isChecked = Boolean(quizState?.is_checked ?? 0);
+            if (isChecked && attempt.status !== "completed") {
+                updateActivityAttemptStatusRow(appDatabase.db, {
+                    id: attempt.id,
+                    status: "completed",
+                    submitted_at: quizState?.checked_at ?? new Date().toISOString(),
+                });
+            } else if (!isChecked && attempt.status === "completed") {
+                updateActivityAttemptStatusRow(appDatabase.db, {
+                    id: attempt.id,
+                    status: "in_progress",
+                    submitted_at: null,
+                });
+            }
 
             const learnerAnswers = toMultiChoiceQuizLearnerAnswers(answers);
             
@@ -175,7 +190,7 @@ export async function getMultiChoiceQuizActivity(
                     questions: toMultiChoiceQuizQuestions(questions, options),
                     learnerAnswers: learnerAnswers,
                     quizState: {
-                        isChecked: Boolean(quizState?.is_checked ?? 0),
+                        isChecked,
                         finalScore: quizState?.final_score ?? 0,
                         checkedAt: quizState?.checked_at ?? null,
                     },

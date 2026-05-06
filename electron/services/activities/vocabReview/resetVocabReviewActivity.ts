@@ -4,6 +4,7 @@ import { createAppDatabase } from "@electron/db/appDatabase";
 import {
     getActivityContentRowByUnitCycleActivityId,
     getUnitCycleActivityIdentityRowById,
+    updateActivityAttemptStatusRow,
 } from "@electron/db/repositories/activityRepositories";
 import {
     getVocabReviewAnswerRowsByAttemptId,
@@ -86,6 +87,11 @@ export async function resetVocabReviewActivity(
                     updatedAt
                 )
             );
+            updateActivityAttemptStatusRow(appDatabase.db, {
+                id: attempt.id,
+                status: "in_progress",
+                submitted_at: null,
+            });
 
             return {
                 learnerWordStates: toVocabReviewLearnerWordStateDtos(words, answers),

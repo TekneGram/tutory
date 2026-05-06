@@ -6,6 +6,7 @@ import {
     getLatestActivityAttemptRowByLearnerAndUnitCycleActivityId,
     getUnitCycleActivityIdentityRowById,
     insertActivityAttemptRow,
+    updateActivityAttemptStatusRow,
 } from "@electron/db/repositories/activityRepositories";
 import {
     getMultiChoiceQuizAnswerRowsByAttemptId,
@@ -138,6 +139,11 @@ export async function checkMultiChoiceQuizAnswers(
                 checked_at: checkedAt,
                 created_at: existingState?.created_at ?? checkedAt,
                 updated_at: checkedAt,
+            });
+            updateActivityAttemptStatusRow(appDatabase.db, {
+                id: attempt.id,
+                status: "completed",
+                submitted_at: checkedAt,
             });
 
             const learnerAnswers = toMultiChoiceQuizLearnerAnswers(

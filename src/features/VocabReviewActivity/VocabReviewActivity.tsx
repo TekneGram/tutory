@@ -10,11 +10,29 @@ import { useResetVocabReviewActivityMutation } from "./hooks/useResetVocabReview
 import type { CardMode } from "./types/vocabReview.types";
 import "./vocabReviewActivity.css";
 
-const VocabReviewActivity = ({ learnerId, unitCycleActivityId }: ActivityComponentProps) => {
+const VocabReviewActivity = ({
+  learnerId,
+  learningType,
+  unitId,
+  unitCycleId,
+  unitCycleActivityId,
+}: ActivityComponentProps) => {
   const query = useVocabReviewActivityQuery(learnerId, unitCycleActivityId);
-  const checkMutation = useCheckVocabReviewWordMutation();
-  const retryMutation = useRetryVocabReviewWordMutation();
-  const resetMutation = useResetVocabReviewActivityMutation();
+  const checkMutation = useCheckVocabReviewWordMutation({
+    learningType,
+    unitId,
+    unitCycleId,
+  });
+  const retryMutation = useRetryVocabReviewWordMutation({
+    learningType,
+    unitId,
+    unitCycleId,
+  });
+  const resetMutation = useResetVocabReviewActivityMutation({
+    learningType,
+    unitId,
+    unitCycleId,
+  });
 
   const [activeWordId, setActiveWordId] = useState<string | null>(null);
   const [mode, setMode] = useState<CardMode>("initial");
@@ -152,6 +170,7 @@ const VocabReviewActivity = ({ learnerId, unitCycleActivityId }: ActivityCompone
       <WordWheel
         words={wordsWithState}
         activeWordId={activeWordId}
+        cardMode={mode}
         onSelectWord={(wordId) => {
           setSubmitError(null);
           setActiveWordId(wordId);

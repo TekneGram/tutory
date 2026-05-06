@@ -4,6 +4,7 @@ import { createAppDatabase } from "@electron/db/appDatabase";
 import {
     getUnitCycleActivityIdentityRowById,
     getActivityContentRowByUnitCycleActivityId,
+    updateActivityAttemptStatusRow,
 } from "@electron/db/repositories/activityRepositories";
 import {
     getVocabReviewAnswerRowsByAttemptId,
@@ -118,6 +119,11 @@ export async function checkVocabReviewWord(
                     checkedAt
                 )
             );
+            updateActivityAttemptStatusRow(appDatabase.db, {
+                id: attempt.id,
+                status: progress.isFinished ? "completed" : "in_progress",
+                submitted_at: progress.isFinished ? checkedAt : null,
+            });
 
             const checkedAnswer = answers.find((answer) => answer.word_id === word.id);
             if (!checkedAnswer) {

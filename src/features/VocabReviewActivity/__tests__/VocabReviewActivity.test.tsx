@@ -192,6 +192,62 @@ describe("VocabReviewActivity", () => {
     });
   });
 
+  it("shows japanese on the active wheel word while card is selected", () => {
+    useVocabReviewActivityQueryMock.mockReturnValue({
+      data: response,
+      isLoading: false,
+      isError: false,
+      error: null,
+    });
+    useCheckVocabReviewWordMutationMock.mockReturnValue({ mutateAsync: vi.fn(), isPending: false });
+    useRetryVocabReviewWordMutationMock.mockReturnValue({ mutateAsync: vi.fn(), isPending: false });
+    useResetVocabReviewActivityMutationMock.mockReturnValue({ mutateAsync: vi.fn(), isPending: false });
+
+    render(
+      <VocabReviewActivity
+        learnerId="learner-1"
+        learningType="english"
+        unitId="unit-1"
+        unitCycleId="cycle-1"
+        unitCycleActivityId="activity-1"
+      />,
+    );
+
+    expect(screen.getAllByText("would").length).toBeGreaterThan(0);
+    fireEvent.click(screen.getAllByRole("button", { name: "would" })[0]);
+    const japaneseMatches = screen.getAllByText("〜だろう");
+    const wheelItem = japaneseMatches
+      .map((node) => node.closest("button"))
+      .find((button) => button?.className.includes("vocab-review-wheel__word"));
+    expect(wheelItem?.className).toContain("vocab-review-wheel__word--active");
+  });
+
+  it("autofocuses spelling input when card enters selected mode", () => {
+    useVocabReviewActivityQueryMock.mockReturnValue({
+      data: response,
+      isLoading: false,
+      isError: false,
+      error: null,
+    });
+    useCheckVocabReviewWordMutationMock.mockReturnValue({ mutateAsync: vi.fn(), isPending: false });
+    useRetryVocabReviewWordMutationMock.mockReturnValue({ mutateAsync: vi.fn(), isPending: false });
+    useResetVocabReviewActivityMutationMock.mockReturnValue({ mutateAsync: vi.fn(), isPending: false });
+
+    render(
+      <VocabReviewActivity
+        learnerId="learner-1"
+        learningType="english"
+        unitId="unit-1"
+        unitCycleId="cycle-1"
+        unitCycleActivityId="activity-1"
+      />,
+    );
+
+    fireEvent.click(screen.getAllByRole("button", { name: "would" })[0]);
+    const input = screen.getByLabelText("Spelling input");
+    expect(document.activeElement).toBe(input);
+  });
+
   it("shows reset when finished and sends reset mutation", async () => {
     const resetMutateAsync = vi.fn().mockResolvedValue({
       learnerWordStates: [],

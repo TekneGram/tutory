@@ -4,6 +4,7 @@ import { createAppDatabase } from "@electron/db/appDatabase";
 import {
     getActivityContentRowByUnitCycleActivityId,
     getUnitCycleActivityIdentityRowById,
+    updateActivityAttemptStatusRow,
 } from "@electron/db/repositories/activityRepositories";
 import {
     getVocabReviewAnswerRowByAttemptIdAndWordId,
@@ -101,6 +102,11 @@ export async function retryVocabReviewWord(
                     updatedAt
                 )
             );
+            updateActivityAttemptStatusRow(appDatabase.db, {
+                id: attempt.id,
+                status: "in_progress",
+                submitted_at: null,
+            });
 
             const retriedAnswer = getVocabReviewAnswerRowByAttemptIdAndWordId(appDatabase.db, attempt.id, word.id);
 

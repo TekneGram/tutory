@@ -1,8 +1,10 @@
+import type { CardMode } from "../types/vocabReview.types";
 import type { VocabReviewWordWithState } from "../types/vocabReview.types";
 
 type WordWheelProps = {
   words: VocabReviewWordWithState[];
   activeWordId: string | null;
+  cardMode: CardMode;
   onSelectWord: (wordId: string) => void;
 };
 
@@ -16,7 +18,7 @@ function statusClass(word: VocabReviewWordWithState): string {
     : "vocab-review-wheel__word--incorrect";
 }
 
-const WordWheel = ({ words, activeWordId, onSelectWord }: WordWheelProps) => {
+const WordWheel = ({ words, activeWordId, cardMode, onSelectWord }: WordWheelProps) => {
   const radius = 140;
 
   return (
@@ -27,6 +29,7 @@ const WordWheel = ({ words, activeWordId, onSelectWord }: WordWheelProps) => {
           const x = Math.cos(angle) * radius;
           const y = Math.sin(angle) * radius;
 
+          const showJapanese = cardMode === "selected" && activeWordId === entry.word.wordId;
           return (
             <button
               key={entry.word.wordId}
@@ -40,7 +43,7 @@ const WordWheel = ({ words, activeWordId, onSelectWord }: WordWheelProps) => {
               style={{ transform: `translate(${x}px, ${y}px)` }}
               onClick={() => onSelectWord(entry.word.wordId)}
             >
-              {entry.word.word}
+              {showJapanese ? entry.word.japanese : entry.word.word}
             </button>
           );
         })}

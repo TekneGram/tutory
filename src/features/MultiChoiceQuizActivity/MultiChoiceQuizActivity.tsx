@@ -7,15 +7,29 @@ import QuestionCard from "./components/QuestionCard";
 import ScoreDisplay from "./components/ScoreDisplay";
 import "./multiChoiceQuizActivity.css";
 
-const MultiChoiceQuizActivity = ({ learnerId, unitCycleActivityId }: ActivityComponentProps) => {
+const MultiChoiceQuizActivity = ({
+  learnerId,
+  learningType,
+  unitId,
+  unitCycleId,
+  unitCycleActivityId,
+}: ActivityComponentProps) => {
   const [isHintVisible, setIsHintVisible] = useState(false);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(0);
   const [selectedByQuestionId, setSelectedByQuestionId] = useState<Record<string, string | null>>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const query = useMultiChoiceQuizActivityQuery(learnerId, unitCycleActivityId);
-  const checkMutation = useCheckMultiChoiceQuizAnswersMutation();
-  const retryMutation = useRetryMultiChoiceQuizMutation();
+  const checkMutation = useCheckMultiChoiceQuizAnswersMutation({
+    learningType,
+    unitId,
+    unitCycleId,
+  });
+  const retryMutation = useRetryMultiChoiceQuizMutation({
+    learningType,
+    unitId,
+    unitCycleId,
+  });
 
   if (query.isLoading) {
     return <section aria-live="polite">Loading quiz...</section>;
